@@ -40,7 +40,7 @@ if (!$me) {
 
 $name = isset($data->name) ? trim((string)$data->name) : null;
 $phone = isset($data->phone) ? trim((string)$data->phone) : null;
-// json_decode returns stdClass — do not use array_key_exists() on it (PHP 8+ TypeError).
+// json_decode returns stdClass - do not use array_key_exists() on it (PHP 8+ TypeError).
 $age = property_exists($data, 'age') ? $data->age : null;
 $lang = isset($data->language_preference) ? (string)$data->language_preference : null;
 $newUsername = isset($data->username) ? trim((string)$data->username) : null;

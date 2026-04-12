@@ -53,7 +53,7 @@ if ($role_in === 'doctor') {
 $username = isset($data->username) ? trim((string)$data->username) : '';
 if (!preg_match('/^[a-zA-Z0-9._-]{3,32}$/', $username)) {
     http_response_code(400);
-    echo json_encode(array('message' => 'Username must be 3–32 characters: letters, numbers, dot, underscore, or hyphen.'));
+    echo json_encode(array('message' => 'Username must be 3-32 characters: letters, numbers, dot, underscore, or hyphen.'));
     exit;
 }
 

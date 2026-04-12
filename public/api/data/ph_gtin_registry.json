@@ -1,6 +1,4 @@
 {
-  "_info": "PharSayo Philippines GTIN list (curated). Add keys as digits-only barcodes. Not an official FDA register — expand for your deployment.",
-
   "4807788561688": {
     "display_name": "Biogesic (Paracetamol) 500mg",
     "dosage_hint": "500mg Paracetamol per tablet",
@@ -119,6 +117,16 @@
     "precautions_en": "Consult a doctor if you have kidney problems. High doses may cause diarrhea.",
     "precautions_fil": "Kumonsulta sa doktor kung may problema sa bato. Ang mataas na dosis ay maaaring magdulot ng pagtatae.",
     "frequency_hint": "1 to 2 tablets daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4806033302908": {
+    "display_name": "Poten-Cee (Ascorbic Acid) 500mg Sugar-Coated",
+    "dosage_hint": "500mg Ascorbic Acid per sugar-coated tablet",
+    "purpose_en": "Vitamin C supplement for immunity and wound healing.",
+    "purpose_fil": "Supplement na Vitamin C para sa resistensya at mabilis na paghilom ng sugat.",
+    "precautions_en": "Take after meals if you have a sensitive stomach. Consult a doctor if you have kidney stones.",
+    "precautions_fil": "Inumin pagkatapos kumain kung sensitibo ang sikmura. Magtanong sa doktor kung may kidney stones.",
+    "frequency_hint": "1 tablet daily or as prescribed by a physician.",
     "rxcui": ""
   },
   "4800016104210": {

@@ -53,6 +53,7 @@ export interface ApiMedication {
   purpose?: string;
   precautions?: string;
   prescribed_by?: number | null;
+  doctor_name?: string | null;
   /** Raw Filipino frequency text (API may omit before migration). */
   frequency_fil?: string | null;
 }
@@ -185,9 +186,7 @@ export async function apiLogout(): Promise<void> {
 }
 
 export async function apiGetMedications(userId: number, lang: Lang): Promise<ApiMedication[]> {
-  const res = await fetch(`${API_BASE}/medications/get.php?user_id=${userId}&lang=${lang}`);
-  if (!res.ok) throw new Error("Failed to load medications");
-  const data = await res.json();
+  const data = await jsonFetch<ApiMedication[]>(`${API_BASE}/medications/get.php?user_id=${userId}&lang=${lang}`);
   return Array.isArray(data) ? data : [];
 }
 
@@ -243,9 +242,7 @@ export async function apiDeleteMedication(userId: number, id: number): Promise<v
 }
 
 export async function apiGetSchedules(userId: number): Promise<ApiSchedule[]> {
-  const res = await fetch(`${API_BASE}/schedules/get.php?user_id=${userId}`);
-  if (!res.ok) throw new Error("Failed to load schedules");
-  const data = await res.json();
+  const data = await jsonFetch<ApiSchedule[]>(`${API_BASE}/schedules/get.php?user_id=${userId}`);
   return Array.isArray(data) ? data : [];
 }
 
@@ -285,11 +282,9 @@ export interface ApiAdherenceLogRow {
 
 /** Logs for a calendar day (scheduled_time or responded_at on that date). */
 export async function apiGetAdherenceHistory(userId: number, dateYmd: string): Promise<ApiAdherenceLogRow[]> {
-  const res = await fetch(
+  const data = await jsonFetch<ApiAdherenceLogRow[]>(
     `${API_BASE}/adherence/history.php?user_id=${userId}&date=${encodeURIComponent(dateYmd)}`,
   );
-  if (!res.ok) return [];
-  const data = await res.json();
   return Array.isArray(data) ? (data as ApiAdherenceLogRow[]) : [];
 }
 
@@ -385,9 +380,7 @@ export async function apiBarcodeScan(
 }
 
 export async function apiBhuList(): Promise<{ id: number; name: string; municipality?: string }[]> {
-  const res = await fetch(`${API_BASE}/bhu/list.php`);
-  if (!res.ok) return [];
-  const data = await res.json();
+  const data = await jsonFetch<{ id: number; name: string; municipality?: string }[]>(`${API_BASE}/bhu/list.php`);
   return Array.isArray(data) ? data : [];
 }
 
@@ -411,9 +404,7 @@ export function apiAdminVerificationFileUrl(adminId: number, userId: number): st
 }
 
 export async function apiAdminListUsers(adminId: number): Promise<ApiAdminUserRow[]> {
-  const res = await fetch(`${API_BASE}/admin/users_list.php?admin_id=${adminId}`);
-  if (!res.ok) throw new Error("Failed to load users");
-  const data = await res.json();
+  const data = await jsonFetch<ApiAdminUserRow[]>(`${API_BASE}/admin/users_list.php?admin_id=${adminId}`);
   return Array.isArray(data) ? data : [];
 }
 

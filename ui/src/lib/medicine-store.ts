@@ -40,6 +40,7 @@ export interface Medicine {
   takenToday: string[];
   streak: number;
   addedAt: string;
+  prescribedByDoctorName?: string;
 }
 
 const COLORS = [
@@ -51,7 +52,7 @@ const COLORS = [
   "hsl(152, 55%, 42%)",
 ];
 
-const ICONS = ["💊", "💉", "🩹", "🧴", "🫁", "❤️"];
+const ICONS = ["Pill", "Syringe", "Bandage", "Flask", "Activity", "Heart"];
 
 const TAKEN_KEY = "pharsayo-taken-v1";
 
@@ -98,9 +99,9 @@ function mapApiToMedicine(
   idx: number,
   takenKeys: string[],
 ): Medicine {
-  const mySched = scheds.filter((s) => s.medication_id === m.id);
+  const mySched = scheds.filter((s) => Number(s.medication_id) === Number(m.id));
   const scheduleSlots: MedicineScheduleSlot[] = mySched.map((s) => ({
-    scheduleId: s.id,
+    scheduleId: Number(s.id),
     time: padTime(s.reminder_time),
     daysOfWeek: (s.days_of_week || "Mon,Tue,Wed,Thu,Fri,Sat,Sun").trim(),
     notes: (s.notes && String(s.notes).trim()) || "",
@@ -123,6 +124,14 @@ function mapApiToMedicine(
 
   const freqLocalized = (m.frequency && String(m.frequency).trim()) || "";
 
+  let docName = m.doctor_name || undefined;
+  if (docName) {
+    const trimmed = docName.trim();
+    if (!trimmed.toLowerCase().startsWith("dr.") && !trimmed.toLowerCase().startsWith("dr ")) {
+      docName = `Dr. ${trimmed}`;
+    }
+  }
+
   return {
     id: idStr,
     name: m.name,
@@ -142,6 +151,7 @@ function mapApiToMedicine(
     takenToday,
     streak: 0,
     addedAt: new Date().toISOString(),
+    prescribedByDoctorName: docName,
   };
 }
 

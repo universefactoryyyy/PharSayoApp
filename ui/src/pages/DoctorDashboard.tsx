@@ -576,7 +576,11 @@ export default function DoctorDashboard() {
             </div>
             <div className="min-w-0">
               <h1 className="text-xl font-bold text-foreground truncate">{t(lang, "doctor.title")}</h1>
-              <p className="text-sm text-muted-foreground truncate">{user?.name}</p>
+              <p className="text-sm text-muted-foreground truncate">
+                {user?.name && !user.name.toLowerCase().startsWith("dr.") && !user.name.toLowerCase().startsWith("dr ")
+                  ? `Dr. ${user.name}`
+                  : user?.name}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">

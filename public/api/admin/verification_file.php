@@ -1,7 +1,7 @@
 <?php
 /**
  * Stream a doctor's uploaded verification document (admin only).
- * Do not include cors.php — it sets application/json and breaks binary responses.
+ * Do not include cors.php - it sets application/json and breaks binary responses.
  */
 header('Access-Control-Allow-Origin: *');
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * PharSayo — resolve scanned drug names to public labeling data (RxNav + OpenFDA).
+ * PharSayo - resolve scanned drug names to public labeling data (RxNav + OpenFDA).
  * Educational use only; not a substitute for professional medical advice.
  */
 
@@ -34,6 +34,33 @@ function pharsayo_http_post_json($url, array $bodyArray, $timeout_sec = 14) {
     if ($body === false) {
         return null;
     }
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout_sec);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        
+        $raw = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+        
+        if ($raw === false) {
+            error_log("PharSayo CURL Error: " . $err);
+            return null;
+        }
+        $data = json_decode($raw, true);
+        return is_array($data) ? $data : null;
+    }
+
+    // Fallback to stream context if CURL is missing
     $ctx = stream_context_create([
         'http' => [
             'method' => 'POST',
@@ -1390,6 +1417,30 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         return $phLocal;
     }
 
+    // OCR text KB match (catches labelled PH products scanned with camera)
+    if ($extractedText !== '') {
+        $localKb = pharsayo_try_local_kb($extractedText);
+        if ($localKb !== null) {
+            $localKb['barcode_source'] = 'internal_db_ocr_match';
+            if (!empty($digits)) {
+                pharsayo_save_to_ph_gtin_registry($digits, $localKb);
+            }
+            return $localKb;
+        }
+    }
+
+    // 2) Gemini AI - HIGH PRIORITY (The ultimate brain)
+    // We try AI very early because it can combine barcode + OCR text hint.
+    $aiMatch = pharsayo_gemini_medicine_lookup($digits, $extractedText);
+    if ($aiMatch !== null) {
+        $aiMatch['barcode_source'] = 'gemini_ai_lookup';
+        // Auto-cache so future scans of same barcode are instant
+        if (!empty($digits)) {
+            pharsayo_save_to_ph_gtin_registry($digits, $aiMatch);
+        }
+        return $aiMatch;
+    }
+
     // Helper to auto-cache results so future scans of same barcode are instant
     $returnAndCache = function($row) use ($digits) {
         if ($row !== null && !empty($digits)) {
@@ -1398,16 +1449,7 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         return $row;
     };
 
-    // 2) OCR text KB match (catches labelled PH products scanned with camera)
-    if ($extractedText !== '') {
-        $localKb = pharsayo_try_local_kb($extractedText);
-        if ($localKb !== null) {
-            $localKb['barcode_source'] = 'internal_db_ocr_match';
-            return $returnAndCache($localKb);
-        }
-    }
-
-    // 3) Philippines Open Food Facts mirror — best for locally-sold medicines & supplements
+    // 4) Philippines Open Food Facts mirror — best for locally-sold medicines & supplements
     $phFacts = pharsayo_lookup_openfoodfacts_ph_direct($digits);
     if ($phFacts !== null) {
         return $returnAndCache($phFacts);
@@ -1499,6 +1541,65 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
 
     // 11) Nothing found — informative placeholder so patient can still save the entry
     return pharsayo_lookup_barcode_web_fallback($raw, $lang);
+}
+
+/**
+ * Fallback to Gemini AI if barcode lookup fails.
+ * 
+ * @param string $barcode The barcode digits
+ * @param string $product_name_hint Optional OCR text hint
+ * @return array|null The identified medicine data or null
+ */
+function pharsayo_gemini_medicine_lookup($barcode, $product_name_hint = '') {
+    $api_key = 'AIzaSyCNijqrvhm4tsP-TP9XQk8K25VDZlAslzg'; // Free at aistudio.google.com
+    if ($api_key === '' || strpos($api_key, 'YOUR_GEMINI') !== false) return null;
+
+    $prompt = "You are a Philippine pharmacist assistant. ";
+    $prompt .= "A user scanned a product with barcode: {$barcode}. ";
+    if ($product_name_hint) {
+        $prompt .= "The package text says: '{$product_name_hint}'. ";
+    }
+    $prompt .= "Identify this medicine if it is sold in the Philippines. ";
+    $prompt .= "Return ONLY a JSON object with these fields: ";
+    $prompt .= "display_name, dosage_hint, purpose_en, purpose_fil, precautions_en, precautions_fil, frequency_hint. ";
+    $prompt .= "If you don't know this specific product, return null.";
+
+    $body = [
+        'contents' => [['parts' => [['text' => $prompt]]]],
+        'generationConfig' => [
+            'responseMimeType' => 'application/json',
+            'temperature' => 0.1
+        ]
+    ];
+
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$api_key}";
+    $result = pharsayo_http_post_json($url, $body);
+    
+    if (!$result) {
+        error_log("PharSayo: Gemini API request failed (null result)");
+        return null;
+    }
+
+    $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
+    if (!$text) {
+        error_log("PharSayo: Gemini API result structure missing text: " . json_encode($result));
+        return null;
+    }
+    
+    // Clean potential markdown blocks
+    $text = trim($text);
+    if (strpos($text, '```') === 0) {
+        $text = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', $text);
+    }
+    
+    $data = json_decode($text, true);
+    if (is_array($data) && !empty($data['display_name'])) {
+        // Ensure all fields exist
+        $data['rxcui'] = $data['rxcui'] ?? '';
+        $data['barcode_source'] = 'gemini_ai_lookup';
+        return $data;
+    }
+    return null;
 }
 
 /**

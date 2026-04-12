@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Pill } from "lucide-react";
+import { Pill, CheckCircle2, ClipboardList } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { t } from "@/lib/i18n";
 import {
@@ -185,7 +185,12 @@ export default function Index() {
                     : totalDoses === 0
                       ? t(lang, "home.noMedsToday")
                       : takenDoses === totalDoses
-                        ? `🎉 ${t(lang, "home.allTaken")}`
+                        ? (
+                          <span className="flex items-center justify-center gap-1.5 text-emerald-600 font-bold">
+                            <CheckCircle2 className="w-4 h-4" />
+                            {t(lang, "home.allTaken")}
+                          </span>
+                        )
                         : `${totalDoses - takenDoses} ${t(lang, "home.dosesLeft")}`}
                 </p>
               </div>
@@ -196,7 +201,7 @@ export default function Index() {
                 <h2 className="font-semibold text-foreground mb-3">{t(lang, "home.scheduleToday")}</h2>
                 {!hasPrescribedSlots ? (
                   <div className="text-center py-8 text-muted-foreground">
-                    <p className="text-3xl mb-2">📋</p>
+                    <ClipboardList className="w-10 h-10 mx-auto mb-2 opacity-20" />
                     <p className="text-sm">{t(lang, "home.noMeds")}</p>
                   </div>
                 ) : todaysSlots.length === 0 ? (
@@ -207,7 +212,7 @@ export default function Index() {
                       onClick={() => setActiveTab("schedule")}
                       className="text-sm text-primary font-medium py-3 hover:underline"
                     >
-                      {t(lang, "home.viewAll")} →
+                      {t(lang, "home.viewAll")} {"->"}
                     </button>
                   </div>
                 ) : (
@@ -236,7 +241,7 @@ export default function Index() {
                         onClick={() => setActiveTab("schedule")}
                         className="text-sm text-primary font-medium py-2 hover:underline"
                       >
-                        {t(lang, "home.viewAll")} →
+                        {t(lang, "home.viewAll")} {"->"}
                       </button>
                     )}
                   </div>
@@ -272,10 +277,10 @@ export default function Index() {
                     {today.toLocaleDateString(locale, { weekday: "long" })}
                   </div>
                   <p className="text-sm font-bold text-primary">
-                    {today.getFullYear()}, {today.toLocaleDateString(locale, { month: "long", day: "numeric" })}
+                    {today.toLocaleDateString(locale, { month: "long", day: "numeric" })}, {today.getFullYear()}
                   </p>
                 </div>
-                <p className="text-[11px] text-muted-foreground mt-2 font-medium italic opacity-80">
+                <p className="text-xs text-muted-foreground mt-2 font-medium italic opacity-80">
                   {t(lang, "schedule.pageSubtitle")}
                 </p>
               </div>
@@ -305,7 +310,7 @@ export default function Index() {
                               className={`px-3 py-2 text-xs font-bold uppercase tracking-wide ${isToday ? "bg-primary/15 text-primary" : "bg-muted/50 text-muted-foreground"}`}
                             >
                               {dayTitle}
-                              {isToday ? ` · ${t(lang, "schedule.today")}` : ""}
+                              {isToday ? ` - ${t(lang, "schedule.today")}` : ""}
                             </div>
                             <div className="p-3 space-y-3">
                               {slots.length === 0 ? (

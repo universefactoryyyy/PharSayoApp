@@ -113,7 +113,15 @@ function AdminUserCombobox({
               {selected ? (
                 <>
                   <span className="font-mono">@{selected.username}</span>
-                  <span className="text-muted-foreground"> — {selected.name}</span>
+                  <span className="text-muted-foreground">
+                    {" "}
+                    -{" "}
+                    {selected.role === "doctor" &&
+                    !selected.name.toLowerCase().startsWith("dr.") &&
+                    !selected.name.toLowerCase().startsWith("dr ")
+                      ? `Dr. ${selected.name}`
+                      : selected.name}
+                  </span>
                 </>
               ) : (
                 <span className="text-muted-foreground">{idleLabel}</span>
@@ -137,8 +145,16 @@ function AdminUserCombobox({
                       setOpen(false);
                     }}
                   >
-                    <span className="font-mono">@{u.username || "—"}</span>
-                    <span className="text-muted-foreground truncate"> — {u.name}</span>
+                    <span className="font-mono text-xs">@{u.username || "—"}</span>
+                    <span className="text-muted-foreground truncate">
+                      {" "}
+                      -{" "}
+                      {u.role === "doctor" &&
+                      !u.name.toLowerCase().startsWith("dr.") &&
+                      !u.name.toLowerCase().startsWith("dr ")
+                        ? `Dr. ${u.name}`
+                        : u.name}
+                    </span>
                     <span className="ml-auto shrink-0 pl-2 text-xs text-muted-foreground">{u.phone}</span>
                   </CommandItem>
                 ))}
@@ -432,7 +448,11 @@ export default function AdminDashboard() {
                   {rows.map((r) => (
                     <div key={r.id} className="px-4 py-4 flex flex-col gap-3">
                       <div className="min-w-0 w-full space-y-0.5">
-                        <p className="font-medium text-foreground break-words">{r.name}</p>
+                        <p className="font-medium text-foreground break-words">
+                          {r.role === "doctor" && !r.name.toLowerCase().startsWith("dr.") && !r.name.toLowerCase().startsWith("dr ")
+                            ? `Dr. ${r.name}`
+                            : r.name}
+                        </p>
                         <p className="text-xs text-muted-foreground font-mono break-all">
                           {r.username ? `@${r.username} · ` : ""}
                           {r.phone}

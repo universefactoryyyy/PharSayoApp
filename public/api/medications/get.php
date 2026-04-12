@@ -22,13 +22,28 @@ if (!in_array($lang, ['fil', 'en'], true)) {
 }
 
 if($user_id) {
-    $query = "SELECT * FROM medications WHERE user_id = :user_id ORDER BY created_at DESC";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(":user_id", $user_id);
-    $stmt->execute();
+    try {
+        $query = "SELECT m.*, u.name as doctor_name 
+                  FROM medications m 
+                  LEFT JOIN users u ON m.prescribed_by = u.id 
+                  WHERE m.user_id = :user_id 
+                  ORDER BY m.created_at DESC";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        // Fallback for older database versions without prescribed_by or u.name column issues
+        $query = "SELECT m.* FROM medications m WHERE m.user_id = :user_id ORDER BY m.created_at DESC";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->execute();
+    }
 
     $meds = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (!isset($row['doctor_name'])) {
+            $row['doctor_name'] = null;
+        }
         $pEn = trim((string)($row['purpose_en'] ?? ''));
         $pFil = trim((string)($row['purpose_fil'] ?? ''));
         $cEn = trim((string)($row['precautions_en'] ?? ''));

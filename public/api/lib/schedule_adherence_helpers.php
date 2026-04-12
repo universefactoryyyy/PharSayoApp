@@ -63,15 +63,26 @@ function pharsayo_adherence_today_status(array $row): string {
     if ($resp === null || $resp === '' || $sched === null || $sched === '') {
         return 'taken_time_unknown';
     }
-    $tResp = strtotime((string)$resp);
-    $tSched = strtotime((string)$sched);
-    if ($tResp === false || $tSched === false) {
+
+    try {
+        $srcTz = new DateTimeZone(pharsayo_adherence_source_timezone());
+        $phtTz = new DateTimeZone('Asia/Manila');
+
+        // Response is in DB timezone (usually UTC on AwardSpace)
+        $dtResp = new DateTimeImmutable((string)$resp, $srcTz);
+        // Scheduled time from UI is local (PHT)
+        $dtSched = new DateTimeImmutable((string)$sched, $phtTz);
+
+        $tResp = $dtResp->getTimestamp();
+        $tSched = $dtSched->getTimestamp();
+
+        $diffMin = ($tResp - $tSched) / 60;
+        // On time: within 30 minutes before or after scheduled dose time.
+        if ($diffMin >= -30 && $diffMin <= 30) {
+            return 'taken_on_time';
+        }
+        return 'taken_late';
+    } catch (Throwable $e) {
         return 'taken_time_unknown';
     }
-    $diffMin = ($tResp - $tSched) / 60;
-    // On time: within 30 minutes before or after scheduled dose time.
-    if ($diffMin >= -30 && $diffMin <= 30) {
-        return 'taken_on_time';
-    }
-    return 'taken_late';
 }

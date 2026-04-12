@@ -48,48 +48,51 @@ function mapApiToScanPayload(
     sourceLabel = "Online (RxNav / OpenFDA)";
   } else if (source === "barcode") {
     confidence = 95;
-    sourceLabel = "Barcode → RxNav / OpenFDA";
+    sourceLabel = "Barcode -> RxNav / OpenFDA";
   } else if (source === "ph_local_registry") {
     confidence = 100;
     sourceLabel = "Verified Local Registry (PharSayo)";
+  } else if (source === "gemini_ai_lookup") {
+    confidence = 85;
+    sourceLabel = "AI Identification (Gemini 1.5)";
   } else if (source === "openfoodfacts_ph") {
     confidence = 85;
-    sourceLabel = "Barcode → Open Food Facts (PH)";
+    sourceLabel = "Barcode -> Open Food Facts (PH)";
   } else if (source === "barcode_upcitemdb") {
     confidence = 72;
-    sourceLabel = "Barcode → web product lookup";
+    sourceLabel = "Barcode -> web product lookup";
   } else if (source === "openfoodfacts_search") {
     confidence = 74;
-    sourceLabel = "Barcode → Open Food Facts (search)";
+    sourceLabel = "Barcode -> Open Food Facts (search)";
   } else if (source === "openproductsfacts" || source === "openproductsfacts_search") {
     confidence = 84;
     sourceLabel =
       source === "openproductsfacts_search"
-        ? "Barcode → Open Products Facts (search)"
-        : "Barcode → Open Products Facts";
+        ? "Barcode -> Open Products Facts (search)"
+        : "Barcode -> Open Products Facts";
   } else if (source === "barcode_barcodelist") {
     confidence = 78;
-    sourceLabel = "Barcode → barcode-list.com (+ FDA if matched)";
+    sourceLabel = "Barcode -> barcode-list.com (+ FDA if matched)";
   } else if (source === "barcode_placeholder") {
     confidence = 45;
-    sourceLabel = "Barcode saved — verify on package";
+    sourceLabel = "Barcode saved - verify on package";
   } else if (source === "internal_db" || source === "internal_db_ocr_match") {
     confidence = 88;
     sourceLabel = "Local reference list";
   } else if (source === "openfoodfacts" || source === "openbeautyfacts" || source === "openpetfoodfacts") {
     confidence = 78;
     const labels: Record<string, string> = {
-      openfoodfacts: "Barcode → Open Food Facts",
-      openbeautyfacts: "Barcode → Open Beauty Facts",
-      openpetfoodfacts: "Barcode → Open Pet Food Facts",
+      openfoodfacts: "Barcode -> Open Food Facts",
+      openbeautyfacts: "Barcode -> Open Beauty Facts",
+      openpetfoodfacts: "Barcode -> Open Pet Food Facts",
     };
-    sourceLabel = labels[source] ?? "Barcode → open product data";
+    sourceLabel = labels[source] ?? "Barcode -> open product data";
   } else if (source === "heuristic") {
     confidence = 55;
-    sourceLabel = "Best guess — verify with your doctor";
+    sourceLabel = "Best guess - verify with your doctor";
   } else if (source === "wikidata_gtin") {
     confidence = 80;
-    sourceLabel = "Barcode → Wikidata (+ FDA if matched)";
+    sourceLabel = "Barcode -> Wikidata (+ FDA if matched)";
   } else if (source === "web_search_fallback") {
     confidence = 48;
     sourceLabel = "Public databases & search links";
@@ -780,7 +783,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                   ? "bg-warning/10 text-warning"
                   : "bg-muted text-muted-foreground"
               }`}>
-                ~{Math.round(scanResult.confidence)}% · {scanResult.sourceLabel}
+                ~{Math.round(scanResult.confidence)}% - {scanResult.sourceLabel}
               </span>
             </div>
 

@@ -4,6 +4,7 @@ import type { Medicine } from "@/lib/medicine-store";
 import { useAuth } from "@/contexts/auth-context";
 import { t } from "@/lib/i18n";
 import { formatScheduleTime12h } from "@/lib/utils";
+import MedicineIcon from "@/components/MedicineIcon";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -62,7 +63,7 @@ export default function ScheduleCard({
         ? medicine.purpose
         : "";
   const instruction = rowScheduleNote || purposeForCard || medicine.frequency;
-  const subLine = [medicine.dosage, instruction].filter(Boolean).join(" · ");
+  const subLine = [medicine.dosage, instruction].filter(Boolean).join(" - ");
 
   if (readOnly) {
     return (
@@ -81,6 +82,11 @@ export default function ScheduleCard({
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-foreground text-base leading-snug">{medicine.name}</p>
           <p className="text-sm text-muted-foreground line-clamp-2 break-words hyphens-auto mt-0.5">{subLine}</p>
+          {medicine.prescribedByDoctorName && (
+            <p className="text-[11px] text-primary/80 font-medium mt-1">
+              {t(lang, "scheduleCard.prescribedBy")}: {medicine.prescribedByDoctorName}
+            </p>
+          )}
           {!isTaken ? (
             <p className="text-[11px] text-muted-foreground mt-2">{t(lang, "schedule.viewOnlyOtherDay")}</p>
           ) : null}
@@ -107,17 +113,26 @@ export default function ScheduleCard({
             className={`w-full flex items-start gap-4 p-4 rounded-2xl border-2 transition-colors text-left ${statusBg}`}
           >
             <div
-              className="w-13 h-13 rounded-xl flex items-center justify-center text-xl shrink-0 mt-0.5"
+              className="w-13 h-13 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
               style={{
                 backgroundColor: medicine.color + "22",
                 color: isPast ? "hsl(32 95% 44%)" : medicine.color,
               }}
             >
-              {isPast ? <AlertTriangle className="w-5 h-5" /> : <span className="text-2xl">{medicine.icon}</span>}
+              {isPast ? (
+                <AlertTriangle className="w-5 h-5" />
+              ) : (
+                <MedicineIcon icon={medicine.icon} className="w-6 h-6" />
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-foreground text-base leading-snug">{medicine.name}</p>
               <p className="text-sm text-muted-foreground line-clamp-2 break-words hyphens-auto mt-0.5">{subLine}</p>
+              {medicine.prescribedByDoctorName && (
+                <p className="text-[11px] text-primary/80 font-medium mt-1">
+                  {t(lang, "scheduleCard.prescribedBy")}: {medicine.prescribedByDoctorName}
+                </p>
+              )}
             </div>
             {showInlineTime ? (
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground shrink-0 pt-1">
@@ -175,8 +190,13 @@ export default function ScheduleCard({
       <div className="flex-1 min-w-0">
         <p className="font-semibold line-through text-muted-foreground text-base">{medicine.name}</p>
         <p className="text-sm text-muted-foreground">
-          {medicine.dosage} · ✓ {t(lang, "scheduleCard.takenLine")}
+          {medicine.dosage} · {t(lang, "scheduleCard.takenLine")}
         </p>
+        {medicine.prescribedByDoctorName && (
+          <p className="text-[10px] text-muted-foreground/60 mt-0.5">
+            {t(lang, "scheduleCard.prescribedBy")}: {medicine.prescribedByDoctorName}
+          </p>
+        )}
       </div>
       {showInlineTime ? (
         <div className="flex items-center gap-1.5 text-sm text-muted-foreground shrink-0">

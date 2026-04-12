@@ -8,7 +8,7 @@ function pharsayo_ph_registry_trunc($text, $max) {
     if (strlen($text) <= $max) {
         return $text;
     }
-    return substr($text, 0, $max) . '…';
+    return substr($text, 0, $max) . '...';
 }
 
 /**
@@ -67,7 +67,7 @@ function pharsayo_lookup_ph_gtin_registry($digits) {
     static $map = null;
     if ($map === null) {
         $map = [];
-        // Hardcoded critical fallbacks for common barcodes that must always work
+        // Hardcoded critical fallbacks
         $map['5290665007802'] = [
             'display_name' => 'Ibuprofen 200mg Tablets',
             'dosage_hint' => '200mg Ibuprofen per tablet',
@@ -86,52 +86,44 @@ function pharsayo_lookup_ph_gtin_registry($digits) {
             if (is_array($j)) {
                 foreach ($j as $k => $v) {
                     $sk = (string)$k;
-                    if ($sk === '' || $sk[0] === '_') {
-                        continue;
-                    }
-                    if (!is_array($v)) {
-                        continue;
-                    }
+                    if ($sk === '' || $sk[0] === '_') continue;
+                    if (!is_array($v)) continue;
                     $kk = preg_replace('/\D+/', '', $sk);
-                    if ($kk !== '') {
-                        $map[$kk] = $v;
-                    }
+                    if ($kk !== '') $map[$kk] = $v;
                 }
             }
         }
     }
-    foreach (pharsayo_barcode_gtin_variants($digits) as $code) {
-        if (!isset($map[$code])) {
-            continue;
-        }
-        $v = $map[$code];
-        $name = isset($v['display_name']) ? trim((string)$v['display_name']) : '';
-        if ($name === '') {
-            continue;
-        }
-        $dosage = isset($v['dosage_hint']) ? trim((string)$v['dosage_hint']) : 'See package label for strength and how to take it.';
-        $purpose_en = isset($v['purpose_en']) ? trim((string)$v['purpose_en'])
-            : 'Entry from PharSayo Philippines barcode list (curated). Always confirm with your pharmacist or doctor.';
-        $purpose_fil = isset($v['purpose_fil']) ? trim((string)$v['purpose_fil'])
-            : 'Mula sa lokal na listahan ng barcode ng PharSayo (pinili ng developer). Laging kumpirmahin sa pharmacist o doktor.';
-        $prec_en = isset($v['precautions_en']) ? trim((string)$v['precautions_en'])
-            : 'Read the package insert. This app does not replace professional advice.';
-        $prec_fil = isset($v['precautions_fil']) ? trim((string)$v['precautions_fil'])
-            : 'Basahin ang impormasyon sa pakete. Hindi pinapalitan ng app ang payo ng propesyonal.';
-        $freq = isset($v['frequency_hint']) ? trim((string)$v['frequency_hint']) : 'Follow package or prescriber instructions.';
-        $rxcui = isset($v['rxcui']) ? trim((string)$v['rxcui']) : '';
 
-        return [
-            'rxcui' => $rxcui,
-            'display_name' => pharsayo_ph_registry_trunc($name, 220),
-            'dosage_hint' => pharsayo_ph_registry_trunc($dosage, 160),
-            'purpose_en' => pharsayo_ph_registry_trunc($purpose_en, 700),
-            'purpose_fil' => pharsayo_ph_registry_trunc($purpose_fil, 700),
-            'precautions_en' => pharsayo_ph_registry_trunc($prec_en, 700),
-            'precautions_fil' => pharsayo_ph_registry_trunc($prec_fil, 700),
-            'frequency_hint' => $freq,
-            'barcode_source' => 'ph_local_registry',
-        ];
+    $cleanDigits = preg_replace('/\D+/', '', (string)$digits);
+    $variants = pharsayo_barcode_gtin_variants($cleanDigits);
+    
+    foreach ($variants as $code) {
+        if (isset($map[$code])) {
+            $v = $map[$code];
+            $name = isset($v['display_name']) ? trim((string)$v['display_name']) : '';
+            if ($name === '') continue;
+
+            $dosage = isset($v['dosage_hint']) ? trim((string)$v['dosage_hint']) : 'See package label.';
+            $purpose_en = isset($v['purpose_en']) ? trim((string)$v['purpose_en']) : 'Verified medicine information.';
+            $purpose_fil = isset($v['purpose_fil']) ? trim((string)$v['purpose_fil']) : 'Impormasyon ng gamot.';
+            $prec_en = isset($v['precautions_en']) ? trim((string)$v['precautions_en']) : 'Read package insert.';
+            $prec_fil = isset($v['precautions_fil']) ? trim((string)$v['precautions_fil']) : 'Basahin ang impormasyon.';
+            $freq = isset($v['frequency_hint']) ? trim((string)$v['frequency_hint']) : 'Follow package instructions.';
+            $rxcui = isset($v['rxcui']) ? trim((string)$v['rxcui']) : '';
+
+            return [
+                'rxcui' => $rxcui,
+                'display_name' => $name,
+                'dosage_hint' => $dosage,
+                'purpose_en' => $purpose_en,
+                'purpose_fil' => $purpose_fil,
+                'precautions_en' => $prec_en,
+                'precautions_fil' => $prec_fil,
+                'frequency_hint' => $freq,
+                'barcode_source' => 'ph_local_registry',
+            ];
+        }
     }
     return null;
 }

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Pill } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/auth-context";
-import type { Lang } from "@/lib/api";
-import { apiChangePassword, apiUpdateProfile } from "@/lib/api";
+import {
+  apiChangePassword,
+  apiUpdateProfile,
+  type Lang,
+} from "@/lib/api";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Pill, Camera, Bell, CheckCircle2, Globe2, Hospital } from "lucide-react";
 
 export default function ProfileTab() {
   const { user, lang, setLang, applyUser, logout } = useAuth();
@@ -100,16 +103,20 @@ export default function ProfileTab() {
     }
   };
 
+  const displayName = user?.role === "doctor" && user.name && !user.name.toLowerCase().startsWith("dr.") && !user.name.toLowerCase().startsWith("dr ")
+    ? `Dr. ${user.name}`
+    : user?.name ?? "PharSayo";
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-center text-center">
         <div className="flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/15 text-primary mb-4">
           <Pill className="w-11 h-11" strokeWidth={2.2} />
         </div>
-        <h2 className="text-xl font-bold text-foreground">{user?.name ?? "PharSayo"}</h2>
+        <h2 className="text-xl font-bold text-foreground">{displayName}</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          {user?.username ? `@${user.username} · ` : ""}
-          {user?.phone} ·{" "}
+          {user?.username ? `@${user.username} - ` : ""}
+          {user?.phone} -{" "}
           {user?.role === "patient"
             ? lang === "en"
               ? "Patient"
@@ -123,7 +130,7 @@ export default function ProfileTab() {
                     ? "Administrator"
                     : "Admin"
                   : user?.role}
-          {user?.account_status ? ` · ${user.account_status}` : ""}
+          {user?.account_status ? ` - ${user.account_status}` : ""}
         </p>
       </div>
 
@@ -231,14 +238,14 @@ export default function ProfileTab() {
         <h3 className="font-semibold text-foreground">{t(lang, "profile.featuresTitle")}</h3>
         <div className="grid gap-2">
           {[
-            { icon: "📷", text: t(lang, "profile.featureScan") },
-            { icon: "🔔", text: t(lang, "profile.featureRemind") },
-            { icon: "✅", text: t(lang, "profile.featureConfirm") },
-            { icon: "🇵🇭", text: t(lang, "profile.featureLang") },
-            { icon: "🏥", text: t(lang, "profile.featureCommunity") },
-          ].map((f) => (
-            <div key={f.text} className="flex items-center gap-3 p-2.5 rounded-xl bg-secondary/50">
-              <span className="text-lg">{f.icon}</span>
+            { icon: <Camera className="w-5 h-5 text-primary" />, text: t(lang, "profile.featureScan") },
+            { icon: <Bell className="w-5 h-5 text-primary" />, text: t(lang, "profile.featureRemind") },
+            { icon: <CheckCircle2 className="w-5 h-5 text-primary" />, text: t(lang, "profile.featureConfirm") },
+            { icon: <Globe2 className="w-5 h-5 text-primary" />, text: t(lang, "profile.featureLang") },
+            { icon: <Hospital className="w-5 h-5 text-primary" />, text: t(lang, "profile.featureCommunity") },
+          ].map((f, idx) => (
+            <div key={idx} className="flex items-center gap-3 p-2.5 rounded-xl bg-secondary/50">
+              <div className="shrink-0">{f.icon}</div>
               <span className="text-sm text-foreground">{f.text}</span>
             </div>
           ))}

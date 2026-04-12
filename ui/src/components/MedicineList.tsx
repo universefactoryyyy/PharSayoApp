@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
-import { Trash2, Info } from "lucide-react";
+import { Trash2, Info, Pill } from "lucide-react";
 import { useState } from "react";
 import type { Medicine } from "@/lib/medicine-store";
 import { useAuth } from "@/contexts/auth-context";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import MedicineIcon from "@/components/MedicineIcon";
 
 interface Props {
   medicines: Medicine[];
   onRemove: (id: string) => void;
 }
 
-export default function MedicineList({ medicines }: Props) {
+export default function MedicineList({ medicines, onRemove }: Props) {
   const { lang, user } = useAuth();
   const isPatient = user?.role === "patient";
   const [selected, setSelected] = useState<Medicine | null>(null);
@@ -20,7 +21,7 @@ export default function MedicineList({ medicines }: Props) {
   if (medicines.length === 0) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        <p className="text-4xl mb-3">💊</p>
+        <Pill className="w-12 h-12 mx-auto mb-3 opacity-20" />
         <p className="text-base">{t(lang, "medicineList.emptyTitle")}</p>
         <p className="text-sm mt-1">{t(lang, "medicineList.emptyHint")}</p>
       </div>
@@ -28,8 +29,8 @@ export default function MedicineList({ medicines }: Props) {
   }
 
   const purposeLabel = t(lang, "medicineDialog.purpose");
-  const purposeBody = lang === "en" ? selected?.purpose : selected?.purposeFil;
-  const precBody = lang === "en" ? selected?.precautions : selected?.precautionsFil;
+  const purposeBody = selected ? (lang === "en" ? selected.purpose : selected.purposeFil) : "";
+  const precBody = selected ? (lang === "en" ? selected.precautions : selected.precautionsFil) : "";
 
   return (
     <>
@@ -49,14 +50,14 @@ export default function MedicineList({ medicines }: Props) {
           >
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center text-lg shrink-0"
-              style={{ backgroundColor: med.color + "22" }}
+              style={{ backgroundColor: med.color + "22", color: med.color }}
             >
-              {med.icon}
+              <MedicineIcon icon={med.icon} className="w-6 h-6" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-foreground">{med.name}</p>
               <p className="text-sm text-muted-foreground line-clamp-2 break-words leading-snug">
-                {med.dosage} · {detail}
+                {med.dosage} - {detail}
               </p>
             </div>
             <Button
@@ -90,7 +91,12 @@ export default function MedicineList({ medicines }: Props) {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-3">
-                <span className="text-2xl">{selected.icon}</span>
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: selected.color + "22", color: selected.color }}
+                >
+                  <MedicineIcon icon={selected.icon} className="w-5 h-5" />
+                </div>
                 {selected.name}
               </DialogTitle>
             </DialogHeader>
@@ -124,7 +130,7 @@ export default function MedicineList({ medicines }: Props) {
               <div className="p-3 rounded-xl bg-secondary">
                 <p className="text-xs text-muted-foreground mb-1">{t(lang, "medicineDialog.schedule")}</p>
                 <p className="text-sm font-medium text-foreground">
-                  {selected.frequency} · {selected.times.join(", ")}
+                  {selected.frequency} - {selected.times.join(", ")}
                 </p>
               </div>
               <button

@@ -164,7 +164,7 @@ export default function AddMedicineDialog({ onAdd }: Props) {
             <Input id="notes" placeholder="hal. Inumin pagkatapos kumain" value={notes} onChange={(e) => setNotes(e.target.value)} />
           </div>
           <Button type="submit" className="w-full h-12 rounded-xl text-base" disabled={saving}>
-            {saving ? "Sine-save…" : "Idagdag ang Gamot"}
+            {saving ? "Sine-save..." : "Idagdag ang Gamot"}
           </Button>
         </form>
       </DialogContent>
