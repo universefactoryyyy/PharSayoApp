@@ -44,11 +44,25 @@ function pharsayo_days_include_today(string $daysCsv): bool {
     return false;
 }
 
+function pharsayo_date_range_includes_today(?string $start, ?string $end): bool {
+    $today = date('Y-m-d');
+    if ($start !== null && trim($start) !== '' && $today < $start) {
+        return false;
+    }
+    if ($end !== null && trim($end) !== '' && $today > $end) {
+        return false;
+    }
+    return true;
+}
+
 /**
- * @param array{days_of_week?:string,log_taken?:mixed,log_responded_at?:mixed,log_scheduled_time?:mixed} $row
+ * @param array{days_of_week?:string,start_date?:string,end_date?:string,log_taken?:mixed,log_responded_at?:mixed,log_scheduled_time?:mixed} $row
  */
 function pharsayo_adherence_today_status(array $row): string {
     if (!pharsayo_days_include_today((string)($row['days_of_week'] ?? ''))) {
+        return 'not_scheduled_today';
+    }
+    if (!pharsayo_date_range_includes_today($row['start_date'] ?? null, $row['end_date'] ?? null)) {
         return 'not_scheduled_today';
     }
     $lt = $row['log_taken'] ?? null;

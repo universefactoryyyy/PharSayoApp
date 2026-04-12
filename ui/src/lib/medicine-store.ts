@@ -15,6 +15,8 @@ export type MedicineScheduleSlot = {
   scheduleId: number;
   time: string;
   daysOfWeek: string;
+  startDate?: string | null;
+  endDate?: string | null;
   notes: string;
 };
 
@@ -104,6 +106,8 @@ function mapApiToMedicine(
     scheduleId: Number(s.id),
     time: padTime(s.reminder_time),
     daysOfWeek: (s.days_of_week || "Mon,Tue,Wed,Thu,Fri,Sat,Sun").trim(),
+    startDate: s.start_date || null,
+    endDate: s.end_date || null,
     notes: (s.notes && String(s.notes).trim()) || "",
   }));
   const times = scheduleSlots.length ? [...new Set(scheduleSlots.map((s) => s.time))] : [];

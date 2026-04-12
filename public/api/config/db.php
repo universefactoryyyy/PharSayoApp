@@ -5,8 +5,8 @@ class Database {
     // IMPORTANT: UPDATE THESE FOR YOUR AWARDSPACE DATABASE
     // Host is usually: pdbX.awardspace.net
     private $host = "fdb1033.awardspace.net";
-    private $db_name = "4750319_pharsayo";
-    private $username = "4750319_pharsayo";
+    private $db_name = "4750496_pharsayo";
+    private $username = "4750496_pharsayo";
     private $password = "pharsay0";
     public $conn;
 

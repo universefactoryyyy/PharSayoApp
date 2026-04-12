@@ -22,7 +22,7 @@ if (!pharsayo_require_active_admin($db, $adminId)) {
     exit;
 }
 
-$sql = 'SELECT s.id AS schedule_id, s.reminder_time, s.days_of_week, s.notes AS schedule_notes,
+$sql = 'SELECT s.id AS schedule_id, s.reminder_time, s.days_of_week, s.start_date, s.end_date, s.notes AS schedule_notes,
         m.id AS medication_id, m.name AS medicine_name, m.notes AS medication_notes,
         u.id AS patient_id, u.name AS patient_name, u.username AS patient_username,
         doc.id AS doctor_id, doc.name AS doctor_name, doc.username AS doctor_username

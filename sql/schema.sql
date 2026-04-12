@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS `schedules` (
     `user_id` INT NOT NULL,
     `reminder_time` TIME NOT NULL,
     `days_of_week` VARCHAR(100) DEFAULT 'Mon,Tue,Wed,Thu,Fri,Sat,Sun',
+    `start_date` DATE NULL,
+    `end_date` DATE NULL,
     `notes` TEXT NULL,
     FOREIGN KEY (`medication_id`) REFERENCES `medications`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE

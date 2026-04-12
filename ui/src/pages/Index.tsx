@@ -33,6 +33,23 @@ function dayCsvIncludesDay(daysCsv: string, d: Date): boolean {
   return daysCsv.split(",").some((part) => part.trim().toLowerCase() === key.toLowerCase());
 }
 
+function isDateInRange(d: Date, start?: string | null, end?: string | null): boolean {
+  const target = new Date(d);
+  target.setHours(0, 0, 0, 0);
+
+  if (start) {
+    const s = new Date(start);
+    s.setHours(0, 0, 0, 0);
+    if (target < s) return false;
+  }
+  if (end) {
+    const e = new Date(end);
+    e.setHours(0, 0, 0, 0);
+    if (target > e) return false;
+  }
+  return true;
+}
+
 function weekDaysMonStart(ref: Date): Date[] {
   const d = new Date(ref);
   d.setHours(0, 0, 0, 0);
@@ -73,7 +90,7 @@ export default function Index() {
     const out: SlotRow[] = [];
     medicines.forEach((med) => {
       med.scheduleSlots.forEach((slot) => {
-        if (dayCsvIncludesDay(slot.daysOfWeek, todayD)) {
+        if (dayCsvIncludesDay(slot.daysOfWeek, todayD) && isDateInRange(todayD, slot.startDate, slot.endDate)) {
           out.push({ medicine: med, slot });
         }
       });
@@ -91,7 +108,7 @@ export default function Index() {
       const slots: SlotRow[] = [];
       medicines.forEach((med) => {
         med.scheduleSlots.forEach((slot) => {
-          if (dayCsvIncludesDay(slot.daysOfWeek, dayDate)) {
+          if (dayCsvIncludesDay(slot.daysOfWeek, dayDate) && isDateInRange(dayDate, slot.startDate, slot.endDate)) {
             slots.push({ medicine: med, slot });
           }
         });

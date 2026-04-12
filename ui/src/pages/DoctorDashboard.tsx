@@ -320,6 +320,8 @@ export default function DoctorDashboard() {
   const [medName, setMedName] = useState("");
   const [dosage, setDosage] = useState("");
   const [daysOfWeek, setDaysOfWeek] = useState(DEFAULT_DAYS);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [timesStr, setTimesStr] = useState("08:00, 20:00");
   const [purposeEn, setPurposeEn] = useState("");
   const [precEn, setPrecEn] = useState("");
@@ -329,6 +331,8 @@ export default function DoctorDashboard() {
   const [editRow, setEditRow] = useState<ApiDoctorScheduleRow | null>(null);
   const [editTime, setEditTime] = useState("");
   const [editDays, setEditDays] = useState("");
+  const [editStartDate, setEditStartDate] = useState("");
+  const [editEndDate, setEditEndDate] = useState("");
   const [editNotes, setEditNotes] = useState("");
   const [editBusy, setEditBusy] = useState(false);
 
@@ -440,6 +444,8 @@ export default function DoctorDashboard() {
         name: medName.trim(),
         dosage: dosage.trim(),
         days_of_week: days,
+        start_date: startDate.trim() || null,
+        end_date: endDate.trim() || null,
         frequency: days,
         frequency_fil: days,
         purpose_en: purposeEn.trim(),
@@ -454,6 +460,8 @@ export default function DoctorDashboard() {
       setMedName("");
       setDosage("");
       setDaysOfWeek(DEFAULT_DAYS);
+      setStartDate("");
+      setEndDate("");
       setTimesStr("08:00, 20:00");
       setPurposeEn("");
       setPrecEn("");
@@ -524,6 +532,8 @@ export default function DoctorDashboard() {
     setEditRow(r);
     setEditTime(formatScheduleTime(r.reminder_time));
     setEditDays(r.days_of_week || "");
+    setEditStartDate(r.start_date || "");
+    setEditEndDate(r.end_date || "");
     setEditNotes(r.schedule_notes ?? "");
   };
 
@@ -537,6 +547,8 @@ export default function DoctorDashboard() {
         schedule_id: editRow.schedule_id,
         reminder_time: editTime.trim(),
         days_of_week: editDays.trim(),
+        start_date: editStartDate.trim() || null,
+        end_date: editEndDate.trim() || null,
         notes: editNotes,
       });
       toast.success(lang === "en" ? "Saved." : "Na-save.");
@@ -683,6 +695,26 @@ export default function DoctorDashboard() {
                   placeholder={DEFAULT_DAYS}
                 />
                 <p className="text-[11px] text-muted-foreground leading-relaxed">{t(lang, "doctor.howOftenDaysHint")}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label>{lang === "en" ? "Start date" : "Simulang petsa"}</Label>
+                  <Input
+                    type="date"
+                    className="rounded-xl h-11 text-sm"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>{lang === "en" ? "End date" : "Tapos na petsa"}</Label>
+                  <Input
+                    type="date"
+                    className="rounded-xl h-11 text-sm"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>{t(lang, "doctor.times")}</Label>
@@ -924,6 +956,26 @@ export default function DoctorDashboard() {
             <div className="space-y-2">
               <Label>{t(lang, "admin.days")}</Label>
               <Input className="rounded-xl font-mono text-sm" value={editDays} onChange={(e) => setEditDays(e.target.value)} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label>{lang === "en" ? "Start date" : "Simulang petsa"}</Label>
+                <Input
+                  type="date"
+                  className="rounded-xl h-11 text-sm"
+                  value={editStartDate}
+                  onChange={(e) => setEditStartDate(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{lang === "en" ? "End date" : "Tapos na petsa"}</Label>
+                <Input
+                  type="date"
+                  className="rounded-xl h-11 text-sm"
+                  value={editEndDate}
+                  onChange={(e) => setEditEndDate(e.target.value)}
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label>{t(lang, "admin.notes")}</Label>

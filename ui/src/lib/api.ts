@@ -64,6 +64,8 @@ export interface ApiSchedule {
   user_id: number;
   reminder_time: string;
   days_of_week: string;
+  start_date?: string | null;
+  end_date?: string | null;
   medication_name?: string;
   notes?: string;
 }
@@ -477,6 +479,8 @@ export interface ApiAdminScheduleRow {
   schedule_id: number;
   reminder_time: string;
   days_of_week: string;
+  start_date?: string | null;
+  end_date?: string | null;
   schedule_notes?: string;
   medication_id: number;
   medicine_name: string;
@@ -502,6 +506,8 @@ export async function apiScheduleUpdate(payload: {
   schedule_id: number;
   reminder_time?: string;
   days_of_week?: string;
+  start_date?: string | null;
+  end_date?: string | null;
   notes?: string;
 }): Promise<void> {
   await jsonFetch(`${API_BASE}/schedules/update.php`, {
@@ -586,6 +592,8 @@ export interface ApiDoctorScheduleRow {
   schedule_id: number;
   reminder_time: string;
   days_of_week: string;
+  start_date?: string | null;
+  end_date?: string | null;
   schedule_notes?: string;
   medication_id: number;
   medicine_name: string;
@@ -619,6 +627,8 @@ export async function apiDoctorPrescribe(payload: {
   dosage?: string;
   /** e.g. Mon,Tue,Wed,Thu,Fri,Sat,Sun */
   days_of_week?: string;
+  start_date?: string | null;
+  end_date?: string | null;
   /** Patient-visible frequency text; defaults to `days_of_week` when omitted. */
   frequency?: string;
   frequency_fil?: string;
@@ -639,6 +649,8 @@ export async function apiDoctorPrescribe(payload: {
     times: payload.times,
     dosage: payload.dosage ?? "",
     days_of_week: days,
+    start_date: payload.start_date ?? null,
+    end_date: payload.end_date ?? null,
     frequency: freq,
     frequency_fil: freqFil,
     purpose_en: payload.purpose_en ?? "",

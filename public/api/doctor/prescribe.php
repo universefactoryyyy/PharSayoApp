@@ -128,15 +128,27 @@ try {
     $medId = (int)$db->lastInsertId();
 
     $days = isset($data->days_of_week) ? (string)$data->days_of_week : 'Mon,Tue,Wed,Thu,Fri,Sat,Sun';
+    $startDate = isset($data->start_date) && trim((string)$data->start_date) !== '' ? trim((string)$data->start_date) : null;
+    $endDate = isset($data->end_date) && trim((string)$data->end_date) !== '' ? trim((string)$data->end_date) : null;
+
     foreach ($normTimes as $idx => $rt) {
         $sn = isset($schedule_notes_list[$idx]) ? (string)$schedule_notes_list[$idx] : '';
         $sq = $db->prepare(
-            'INSERT INTO schedules SET medication_id=:m, user_id=:u, reminder_time=:rt, days_of_week=:d, notes=:sn'
+            'INSERT INTO schedules SET 
+            medication_id=:m, 
+            user_id=:u, 
+            reminder_time=:rt, 
+            days_of_week=:d, 
+            start_date=:sd,
+            end_date=:ed,
+            notes=:sn'
         );
         $sq->bindValue(':m', $medId, PDO::PARAM_INT);
         $sq->bindValue(':u', $patientId, PDO::PARAM_INT);
         $sq->bindValue(':rt', $rt);
         $sq->bindValue(':d', $days);
+        $sq->bindValue(':sd', $startDate);
+        $sq->bindValue(':ed', $endDate);
         $sq->bindValue(':sn', $sn);
         $sq->execute();
     }

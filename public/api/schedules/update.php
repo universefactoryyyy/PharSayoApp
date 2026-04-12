@@ -35,6 +35,8 @@ if ($row === null) {
 
 $reminder_time = isset($data->reminder_time) ? trim((string)$data->reminder_time) : null;
 $days = isset($data->days_of_week) ? trim((string)$data->days_of_week) : null;
+$start_date = property_exists($data, 'start_date') ? (string)$data->start_date : null;
+$end_date = property_exists($data, 'end_date') ? (string)$data->end_date : null;
 $notes = (is_object($data) && property_exists($data, 'notes')) ? (string)$data->notes : null;
 
 if ($reminder_time !== null && $reminder_time !== '') {
@@ -53,6 +55,14 @@ if ($reminder_time !== null && $reminder_time !== '') {
 if ($days !== null && $days !== '') {
     $sets[] = 'days_of_week = :dow';
     $params[':dow'] = $days;
+}
+if ($start_date !== null) {
+    $sets[] = 'start_date = :sd';
+    $params[':sd'] = trim((string)$start_date) !== '' ? trim((string)$start_date) : null;
+}
+if ($end_date !== null) {
+    $sets[] = 'end_date = :ed';
+    $params[':ed'] = trim((string)$end_date) !== '' ? trim((string)$end_date) : null;
 }
 if ($notes !== null) {
     $sets[] = 'notes = :notes';

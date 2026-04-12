@@ -36,7 +36,7 @@ $adherenceJoin = '
               AND TIME(l2.scheduled_time) = s.reminder_time
         )';
 
-$sql = 'SELECT s.id AS schedule_id, s.reminder_time, s.days_of_week, s.notes AS schedule_notes,
+$sql = 'SELECT s.id AS schedule_id, s.reminder_time, s.days_of_week, s.start_date, s.end_date, s.notes AS schedule_notes,
         m.id AS medication_id, m.name AS medicine_name,
         u.name AS patient_name, u.username AS patient_username,
         al.taken AS log_taken, al.responded_at AS log_responded_at, al.scheduled_time AS log_scheduled_time

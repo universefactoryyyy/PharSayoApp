@@ -182,6 +182,8 @@ export default function AdminDashboard() {
   const [schedEditRow, setSchedEditRow] = useState<ApiAdminScheduleRow | null>(null);
   const [schedEditTime, setSchedEditTime] = useState("");
   const [schedEditDays, setSchedEditDays] = useState("");
+  const [schedEditStartDate, setSchedEditStartDate] = useState("");
+  const [schedEditEndDate, setSchedEditEndDate] = useState("");
   const [schedEditNotes, setSchedEditNotes] = useState("");
   const [schedEditBusy, setSchedEditBusy] = useState(false);
 
@@ -354,6 +356,8 @@ export default function AdminDashboard() {
     setSchedEditRow(r);
     setSchedEditTime(formatScheduleTime(r.reminder_time));
     setSchedEditDays(r.days_of_week || "");
+    setSchedEditStartDate(r.start_date || "");
+    setSchedEditEndDate(r.end_date || "");
     setSchedEditNotes(r.schedule_notes ?? "");
   };
 
@@ -367,6 +371,8 @@ export default function AdminDashboard() {
         schedule_id: schedEditRow.schedule_id,
         reminder_time: schedEditTime.trim(),
         days_of_week: schedEditDays.trim(),
+        start_date: schedEditStartDate.trim() || null,
+        end_date: schedEditEndDate.trim() || null,
         notes: schedEditNotes,
       });
       toast.success("Schedule saved.");
@@ -721,6 +727,26 @@ export default function AdminDashboard() {
                 value={schedEditDays}
                 onChange={(e) => setSchedEditDays(e.target.value)}
               />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label>{lang === "en" ? "Start date" : "Simulang petsa"}</Label>
+                <Input
+                  type="date"
+                  className="rounded-xl h-11 text-sm"
+                  value={schedEditStartDate}
+                  onChange={(e) => setSchedEditStartDate(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>{lang === "en" ? "End date" : "Tapos na petsa"}</Label>
+                <Input
+                  type="date"
+                  className="rounded-xl h-11 text-sm"
+                  value={schedEditEndDate}
+                  onChange={(e) => setSchedEditEndDate(e.target.value)}
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label>{t(lang, "admin.notes")}</Label>
