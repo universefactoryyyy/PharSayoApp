@@ -1,5 +1,6 @@
 {
-  "_info": "PharSayo Philippines GTIN list (curated). Add keys as digits-only barcodes. Not an official FDA register—expand for your deployment.",
+  "_info": "PharSayo Philippines GTIN list (curated). Add keys as digits-only barcodes. Not an official FDA register — expand for your deployment.",
+
   "4807788561688": {
     "display_name": "Biogesic (Paracetamol) 500mg",
     "dosage_hint": "500mg Paracetamol per tablet",
@@ -10,14 +11,34 @@
     "frequency_hint": "Every 4 to 6 hours as needed, or as directed by your doctor.",
     "rxcui": "202433"
   },
+  "4807788560520": {
+    "display_name": "Biogesic (Paracetamol) 500mg Caplets",
+    "dosage_hint": "500mg Paracetamol per caplet",
+    "purpose_en": "Pain reliever and fever reducer. For headache, toothache, muscular aches, and fever.",
+    "purpose_fil": "Pampalubag ng sakit at lagnat. Para sa sakit ng ulo, ngipin, kalamnan, at lagnat.",
+    "precautions_en": "Do not exceed 4,000mg in 24 hours. Do not use with other paracetamol-containing products.",
+    "precautions_fil": "Huwag lumampas sa 4,000mg sa loob ng 24 oras. Huwag gamitin kasabay ng ibang produktong may paracetamol.",
+    "frequency_hint": "1 to 2 caplets every 4 to 6 hours as needed.",
+    "rxcui": "202433"
+  },
   "4807788560650": {
     "display_name": "Neozep Non-Drowsy",
-    "dosage_hint": "Phenylephrine + Paracetamol",
+    "dosage_hint": "Phenylephrine 10mg + Paracetamol 325mg per tablet",
     "purpose_en": "Relieves clogged nose, headache, and fever without causing drowsiness.",
     "purpose_fil": "Pampawala ng baradong ilong at lagnat nang hindi nakakaantok.",
-    "precautions_en": "Do not exceed recommended dose. Ask a doctor if you have heart problems.",
-    "precautions_fil": "Huwag lumampas sa tamang dosis. Magtanong sa doktor kung may sakit sa puso.",
+    "precautions_en": "Do not exceed recommended dose. Ask a doctor if you have heart problems or hypertension.",
+    "precautions_fil": "Huwag lumampas sa tamang dosis. Magtanong sa doktor kung may sakit sa puso o mataas na presyon.",
     "frequency_hint": "1 tablet every 6 hours, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4807788560667": {
+    "display_name": "Neozep Forte",
+    "dosage_hint": "Phenylephrine 5mg + Chlorphenamine 2mg + Paracetamol 500mg per tablet",
+    "purpose_en": "Relieves nasal congestion, runny nose, sneezing, headache, and fever due to common cold.",
+    "purpose_fil": "Pampawala ng baradong ilong, sipon, pagbabahing, sakit ng ulo, at lagnat dahil sa sipon.",
+    "precautions_en": "May cause drowsiness. Do not drive after taking. Avoid alcohol.",
+    "precautions_fil": "Maaaring magdulot ng antok. Huwag magmaneho pagkatapos uminom. Iwasan ang alak.",
+    "frequency_hint": "1 tablet every 6 hours.",
     "rxcui": ""
   },
   "4807788561145": {
@@ -32,12 +53,22 @@
   },
   "4807788561619": {
     "display_name": "Bioflu",
-    "dosage_hint": "Phenylephrine + Chlorphenamine + Paracetamol",
+    "dosage_hint": "Phenylephrine 5mg + Chlorphenamine 2mg + Paracetamol 500mg per tablet",
     "purpose_en": "Relieves flu-like symptoms including fever, body aches, headache, and clogged nose.",
     "purpose_fil": "Pampawala ng sintomas ng trangkaso gaya ng lagnat, sakit ng katawan, sakit ng ulo, at baradong ilong.",
     "precautions_en": "May cause drowsiness. Avoid alcohol. Consult a doctor if you have heart or liver problems.",
     "precautions_fil": "Maaaring magdulot ng pagkaantok. Iwasan ang alak. Kumonsulta sa doktor kung may problema sa puso o atay.",
     "frequency_hint": "1 tablet every 6 hours, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4807788561596": {
+    "display_name": "Bioflu (Box of 4 tablets)",
+    "dosage_hint": "Phenylephrine 5mg + Chlorphenamine 2mg + Paracetamol 500mg per tablet",
+    "purpose_en": "Relieves flu symptoms: fever, headache, body aches, and nasal congestion.",
+    "purpose_fil": "Pampawala ng trangkaso: lagnat, sakit ng ulo, pananakit ng katawan, at baradong ilong.",
+    "precautions_en": "May cause drowsiness. Consult a doctor if pregnant, breastfeeding, or has liver/heart condition.",
+    "precautions_fil": "Maaaring magdulot ng antok. Kumonsulta sa doktor kung buntis, nagpapasuso, o may kondisyon sa atay/puso.",
+    "frequency_hint": "1 tablet every 6 hours.",
     "rxcui": ""
   },
   "5290665007802": {
@@ -72,7 +103,7 @@
   },
   "4800016604819": {
     "display_name": "Ceelin Plus (Vitamin C + Zinc) Syrup",
-    "dosage_hint": "Ascorbic Acid + Zinc per 5mL",
+    "dosage_hint": "Ascorbic Acid 100mg + Zinc 5mg per 5mL",
     "purpose_en": "Vitamin and mineral supplement for children to boost immunity and prevent deficiencies.",
     "purpose_fil": "Supplement na bitamina at mineral para sa bata pampalakas ng resistensya.",
     "precautions_en": "Follow age-appropriate dosage on label. Consult a pediatrician.",
@@ -85,19 +116,1264 @@
     "dosage_hint": "500mg Vitamin C per tablet",
     "purpose_en": "Vitamin C supplement to boost immunity and skin health.",
     "purpose_fil": "Supplement na Vitamin C para sa resistensya at kalusugan ng balat.",
-    "precautions_en": "Consult a doctor if you have kidney problems.",
-    "precautions_fil": "Kumonsulta sa doktor kung may problema sa bato.",
+    "precautions_en": "Consult a doctor if you have kidney problems. High doses may cause diarrhea.",
+    "precautions_fil": "Kumonsulta sa doktor kung may problema sa bato. Ang mataas na dosis ay maaaring magdulot ng pagtatae.",
     "frequency_hint": "1 to 2 tablets daily, or as directed by your doctor.",
     "rxcui": ""
   },
   "4800016104210": {
-    "display_name": "Diatabs (Loperamide)",
+    "display_name": "Diatabs (Loperamide) 2mg",
     "dosage_hint": "2mg Loperamide HCl per capsule",
     "purpose_en": "Relief of acute diarrhea (antidiarrheal).",
     "purpose_fil": "Pampahinto ng matinding pagtatae (antidiarrheal).",
-    "precautions_en": "Do not use if you have bloody stool or high fever. Avoid overdose.",
-    "precautions_fil": "Huwag gamitin kung may dugo sa dumi o lagnat. Iwasan ang sobrang dosis.",
+    "precautions_en": "Do not use if you have bloody stool or high fever. Avoid overdose. Max 8 capsules per day.",
+    "precautions_fil": "Huwag gamitin kung may dugo sa dumi o lagnat. Iwasan ang sobrang dosis. Max 8 kapsula bawat araw.",
     "frequency_hint": "2 capsules initially, then 1 capsule after each loose stool. Max 8 caps per day.",
+    "rxcui": ""
+  },
+
+  "4807788560056": {
+    "display_name": "Alaxan FR (Ibuprofen + Paracetamol)",
+    "dosage_hint": "Ibuprofen 200mg + Paracetamol 325mg per tablet",
+    "purpose_en": "Combination pain reliever for severe headache, body aches, toothache, and muscle pain.",
+    "purpose_fil": "Kombinasyon ng pampawala ng sakit para sa matinding sakit ng ulo, katawan, ngipin, at kalamnan.",
+    "precautions_en": "Take with food. Avoid alcohol. Do not use if you have kidney, heart, or stomach problems.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Iwasan ang alak. Huwag gamitin kung may sakit sa bato, puso, o sikmura.",
+    "frequency_hint": "1 tablet every 6 hours as needed. Do not exceed 4 tablets in 24 hours.",
+    "rxcui": ""
+  },
+  "4807788560063": {
+    "display_name": "Alaxan FR (Ibuprofen + Paracetamol) Box",
+    "dosage_hint": "Ibuprofen 200mg + Paracetamol 325mg per tablet",
+    "purpose_en": "For fast relief of pain and fever. Effective for headache, muscle pain, and toothache.",
+    "purpose_fil": "Para sa mabilis na pampawala ng sakit at lagnat. Epektibo sa sakit ng ulo, kalamnan, at ngipin.",
+    "precautions_en": "Take with food or milk. Do not use more than 7 days unless directed by a doctor.",
+    "precautions_fil": "Inumin kasabay ng pagkain o gatas. Huwag gamitin ng higit sa 7 araw maliban kung iniutos ng doktor.",
+    "frequency_hint": "1 tablet every 6 hours as needed.",
+    "rxcui": ""
+  },
+
+  "4800168201232": {
+    "display_name": "Medicol Advance (Ibuprofen) 400mg",
+    "dosage_hint": "400mg Ibuprofen per softgel capsule",
+    "purpose_en": "Fast-acting pain reliever and fever reducer (NSAID). For headache, dysmenorrhea, muscle pain, and fever.",
+    "purpose_fil": "Mabilis na pampawala ng sakit at lagnat (NSAID). Para sa sakit ng ulo, dysmenorrhea, kalamnan, at lagnat.",
+    "precautions_en": "Take with food. Do not use if you have peptic ulcer. Consult a doctor if you have asthma, kidney, or heart disease.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Huwag gamitin kung may peptic ulcer. Kumonsulta sa doktor kung may hika, sakit sa bato, o puso.",
+    "frequency_hint": "1 softgel every 6 to 8 hours as needed. Do not exceed 3 softgels in 24 hours.",
+    "rxcui": "5640"
+  },
+  "4800168201249": {
+    "display_name": "Medicol Advance (Ibuprofen) 200mg",
+    "dosage_hint": "200mg Ibuprofen per softgel capsule",
+    "purpose_en": "Pain reliever and fever reducer (NSAID). For mild headache, body aches, and fever.",
+    "purpose_fil": "Pampawala ng sakit at lagnat (NSAID). Para sa banayad na sakit ng ulo, pananakit ng katawan, at lagnat.",
+    "precautions_en": "Take with food. Avoid if you have stomach ulcer, kidney problems, or heart disease.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Iwasan kung may ulcer sa sikmura, sakit sa bato, o sakit sa puso.",
+    "frequency_hint": "1 to 2 softgels every 4 to 6 hours as needed.",
+    "rxcui": "5640"
+  },
+
+  "4809354001075": {
+    "display_name": "Advil (Ibuprofen) 200mg Coated Tablets",
+    "dosage_hint": "200mg Ibuprofen per coated tablet",
+    "purpose_en": "Pain reliever, fever reducer (NSAID). Effective for headaches, minor arthritis pain, muscular aches.",
+    "purpose_fil": "Pampawala ng sakit at lagnat (NSAID). Epektibo sa sakit ng ulo, banayad na arthritis, at pananakit ng kalamnan.",
+    "precautions_en": "Take with food. Do not use if allergic to aspirin. Avoid if you have stomach ulcers.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Huwag gamitin kung may allergy sa aspirin. Iwasan kung may ulcer.",
+    "frequency_hint": "1 tablet every 4 to 6 hours as needed. Max 3 tablets in 24 hours.",
+    "rxcui": "5640"
+  },
+
+  "4807388000014": {
+    "display_name": "Decolgen Forte",
+    "dosage_hint": "Phenylpropanolamine 25mg + Chlorphenamine 2mg + Paracetamol 500mg per tablet",
+    "purpose_en": "Relieves symptoms of common cold: nasal congestion, runny nose, sneezing, and headache.",
+    "purpose_fil": "Pampawala ng sintomas ng sipon: baradong ilong, sipon, pagbabahing, at sakit ng ulo.",
+    "precautions_en": "May cause drowsiness and dizziness. Avoid driving. Do not use with MAO inhibitors.",
+    "precautions_fil": "Maaaring magdulot ng pagkaantok at hilo. Iwasan ang pagmamaneho. Huwag gamitin kasabay ng MAO inhibitors.",
+    "frequency_hint": "1 tablet every 6 hours.",
+    "rxcui": ""
+  },
+  "4807388000021": {
+    "display_name": "Decolgen No-Drowse",
+    "dosage_hint": "Phenylpropanolamine 25mg + Paracetamol 500mg per tablet",
+    "purpose_en": "Non-drowsy relief of nasal congestion, headache, and fever due to common cold.",
+    "purpose_fil": "Pampawala ng baradong ilong, sakit ng ulo, at lagnat nang walang antok.",
+    "precautions_en": "Avoid if you have high blood pressure or heart disease. Do not exceed recommended dose.",
+    "precautions_fil": "Iwasan kung may mataas na presyon o sakit sa puso. Huwag lumampas sa inirekomendang dosis.",
+    "frequency_hint": "1 tablet every 6 hours.",
+    "rxcui": ""
+  },
+
+  "4807388000052": {
+    "display_name": "Tuseran Forte",
+    "dosage_hint": "Dextromethorphan 15mg + Chlorphenamine 2mg + Phenylpropanolamine 25mg + Paracetamol 500mg",
+    "purpose_en": "Cough and cold syrup / tablet. Relieves cough, nasal congestion, runny nose, and fever.",
+    "purpose_fil": "Para sa ubo at sipon. Nagpapawala ng ubo, baradong ilong, sipon, at lagnat.",
+    "precautions_en": "May cause drowsiness. Do not use with other cough/cold medicines without doctor's advice.",
+    "precautions_fil": "Maaaring makaantok. Huwag gamitin kasabay ng ibang gamot sa ubo/sipon nang walang payo ng doktor.",
+    "frequency_hint": "1 tablet every 6 hours.",
+    "rxcui": ""
+  },
+
+  "4809003001119": {
+    "display_name": "Kremil-S (Antacid + Antiflatulent)",
+    "dosage_hint": "Aluminum Hydroxide 200mg + Magnesium Hydroxide 200mg + Simethicone 25mg per tablet",
+    "purpose_en": "For hyperacidity, heartburn, indigestion, and gas pains. Neutralizes stomach acid.",
+    "purpose_fil": "Para sa hyperacidity, heartburn, indigestion, at sakit ng tiyan dahil sa gas. Nagpapababa ng asido sa sikmura.",
+    "precautions_en": "Do not exceed 8 tablets in 24 hours. Consult a doctor if symptoms persist for more than 2 weeks.",
+    "precautions_fil": "Huwag uminom ng higit sa 8 tableta sa loob ng 24 oras. Kumonsulta sa doktor kung magpatuloy ang sintomas ng mahigit sa 2 linggo.",
+    "frequency_hint": "1 to 2 tablets 1 hour after meals and at bedtime, as needed.",
+    "rxcui": ""
+  },
+  "4809003001126": {
+    "display_name": "Kremil-S Advance",
+    "dosage_hint": "Aluminum Hydroxide + Magnesium Hydroxide + Simethicone per chewable tablet",
+    "purpose_en": "Fast-acting relief of heartburn, acid indigestion, and bloating.",
+    "purpose_fil": "Mabilis na lunas sa heartburn, acid indigestion, at pamamaga ng tiyan.",
+    "precautions_en": "Do not take more than recommended. See a doctor if symptoms persist.",
+    "precautions_fil": "Huwag uminom ng higit sa inirekomenda. Kumita sa doktor kung nagpatuloy ang sintomas.",
+    "frequency_hint": "Chew 1 to 2 tablets as needed, preferably after meals.",
+    "rxcui": ""
+  },
+
+  "4800016100007": {
+    "display_name": "Enervon (Multivitamins + Minerals)",
+    "dosage_hint": "B-Complex Vitamins + Vitamin C + Iron per tablet",
+    "purpose_en": "Daily multivitamin and mineral supplement to support energy, immunity, and overall health.",
+    "purpose_fil": "Araw-araw na supplement ng multivitamin at mineral para sa enerhiya, resistensya, at kalusugan.",
+    "precautions_en": "Do not exceed recommended dose. Iron content may cause dark stool; this is normal.",
+    "precautions_fil": "Huwag lumampas sa inirekomendang dosis. Ang iron ay maaaring makapagpaitim ng dumi; normal ito.",
+    "frequency_hint": "1 tablet daily, preferably after a meal.",
+    "rxcui": ""
+  },
+  "4800016100014": {
+    "display_name": "Enervon-C (Multivitamins + Vitamin C)",
+    "dosage_hint": "Vitamin B1, B2, B6, B12, Niacinamide, Pantothenic Acid, Vitamin C per tablet",
+    "purpose_en": "Multivitamin supplement with high-dose Vitamin C to boost immunity and fight fatigue.",
+    "purpose_fil": "Supplement na multivitamin na may mataas na Vitamin C para palakasin ang immune system at labanan ang pagod.",
+    "precautions_en": "Safe for adults. Consult a pediatrician before giving to children.",
+    "precautions_fil": "Ligtas para sa mga matatanda. Kumonsulta sa pediatrician bago ibigay sa mga bata.",
+    "frequency_hint": "1 tablet once daily.",
+    "rxcui": ""
+  },
+  "4800016100021": {
+    "display_name": "Enervon Activ",
+    "dosage_hint": "B-Complex Vitamins + Vitamin C + Zinc per tablet",
+    "purpose_en": "Multivitamin supplement for active adults. Supports energy metabolism and immune function.",
+    "purpose_fil": "Supplement ng multivitamin para sa aktibong mga matatanda. Nagbibigay ng enerhiya at nagpapatibay ng immune system.",
+    "precautions_en": "For adults only. Keep out of reach of children.",
+    "precautions_fil": "Para sa mga matatanda lamang. Ilagay sa lugar na hindi maaabot ng mga bata.",
+    "frequency_hint": "1 tablet once daily with a meal.",
+    "rxcui": ""
+  },
+
+  "4800016650984": {
+    "display_name": "Stresstabs (Multivitamins + Iron)",
+    "dosage_hint": "B-Complex Vitamins + Vitamin C + Vitamin E + Iron per tablet",
+    "purpose_en": "High-potency B-Complex vitamin supplement for stress, fatigue, and overall wellness.",
+    "purpose_fil": "Mataas na potency na supplement ng B-Complex vitamins para sa stress, pagod, at pangkalahatang kalusugan.",
+    "precautions_en": "Take with food to avoid stomach upset. Iron may cause constipation in some people.",
+    "precautions_fil": "Inumin kasabay ng pagkain para maiwasan ang sakit ng tiyan. Ang iron ay maaaring magdulot ng constipation.",
+    "frequency_hint": "1 tablet once daily.",
+    "rxcui": ""
+  },
+  "4800016650991": {
+    "display_name": "Stresstabs + Zinc",
+    "dosage_hint": "B-Complex Vitamins + Vitamin C + Vitamin E + Zinc per tablet",
+    "purpose_en": "Stress formula multivitamins with zinc for immunity, wound healing, and stress relief.",
+    "purpose_fil": "Multivitamin para sa stress na may zinc para sa resistensya, pagpapagaling ng sugat, at pahinga mula sa stress.",
+    "precautions_en": "Take with food. Not a substitute for a balanced diet.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Hindi kapalit ng balanseng diyeta.",
+    "frequency_hint": "1 tablet once daily.",
+    "rxcui": ""
+  },
+
+  "4800016620032": {
+    "display_name": "Cherifer PGM (Growth Formula)",
+    "dosage_hint": "Chlorella Growth Factor + Lysine + Taurine + Zinc + Vitamins per capsule",
+    "purpose_en": "Nutritional supplement for children to support growth, immunity, and overall development.",
+    "purpose_fil": "Supplement para sa paglaki ng mga bata at pagpapalakas ng immune system.",
+    "precautions_en": "Consult a pediatrician before use. Follow age-appropriate dosage.",
+    "precautions_fil": "Kumonsulta sa pediatrician bago gamitin. Sundin ang dosis na angkop sa edad.",
+    "frequency_hint": "1 capsule once daily or as directed by your doctor.",
+    "rxcui": ""
+  },
+
+  "4800016600002": {
+    "display_name": "Ceelin (Ascorbic Acid) 100mg/5mL Syrup",
+    "dosage_hint": "100mg Ascorbic Acid per 5mL syrup",
+    "purpose_en": "Vitamin C supplement for children to boost immunity and support growth and development.",
+    "purpose_fil": "Supplement na Vitamin C para sa mga bata pampalakas ng resistensya at para sa paglaki at pag-unlad.",
+    "precautions_en": "Shake well before use. Refrigerate after opening. Follow dosage by age/weight.",
+    "precautions_fil": "Iyanig bago gamitin. Ilagay sa ref pagkatapos buksan. Sundin ang dosis ayon sa edad/timbang.",
+    "frequency_hint": "Once daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+
+  "4800016200012": {
+    "display_name": "Conzace (Multivitamins + Minerals)",
+    "dosage_hint": "Vitamin A + Vitamin C + Vitamin E + Zinc per softgel",
+    "purpose_en": "Antioxidant supplement for immune defense, skin health, and eye health.",
+    "purpose_fil": "Antioxidant supplement para sa immune system, kalusugan ng balat at mata.",
+    "precautions_en": "Do not exceed recommended dose. Consult a doctor if pregnant.",
+    "precautions_fil": "Huwag lumampas sa inirekomendang dosis. Kumonsulta sa doktor kung buntis.",
+    "frequency_hint": "1 softgel once daily.",
+    "rxcui": ""
+  },
+
+  "4806006210016": {
+    "display_name": "Ascof Lagundi 300mg Tablet",
+    "dosage_hint": "300mg Vitex negundo (Lagundi) leaf extract per tablet",
+    "purpose_en": "Herbal medicine for cough, asthma, and bronchitis. FDA-approved Philippine herbal medicine.",
+    "purpose_fil": "Halamang gamot para sa ubo, hika, at bronchitis. Aprubado ng FDA Philippines na halamang gamot.",
+    "precautions_en": "Consult a doctor if symptoms do not improve in 7 days. Not for children under 7 years.",
+    "precautions_fil": "Kumonsulta sa doktor kung hindi bumuti ang kondisyon sa loob ng 7 araw. Hindi para sa mga batang wala pang 7 taon.",
+    "frequency_hint": "1 tablet 3 times daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4806006210023": {
+    "display_name": "Ascof Lagundi Syrup",
+    "dosage_hint": "Vitex negundo (Lagundi) leaf extract syrup",
+    "purpose_en": "Herbal cough syrup from Lagundi (Philippine Five-Leaved Chaste Tree). For dry and productive cough.",
+    "purpose_fil": "Halamang syrup mula sa lagundi. Para sa tuyong ubo at ubo na may plema.",
+    "precautions_en": "Shake before use. Consult a doctor for children under 7 years. Store in a cool, dry place.",
+    "precautions_fil": "Iyanig bago gamitin. Kumonsulta sa doktor para sa mga batang wala pang 7 taon.",
+    "frequency_hint": "Adults: 10mL 3 times daily. Children: 5mL 3 times daily, or as directed.",
+    "rxcui": ""
+  },
+
+  "4806006320014": {
+    "display_name": "Sambong-Re (Blumea balsamifera) 500mg Tablet",
+    "dosage_hint": "500mg Blumea balsamifera (Sambong) leaf extract per tablet",
+    "purpose_en": "Herbal medicine for kidney stones (urinary calculi) and as a diuretic. FDA-approved Philippine herbal.",
+    "purpose_fil": "Halamang gamot para sa bato sa bato (urinary calculi) at bilang diuretic. Aprubado ng FDA Philippines.",
+    "precautions_en": "Consult a doctor before use. Not recommended for pregnant women. Drink plenty of water.",
+    "precautions_fil": "Kumonsulta sa doktor bago gamitin. Hindi inirerekomenda sa mga buntis. Uminom ng maraming tubig.",
+    "frequency_hint": "1 to 2 tablets 3 times daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+
+  "4807788570016": {
+    "display_name": "Amoxicillin 500mg Capsule",
+    "dosage_hint": "500mg Amoxicillin per capsule",
+    "purpose_en": "Antibiotic for bacterial infections including respiratory tract, urinary tract, and skin infections.",
+    "purpose_fil": "Antibiotic para sa impeksyon ng bacteria kabilang ang respiratory tract, urinary tract, at impeksyon ng balat.",
+    "precautions_en": "Complete the full course. Tell your doctor if you are allergic to penicillin. May cause diarrhea.",
+    "precautions_fil": "Tapusin ang buong kurso. Sabihin sa doktor kung may allergy ka sa penicillin. Maaaring magdulot ng pagtatae.",
+    "frequency_hint": "1 capsule every 8 hours for 7 to 10 days, or as prescribed by your doctor.",
+    "rxcui": "723"
+  },
+  "4807788570023": {
+    "display_name": "Amoxicillin 250mg Capsule",
+    "dosage_hint": "250mg Amoxicillin per capsule",
+    "purpose_en": "Antibiotic for mild to moderate bacterial infections.",
+    "purpose_fil": "Antibiotic para sa banayad hanggang katamtamang impeksyon ng bacteria.",
+    "precautions_en": "Complete the full course of treatment. Do not use if allergic to penicillin.",
+    "precautions_fil": "Tapusin ang buong kurso ng paggamot. Huwag gamitin kung may allergy sa penicillin.",
+    "frequency_hint": "1 capsule every 8 hours, or as prescribed by your doctor.",
+    "rxcui": "723"
+  },
+
+  "4800016350016": {
+    "display_name": "Losartan Potassium 50mg Tablet",
+    "dosage_hint": "50mg Losartan Potassium per tablet",
+    "purpose_en": "Antihypertensive (ARB). For high blood pressure and to protect kidneys in diabetic patients.",
+    "purpose_fil": "Para sa mataas na presyon ng dugo (antihypertensive). Nagpoprotekta rin sa bato ng mga pasyenteng may diyabetes.",
+    "precautions_en": "Do NOT take if pregnant (can harm unborn baby). Monitor blood pressure regularly. Avoid potassium supplements unless prescribed.",
+    "precautions_fil": "HUWAG uminom kung buntis (nakakasama sa sanggol). Regular na subaybayan ang presyon ng dugo.",
+    "frequency_hint": "50mg once daily, or as directed by your doctor.",
+    "rxcui": "52175"
+  },
+  "4800016350023": {
+    "display_name": "Losartan Potassium 100mg Tablet",
+    "dosage_hint": "100mg Losartan Potassium per tablet",
+    "purpose_en": "Higher-dose antihypertensive (ARB) for blood pressure control and kidney protection.",
+    "purpose_fil": "Mas mataas na dosis ng antihypertensive para sa kontrol ng presyon ng dugo at proteksyon sa bato.",
+    "precautions_en": "Do NOT take if pregnant. Inform your doctor about all medications you are taking. Regular check-ups required.",
+    "precautions_fil": "HUWAG uminom kung buntis. Sabihin sa doktor ang lahat ng iyong iniinom na gamot. Kailangan ng regular na check-up.",
+    "frequency_hint": "Once daily or as prescribed by your doctor.",
+    "rxcui": "52175"
+  },
+
+  "4800016360015": {
+    "display_name": "Amlodipine Besylate 5mg Tablet",
+    "dosage_hint": "5mg Amlodipine Besylate per tablet",
+    "purpose_en": "Calcium channel blocker for high blood pressure (hypertension) and angina (chest pain).",
+    "purpose_fil": "Calcium channel blocker para sa mataas na presyon ng dugo at angina (sakit ng dibdib).",
+    "precautions_en": "May cause ankle swelling and flushing. Do not stop suddenly without doctor's advice. Monitor blood pressure.",
+    "precautions_fil": "Maaaring magdulot ng pamamaga ng ankle at pamumula. Huwag biglang itigil nang walang payo ng doktor.",
+    "frequency_hint": "Once daily, or as directed by your doctor.",
+    "rxcui": "17767"
+  },
+  "4800016360022": {
+    "display_name": "Amlodipine Besylate 10mg Tablet",
+    "dosage_hint": "10mg Amlodipine Besylate per tablet",
+    "purpose_en": "Calcium channel blocker for blood pressure control and angina management.",
+    "purpose_fil": "Calcium channel blocker para sa kontrol ng presyon ng dugo at pamamahala ng angina.",
+    "precautions_en": "Take at the same time each day. Do not stop without consulting your doctor.",
+    "precautions_fil": "Inumin sa parehong oras araw-araw. Huwag itigil nang walang kumonsulta sa doktor.",
+    "frequency_hint": "Once daily, or as directed by your doctor.",
+    "rxcui": "17767"
+  },
+
+  "4800016370014": {
+    "display_name": "Metformin HCl 500mg Tablet",
+    "dosage_hint": "500mg Metformin Hydrochloride per tablet",
+    "purpose_en": "Oral antidiabetic. Controls blood sugar levels in Type 2 diabetes.",
+    "purpose_fil": "Oral na gamot para sa diyabetes. Nagkokontrol ng antas ng asukal sa dugo sa Type 2 na diyabetes.",
+    "precautions_en": "Take with meals to reduce stomach upset. Avoid alcohol. Report any muscle pain or weakness to your doctor.",
+    "precautions_fil": "Inumin kasabay ng pagkain para mabawasan ang sakit ng tiyan. Iwasan ang alak. I-report ang pananakit ng kalamnan sa doktor.",
+    "frequency_hint": "500mg 2 to 3 times daily with meals, or as prescribed.",
+    "rxcui": "6809"
+  },
+  "4800016370021": {
+    "display_name": "Metformin HCl 850mg Tablet",
+    "dosage_hint": "850mg Metformin Hydrochloride per tablet",
+    "purpose_en": "Antidiabetic for controlling blood sugar in Type 2 diabetes.",
+    "purpose_fil": "Gamot sa diyabetes para sa kontrol ng asukal sa dugo sa Type 2 na diyabetes.",
+    "precautions_en": "Take with meals. Inform your doctor if you will have surgery or imaging tests using dye. Monitor kidney function.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Sabihin sa doktor kung magpapaoperasyon o magpapagawa ng imaging test na may dye.",
+    "frequency_hint": "Once or twice daily with meals, or as prescribed.",
+    "rxcui": "6809"
+  },
+
+  "4800016380013": {
+    "display_name": "Atorvastatin 10mg Tablet",
+    "dosage_hint": "10mg Atorvastatin per tablet",
+    "purpose_en": "Statin for lowering bad cholesterol (LDL) and reducing risk of heart disease and stroke.",
+    "purpose_fil": "Para sa pagpapababa ng masamang cholesterol (LDL) at pagbabawas ng panganib ng sakit sa puso at stroke.",
+    "precautions_en": "Report muscle pain to your doctor immediately. Avoid grapefruit juice. Do not take if pregnant.",
+    "precautions_fil": "I-report agad ang pananakit ng kalamnan sa doktor. Iwasan ang grapefruit juice. Huwag uminom kung buntis.",
+    "frequency_hint": "Once daily at bedtime, or as directed by your doctor.",
+    "rxcui": "83367"
+  },
+  "4800016380020": {
+    "display_name": "Atorvastatin 20mg Tablet",
+    "dosage_hint": "20mg Atorvastatin per tablet",
+    "purpose_en": "Statin for significantly lowering LDL cholesterol and triglycerides.",
+    "purpose_fil": "Para sa malaking pagbaba ng LDL cholesterol at triglycerides.",
+    "precautions_en": "Report any unexplained muscle pain, weakness, or tenderness to your doctor. Liver function tests may be needed.",
+    "precautions_fil": "I-report ang anumang hindi maipaliwanag na pananakit ng kalamnan, panghihina, o masakit sa doktor.",
+    "frequency_hint": "Once daily, or as prescribed.",
+    "rxcui": "83367"
+  },
+  "4800016380037": {
+    "display_name": "Atorvastatin 40mg Tablet",
+    "dosage_hint": "40mg Atorvastatin per tablet",
+    "purpose_en": "High-dose statin therapy for high cholesterol and cardiovascular risk reduction.",
+    "purpose_fil": "Mataas na dosis ng statin para sa mataas na cholesterol at pagbabawas ng panganib sa puso.",
+    "precautions_en": "Regular liver function monitoring required. Report muscle pain immediately.",
+    "precautions_fil": "Kailangan ng regular na pagsubaybay ng liver function. I-report agad ang pananakit ng kalamnan.",
+    "frequency_hint": "Once daily, or as prescribed.",
+    "rxcui": "83367"
+  },
+
+  "4800016390012": {
+    "display_name": "Omeprazole 20mg Capsule",
+    "dosage_hint": "20mg Omeprazole per capsule",
+    "purpose_en": "Proton pump inhibitor (PPI). Reduces stomach acid for GERD, ulcers, and acid reflux.",
+    "purpose_fil": "Para sa pagbabawas ng asido sa sikmura para sa GERD, ulcer, at acid reflux.",
+    "precautions_en": "Take 30 to 60 minutes before meals. Long-term use may affect magnesium and vitamin B12 levels.",
+    "precautions_fil": "Inumin 30 hanggang 60 minuto bago kumain. Ang matagalang paggamit ay maaaring makaapekto sa magnesium at vitamin B12.",
+    "frequency_hint": "Once daily before breakfast, or as directed by your doctor.",
+    "rxcui": "7646"
+  },
+  "4800016390029": {
+    "display_name": "Omeprazole 40mg Capsule",
+    "dosage_hint": "40mg Omeprazole per capsule",
+    "purpose_en": "Higher-dose PPI for severe GERD, H. pylori eradication (in combination), and Zollinger-Ellison syndrome.",
+    "purpose_fil": "Mas mataas na dosis ng PPI para sa malubhang GERD at H. pylori eradication.",
+    "precautions_en": "Use only as prescribed. Consult a doctor before taking with other medications.",
+    "precautions_fil": "Gamitin lamang ayon sa reseta. Kumonsulta sa doktor bago uminom kasabay ng ibang gamot.",
+    "frequency_hint": "Once or twice daily, or as prescribed by your doctor.",
+    "rxcui": "7646"
+  },
+
+  "4800016391019": {
+    "display_name": "Esomeprazole 20mg Capsule",
+    "dosage_hint": "20mg Esomeprazole Magnesium per delayed-release capsule",
+    "purpose_en": "Proton pump inhibitor for heartburn, GERD, and stomach ulcers.",
+    "purpose_fil": "Proton pump inhibitor para sa heartburn, GERD, at ulcer sa sikmura.",
+    "precautions_en": "Swallow whole, do not crush. Take 1 hour before eating. May interact with clopidogrel.",
+    "precautions_fil": "Lunukin nang buo, huwag durugin. Inumin 1 oras bago kumain. Maaaring makipag-interact sa clopidogrel.",
+    "frequency_hint": "Once daily, 1 hour before eating.",
+    "rxcui": "283921"
+  },
+
+  "4800016400018": {
+    "display_name": "Cetirizine HCl 10mg Tablet",
+    "dosage_hint": "10mg Cetirizine Hydrochloride per tablet",
+    "purpose_en": "Antihistamine for allergic rhinitis, urticaria (hives), and other allergic conditions.",
+    "purpose_fil": "Antihistamine para sa allergic rhinitis, urticaria (pantal), at iba pang kondisyong allergic.",
+    "precautions_en": "May cause mild drowsiness. Avoid alcohol. Use with caution when driving.",
+    "precautions_fil": "Maaaring magdulot ng banayad na pagkaantok. Iwasan ang alak. Mag-ingat sa pagmamaneho.",
+    "frequency_hint": "1 tablet once daily, preferably in the evening.",
+    "rxcui": "2194"
+  },
+  "4800016400025": {
+    "display_name": "Cetirizine HCl 5mg/5mL Syrup",
+    "dosage_hint": "5mg Cetirizine HCl per 5mL syrup",
+    "purpose_en": "Antihistamine syrup for children with allergic rhinitis, hives, and skin allergies.",
+    "purpose_fil": "Antihistamine syrup para sa mga batang may allergic rhinitis, pantal, at allergy sa balat.",
+    "precautions_en": "Follow age-appropriate dosage. May cause drowsiness in children.",
+    "precautions_fil": "Sundin ang tamang dosis para sa edad. Maaaring makaantok sa mga bata.",
+    "frequency_hint": "Children 6-11: 5mL (5mg) once or twice daily. Children 2-5: 2.5mL once or twice daily.",
+    "rxcui": "2194"
+  },
+
+  "4800016410017": {
+    "display_name": "Loratadine 10mg Tablet",
+    "dosage_hint": "10mg Loratadine per tablet",
+    "purpose_en": "Non-drowsy antihistamine for hay fever, allergic rhinitis, and hives.",
+    "purpose_fil": "Hindi nakakaantok na antihistamine para sa hay fever, allergic rhinitis, at pantal.",
+    "precautions_en": "Generally does not cause drowsiness at recommended dose. Safe for daytime use.",
+    "precautions_fil": "Hindi karaniwang nagdudulot ng antok sa tamang dosis. Ligtas gamitin sa umaga.",
+    "frequency_hint": "1 tablet once daily.",
+    "rxcui": "17698"
+  },
+
+  "4800016420016": {
+    "display_name": "Salbutamol (Ventolin) 2mg Tablet",
+    "dosage_hint": "2mg Salbutamol per tablet",
+    "purpose_en": "Bronchodilator for asthma and chronic obstructive pulmonary disease (COPD). Relieves wheezing and shortness of breath.",
+    "purpose_fil": "Para sa hika at COPD. Nagpapababa ng panghihikab at hirap sa paghinga.",
+    "precautions_en": "May cause tremors and rapid heartbeat. Use as directed. Do not exceed prescribed dose.",
+    "precautions_fil": "Maaaring magdulot ng panginginig at mabilis na tibok ng puso. Gamitin ayon sa iniutos. Huwag lampasan ang iniresetang dosis.",
+    "frequency_hint": "Adults: 2mg to 4mg 3 to 4 times daily. Children: as prescribed by doctor.",
+    "rxcui": "435"
+  },
+
+  "4800016430015": {
+    "display_name": "Azithromycin 500mg Tablet",
+    "dosage_hint": "500mg Azithromycin per tablet",
+    "purpose_en": "Antibiotic (macrolide) for respiratory tract infections, skin infections, and STIs.",
+    "purpose_fil": "Antibiotic (macrolide) para sa impeksyon ng respiratory tract, balat, at STI.",
+    "precautions_en": "Take at the same time each day. May be taken with or without food. Complete the prescribed course.",
+    "precautions_fil": "Inumin sa parehong oras araw-araw. Maaaring inumin nang may pagkain o wala. Tapusin ang buong kurso.",
+    "frequency_hint": "500mg once daily for 3 days, or as prescribed by your doctor.",
+    "rxcui": "18631"
+  },
+  "4800016430022": {
+    "display_name": "Azithromycin 250mg Tablet",
+    "dosage_hint": "250mg Azithromycin per tablet",
+    "purpose_en": "Antibiotic for mild respiratory, ear, and skin infections.",
+    "purpose_fil": "Antibiotic para sa banayad na impeksyon ng respiratory, tainga, at balat.",
+    "precautions_en": "Complete the full course. Inform your doctor of any heart rhythm problems.",
+    "precautions_fil": "Tapusin ang buong kurso. Sabihin sa doktor kung may problema sa ritmo ng puso.",
+    "frequency_hint": "As prescribed by your doctor, typically 500mg on day 1, then 250mg on days 2-5.",
+    "rxcui": "18631"
+  },
+
+  "4800016440014": {
+    "display_name": "Clarithromycin 500mg Tablet",
+    "dosage_hint": "500mg Clarithromycin per tablet",
+    "purpose_en": "Antibiotic for respiratory tract infections, H. pylori eradication, and skin infections.",
+    "purpose_fil": "Antibiotic para sa impeksyon ng respiratory tract, H. pylori eradication, at impeksyon ng balat.",
+    "precautions_en": "Take with food to reduce stomach upset. Inform your doctor about other medications you take.",
+    "precautions_fil": "Inumin kasabay ng pagkain para mabawasan ang sakit ng tiyan. Sabihin sa doktor ang iyong ibang gamot.",
+    "frequency_hint": "500mg twice daily for 7 to 14 days, or as prescribed.",
+    "rxcui": "21212"
+  },
+
+  "4800016450013": {
+    "display_name": "Co-Amoxiclav 625mg Tablet (Amoxicillin + Clavulanate)",
+    "dosage_hint": "500mg Amoxicillin + 125mg Clavulanate per tablet",
+    "purpose_en": "Broad-spectrum antibiotic combination for respiratory, urinary, and skin infections resistant to amoxicillin alone.",
+    "purpose_fil": "Malawak na spectrum na antibiotic para sa mga impeksyong lumalaban sa amoxicillin lamang.",
+    "precautions_en": "Take with food. Inform your doctor if allergic to penicillin. Complete the full prescribed course.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Sabihin sa doktor kung allergic sa penicillin. Tapusin ang buong kurso.",
+    "frequency_hint": "1 tablet twice daily (every 12 hours), or as prescribed.",
+    "rxcui": "723"
+  },
+
+  "4800016460012": {
+    "display_name": "Ciprofloxacin 500mg Tablet",
+    "dosage_hint": "500mg Ciprofloxacin per tablet",
+    "purpose_en": "Broad-spectrum antibiotic (fluoroquinolone) for urinary tract infections, respiratory infections, and typhoid.",
+    "purpose_fil": "Malawak na spectrum na antibiotic para sa impeksyon ng ihi, respiratory, at typhoid.",
+    "precautions_en": "Avoid antacids, calcium, and iron supplements within 2 hours of taking. Avoid excessive sun exposure.",
+    "precautions_fil": "Iwasan ang antacid, calcium, at iron supplements 2 oras bago/pagkatapos uminom. Iwasan ang sobrang araw.",
+    "frequency_hint": "500mg twice daily for 7 to 14 days, or as prescribed.",
+    "rxcui": "2551"
+  },
+
+  "4800016470011": {
+    "display_name": "Celecoxib 200mg Capsule",
+    "dosage_hint": "200mg Celecoxib per capsule",
+    "purpose_en": "COX-2 inhibitor NSAID for osteoarthritis, rheumatoid arthritis, and acute pain. Lower GI risk than traditional NSAIDs.",
+    "purpose_fil": "COX-2 inhibitor para sa arthritis at matinding sakit. Mas mababang panganib sa sikmura kaysa karaniwang NSAIDs.",
+    "precautions_en": "Avoid if you have heart disease or had a stroke. May cause cardiovascular events. Not for use after heart bypass surgery.",
+    "precautions_fil": "Iwasan kung may sakit sa puso o nagkaroon ng stroke. Maaaring magdulot ng cardiovascular events.",
+    "frequency_hint": "100mg to 200mg twice daily, or as prescribed by your doctor.",
+    "rxcui": "140587"
+  },
+
+  "4800016480010": {
+    "display_name": "Etoricoxib (Arcoxia) 60mg Tablet",
+    "dosage_hint": "60mg Etoricoxib per tablet",
+    "purpose_en": "COX-2 selective NSAID for osteoarthritis, rheumatoid arthritis, and gout attacks.",
+    "purpose_fil": "COX-2 selective NSAID para sa arthritis at gout.",
+    "precautions_en": "Not for patients with uncontrolled hypertension. Cardiovascular risk increases with dose and duration.",
+    "precautions_fil": "Hindi para sa mga may hindi nakontrolong hypertension. Ang panganib sa puso ay tumataas sa mas mataas na dosis.",
+    "frequency_hint": "60mg once daily, or as prescribed by your doctor.",
+    "rxcui": "310966"
+  },
+  "4800016480027": {
+    "display_name": "Etoricoxib (Arcoxia) 90mg Tablet",
+    "dosage_hint": "90mg Etoricoxib per tablet",
+    "purpose_en": "Higher-dose COX-2 inhibitor for acute gout and moderate to severe pain.",
+    "purpose_fil": "Mas mataas na dosis ng COX-2 inhibitor para sa acute gout at matinding sakit.",
+    "precautions_en": "Use the lowest effective dose for the shortest duration needed. Monitor blood pressure.",
+    "precautions_fil": "Gamitin ang pinakamababang epektibong dosis sa pinakamaikling panahon. Subaybayan ang presyon ng dugo.",
+    "frequency_hint": "90mg once daily for gout, or as prescribed.",
+    "rxcui": "310966"
+  },
+
+  "4800016490009": {
+    "display_name": "Diclofenac Sodium 50mg Tablet",
+    "dosage_hint": "50mg Diclofenac Sodium per tablet",
+    "purpose_en": "NSAID for pain, inflammation, and fever. Used for arthritis, sprains, and dysmenorrhea.",
+    "purpose_fil": "NSAID para sa sakit, pamamaga, at lagnat. Ginagamit para sa arthritis, sprain, at dysmenorrhea.",
+    "precautions_en": "Take with food or milk. Avoid if you have stomach ulcers or kidney problems. Cardiovascular risk with long-term use.",
+    "precautions_fil": "Inumin kasabay ng pagkain o gatas. Iwasan kung may ulcer o sakit sa bato.",
+    "frequency_hint": "50mg 2 to 3 times daily, or as directed by your doctor.",
+    "rxcui": "3355"
+  },
+
+  "4800016500005": {
+    "display_name": "Naproxen Sodium 550mg Tablet",
+    "dosage_hint": "550mg Naproxen Sodium per tablet",
+    "purpose_en": "NSAID for pain, arthritis, menstrual cramps, and fever. Longer-acting than ibuprofen.",
+    "purpose_fil": "NSAID para sa sakit, arthritis, menstrual cramps, at lagnat. Mas matagal ang epekto kaysa ibuprofen.",
+    "precautions_en": "Take with food. Avoid with other NSAIDs. Not for children under 12.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Iwasan kasabay ng ibang NSAIDs. Hindi para sa mga batang wala pang 12 taon.",
+    "frequency_hint": "550mg twice daily, or as prescribed.",
+    "rxcui": "7258"
+  },
+
+  "4800016510004": {
+    "display_name": "Glimepiride 2mg Tablet",
+    "dosage_hint": "2mg Glimepiride per tablet",
+    "purpose_en": "Oral antidiabetic (sulfonylurea) that stimulates insulin production in Type 2 diabetes.",
+    "purpose_fil": "Oral na gamot sa diyabetes na nagpapasigla ng produksyon ng insulin sa Type 2 diabetes.",
+    "precautions_en": "Take with breakfast. May cause low blood sugar (hypoglycemia). Monitor glucose regularly.",
+    "precautions_fil": "Inumin kasabay ng almusal. Maaaring magdulot ng mababang asukal sa dugo. Regular na subaybayan ang glucose.",
+    "frequency_hint": "2mg once daily with breakfast, or as prescribed.",
+    "rxcui": "25789"
+  },
+
+  "4800016520003": {
+    "display_name": "Gliclazide MR 60mg Tablet",
+    "dosage_hint": "60mg Gliclazide per modified-release tablet",
+    "purpose_en": "Modified-release antidiabetic for Type 2 diabetes. Controls blood sugar throughout the day.",
+    "purpose_fil": "Modified-release na gamot sa diyabetes para sa Type 2. Nagkokontrol ng asukal sa buong araw.",
+    "precautions_en": "Take with breakfast. Risk of hypoglycemia; carry glucose tablets. Monitor blood sugar regularly.",
+    "precautions_fil": "Inumin kasabay ng almusal. Panganib ng mababang asukal; magdala ng glucose tablets. Regular na subaybayan ang asukal sa dugo.",
+    "frequency_hint": "30mg to 120mg once daily with breakfast, or as prescribed.",
+    "rxcui": "4819"
+  },
+
+  "4800016530002": {
+    "display_name": "Clopidogrel 75mg Tablet",
+    "dosage_hint": "75mg Clopidogrel per tablet",
+    "purpose_en": "Antiplatelet agent to prevent blood clots in heart attack, stroke, and peripheral artery disease.",
+    "purpose_fil": "Para sa pag-iwas ng pamumuo ng dugo sa atake sa puso, stroke, at peripheral artery disease.",
+    "precautions_en": "Tell all doctors and dentists you take this drug before any procedures. May increase bleeding risk. Do not stop without asking your doctor.",
+    "precautions_fil": "Sabihin sa lahat ng doktor at dentista na iniinom mo ito bago ang anumang prosedyur. Maaaring dagdagan ang panganib ng pagdurugo.",
+    "frequency_hint": "75mg once daily, or as prescribed by your doctor.",
+    "rxcui": "32968"
+  },
+
+  "4800016540001": {
+    "display_name": "Hydrochlorothiazide 25mg Tablet",
+    "dosage_hint": "25mg Hydrochlorothiazide per tablet",
+    "purpose_en": "Diuretic (water pill) for hypertension and edema. Reduces fluid retention.",
+    "purpose_fil": "Diuretic para sa mataas na presyon at pamamaga dahil sa labis na tubig.",
+    "precautions_en": "May cause low potassium and frequent urination. Take in the morning to avoid nighttime urination.",
+    "precautions_fil": "Maaaring magbaba ng potassium at magdulot ng madalas na pag-ihi. Inumin sa umaga para maiwasan ang gabi na pag-ihi.",
+    "frequency_hint": "25mg once daily in the morning, or as prescribed.",
+    "rxcui": "5487"
+  },
+
+  "4800016550000": {
+    "display_name": "Furosemide 40mg Tablet",
+    "dosage_hint": "40mg Furosemide per tablet",
+    "purpose_en": "Loop diuretic for edema due to heart failure, kidney disease, or liver disease.",
+    "purpose_fil": "Loop diuretic para sa pamamaga dahil sa heart failure, sakit sa bato, o sakit sa atay.",
+    "precautions_en": "Take with food. May cause low potassium, sodium, and dehydration. Monitor electrolytes.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Maaaring magbaba ng potassium at sodium. Subaybayan ang mga elektrolito.",
+    "frequency_hint": "As prescribed by your doctor, usually once or twice daily.",
+    "rxcui": "4603"
+  },
+
+  "4800016560009": {
+    "display_name": "Carvedilol 6.25mg Tablet",
+    "dosage_hint": "6.25mg Carvedilol per tablet",
+    "purpose_en": "Beta-blocker for heart failure, hypertension, and after heart attack.",
+    "purpose_fil": "Beta-blocker para sa heart failure, mataas na presyon, at pagkatapos ng atake sa puso.",
+    "precautions_en": "Do not stop suddenly. May cause dizziness, especially on standing. Monitor heart rate and blood pressure.",
+    "precautions_fil": "Huwag biglang itigil. Maaaring magdulot ng hilo, lalo na sa pag-alalay. Subaybayan ang tibok ng puso at presyon ng dugo.",
+    "frequency_hint": "Starting dose 6.25mg twice daily, titrated up as tolerated.",
+    "rxcui": "20352"
+  },
+
+  "4800016570008": {
+    "display_name": "Lisinopril 10mg Tablet",
+    "dosage_hint": "10mg Lisinopril per tablet",
+    "purpose_en": "ACE inhibitor for hypertension, heart failure, and kidney protection in diabetes.",
+    "purpose_fil": "ACE inhibitor para sa mataas na presyon, heart failure, at proteksyon ng bato sa diyabetes.",
+    "precautions_en": "May cause dry cough. Do NOT take if pregnant. Monitor potassium levels. Report swelling of face/throat immediately.",
+    "precautions_fil": "Maaaring magdulot ng tuyong ubo. HUWAG uminom kung buntis. Subaybayan ang potassium. I-report ang pamamaga ng mukha/lalamunan.",
+    "frequency_hint": "10mg once daily, or as prescribed.",
+    "rxcui": "29046"
+  },
+
+  "4800016580007": {
+    "display_name": "Simvastatin 20mg Tablet",
+    "dosage_hint": "20mg Simvastatin per tablet",
+    "purpose_en": "Statin for reducing cholesterol and risk of heart disease and stroke.",
+    "purpose_fil": "Para sa pagbabawas ng cholesterol at panganib ng sakit sa puso at stroke.",
+    "precautions_en": "Take at bedtime. Avoid large amounts of grapefruit juice. Report muscle pain immediately.",
+    "precautions_fil": "Inumin bago matulog. Iwasan ang mataas na dosis ng grapefruit juice. I-report agad ang pananakit ng kalamnan.",
+    "frequency_hint": "Once daily at bedtime.",
+    "rxcui": "36567"
+  },
+
+  "4800016590006": {
+    "display_name": "Rosuvastatin 10mg Tablet",
+    "dosage_hint": "10mg Rosuvastatin per tablet",
+    "purpose_en": "High-potency statin for lowering LDL cholesterol and preventing cardiovascular events.",
+    "purpose_fil": "Mataas na potency na statin para sa pagbababa ng LDL cholesterol at pag-iwas ng cardiovascular events.",
+    "precautions_en": "Report muscle pain or weakness immediately. Not for pregnant or breastfeeding women. Monitor liver function.",
+    "precautions_fil": "I-report agad ang pananakit o panghihina ng kalamnan. Hindi para sa mga buntis o nagpapasuso. Subaybayan ang liver function.",
+    "frequency_hint": "Once daily at any time of day, with or without food.",
+    "rxcui": "301542"
+  },
+
+  "4800016870007": {
+    "display_name": "Pantoprazole 40mg Tablet",
+    "dosage_hint": "40mg Pantoprazole per delayed-release tablet",
+    "purpose_en": "Proton pump inhibitor for GERD, acid reflux, and stomach ulcers.",
+    "purpose_fil": "Proton pump inhibitor para sa GERD, acid reflux, at ulcer sa sikmura.",
+    "precautions_en": "Swallow whole, do not crush or chew. Take 30 to 60 minutes before meals.",
+    "precautions_fil": "Lunukin nang buo, huwag durugin o nguyain. Inumin 30 hanggang 60 minuto bago kumain.",
+    "frequency_hint": "Once daily before breakfast, or as directed.",
+    "rxcui": "40790"
+  },
+
+  "4800016880006": {
+    "display_name": "Ranitidine 150mg Tablet",
+    "dosage_hint": "150mg Ranitidine per tablet",
+    "purpose_en": "H2 blocker for acid reflux, heartburn, and peptic ulcer treatment.",
+    "purpose_fil": "H2 blocker para sa acid reflux, heartburn, at paggamot ng peptic ulcer.",
+    "precautions_en": "NOTE: Some ranitidine products have been recalled due to NDMA contamination. Consult your doctor for alternatives.",
+    "precautions_fil": "PAALALA: Ang ilang ranitidine products ay na-recall dahil sa NDMA contamination. Kumonsulta sa doktor para sa alternatibo.",
+    "frequency_hint": "150mg twice daily or 300mg once daily at bedtime, or as prescribed.",
+    "rxcui": "9143"
+  },
+
+  "4800016600155": {
+    "display_name": "Vitamin C (Ascorbic Acid) 500mg Tablet",
+    "dosage_hint": "500mg Ascorbic Acid per tablet",
+    "purpose_en": "Vitamin C supplement for immune health, antioxidant protection, and collagen synthesis.",
+    "purpose_fil": "Supplement na Vitamin C para sa immune system, proteksyon ng antioxidant, at synthesis ng collagen.",
+    "precautions_en": "High doses (above 2000mg daily) may cause diarrhea. Consult a doctor if you have kidney stones.",
+    "precautions_fil": "Ang mataas na dosis (higit sa 2000mg bawat araw) ay maaaring magdulot ng pagtatae. Kumonsulta sa doktor kung may bato sa bato.",
+    "frequency_hint": "500mg once or twice daily.",
+    "rxcui": "25255"
+  },
+  "4800016600162": {
+    "display_name": "Vitamin C (Ascorbic Acid) 1000mg Tablet",
+    "dosage_hint": "1000mg Ascorbic Acid per tablet",
+    "purpose_en": "High-dose Vitamin C for immune support and antioxidant protection.",
+    "purpose_fil": "Mataas na dosis ng Vitamin C para sa immune support at proteksyon ng antioxidant.",
+    "precautions_en": "Do not exceed 2000mg per day. May cause kidney stones in predisposed individuals.",
+    "precautions_fil": "Huwag lumampas sa 2000mg bawat araw. Maaaring magdulot ng bato sa bato sa ilang tao.",
+    "frequency_hint": "1000mg once daily.",
+    "rxcui": "25255"
+  },
+
+  "4800016610006": {
+    "display_name": "Zinc Sulfate 20mg Tablet",
+    "dosage_hint": "20mg elemental Zinc per tablet",
+    "purpose_en": "Zinc supplement for immune function, wound healing, and treatment of zinc deficiency.",
+    "purpose_fil": "Zinc supplement para sa immune system, pagpapagaling ng sugat, at paggamot ng kakulangan ng zinc.",
+    "precautions_en": "Take with food to reduce nausea. Do not take with certain antibiotics simultaneously.",
+    "precautions_fil": "Inumin kasabay ng pagkain para maiwasan ang pagduduwal. Huwag inumin kasabay ng ilang antibiotics.",
+    "frequency_hint": "Once daily with food, or as directed.",
+    "rxcui": ""
+  },
+
+  "4800016620049": {
+    "display_name": "Iron + Folic Acid Tablet",
+    "dosage_hint": "60mg Elemental Iron + 400mcg Folic Acid per tablet",
+    "purpose_en": "Iron and folic acid supplement for pregnant women and those with iron-deficiency anemia.",
+    "purpose_fil": "Supplement na iron at folic acid para sa mga buntis at sa mga may iron-deficiency anemia.",
+    "precautions_en": "May cause constipation and dark stools. Take on an empty stomach or with Vitamin C for better absorption.",
+    "precautions_fil": "Maaaring magdulot ng constipation at itim na dumi. Inumin sa walang laman ang sikmura o kasabay ng Vitamin C para mas mahusay na absorb.",
+    "frequency_hint": "Once daily, or as prescribed by your doctor.",
+    "rxcui": ""
+  },
+
+  "4800016630005": {
+    "display_name": "Calcium Carbonate 500mg Tablet",
+    "dosage_hint": "500mg Calcium Carbonate per tablet (200mg elemental calcium)",
+    "purpose_en": "Calcium supplement for bone health and prevention of osteoporosis.",
+    "purpose_fil": "Supplement na calcium para sa kalusugan ng buto at pag-iwas sa osteoporosis.",
+    "precautions_en": "Take with food for better absorption. Do not exceed 2500mg calcium per day.",
+    "precautions_fil": "Inumin kasabay ng pagkain para mas mahusay na absorb. Huwag lumampas sa 2500mg calcium bawat araw.",
+    "frequency_hint": "500mg to 1000mg daily in divided doses with meals.",
+    "rxcui": ""
+  },
+
+  "4800016640004": {
+    "display_name": "Fern-C (Non-Acidic Vitamin C) 568mg Capsule",
+    "dosage_hint": "568mg Sodium Ascorbate (equivalent to 500mg Vitamin C) per capsule",
+    "purpose_en": "Non-acidic form of Vitamin C, gentler on the stomach. For immune health and antioxidant protection.",
+    "purpose_fil": "Hindi acidic na anyo ng Vitamin C, mas malambot sa sikmura. Para sa immune system at antioxidant protection.",
+    "precautions_en": "Generally well-tolerated. Consult a doctor if you have kidney disease.",
+    "precautions_fil": "Karaniwang hindi nagdudulot ng problema. Kumonsulta sa doktor kung may sakit sa bato.",
+    "frequency_hint": "1 to 2 capsules daily, or as directed.",
+    "rxcui": ""
+  },
+
+  "4807388100010": {
+    "display_name": "Domperidone 10mg Tablet",
+    "dosage_hint": "10mg Domperidone per tablet",
+    "purpose_en": "Antiemetic for nausea and vomiting. Also used for delayed gastric emptying.",
+    "purpose_fil": "Para sa pagduduwal at pagsusuka. Ginagamit din para sa mabagal na paglabas ng pagkain mula sa sikmura.",
+    "precautions_en": "Do not use for more than 7 days without medical advice. Risk of cardiac arrhythmia at high doses.",
+    "precautions_fil": "Huwag gamitin ng mahigit 7 araw nang walang payo ng doktor. Panganib ng cardiac arrhythmia sa mataas na dosis.",
+    "frequency_hint": "10mg 3 times daily, 15 to 30 minutes before meals.",
+    "rxcui": "3489"
+  },
+  "4807388100027": {
+    "display_name": "Metoclopramide 10mg Tablet",
+    "dosage_hint": "10mg Metoclopramide per tablet",
+    "purpose_en": "Antiemetic and gastroprokinetic for nausea, vomiting, and GERD.",
+    "purpose_fil": "Para sa pagduduwal, pagsusuka, at GERD.",
+    "precautions_en": "Long-term use may cause tardive dyskinesia. Do not use in patients with GI obstruction.",
+    "precautions_fil": "Ang matagalang paggamit ay maaaring magdulot ng tardive dyskinesia. Huwag gamitin kung may halong GI tract.",
+    "frequency_hint": "10mg 3 times daily before meals, or as prescribed.",
+    "rxcui": "6846"
+  },
+
+  "4807388110019": {
+    "display_name": "Hyoscine Butylbromide (Buscopan) 10mg Tablet",
+    "dosage_hint": "10mg Hyoscine Butylbromide per tablet",
+    "purpose_en": "Antispasmodic for abdominal cramps and pain due to irritable bowel syndrome and other GI spasms.",
+    "purpose_fil": "Para sa pananakit at pag-ikot ng tiyan dahil sa irritable bowel syndrome at iba pang spasm ng GI.",
+    "precautions_en": "May cause dry mouth, blurred vision, and difficulty urinating. Avoid in glaucoma.",
+    "precautions_fil": "Maaaring magdulot ng tuyong bibig, malabong paningin, at hirap sa pag-ihi. Iwasan kung may glaucoma.",
+    "frequency_hint": "10mg to 20mg 3 to 4 times daily, or as prescribed.",
+    "rxcui": "51484"
+  },
+
+  "4807388120018": {
+    "display_name": "Maalox (Aluminum Hydroxide + Magnesium Hydroxide) Suspension",
+    "dosage_hint": "Aluminum Hydroxide 225mg + Magnesium Hydroxide 200mg per 5mL",
+    "purpose_en": "Antacid suspension for fast relief of heartburn, acid indigestion, and stomach upset.",
+    "purpose_fil": "Antacid suspension para sa mabilis na pampawala ng heartburn, acid indigestion, at sakit ng sikmura.",
+    "precautions_en": "Shake well before use. Do not use if kidney problems. Separate from other medications by 2 hours.",
+    "precautions_fil": "Iyanig bago gamitin. Huwag gamitin kung may sakit sa bato. Paghiwalayin ng 2 oras mula sa ibang gamot.",
+    "frequency_hint": "10mL to 20mL 4 times daily, 20 minutes to 1 hour after meals and at bedtime.",
+    "rxcui": ""
+  },
+
+  "4806516000011": {
+    "display_name": "Bactidol Mouthwash (Hexetidine)",
+    "dosage_hint": "0.1% Hexetidine solution",
+    "purpose_en": "Antiseptic mouthwash for sore throat, mouth infections, and oral hygiene.",
+    "purpose_fil": "Antiseptic mouthwash para sa masakit na lalamunan, impeksyon sa bibig, at oral hygiene.",
+    "precautions_en": "Do not swallow. Not for children under 6. Do not use more than 3 times daily.",
+    "precautions_fil": "Huwag lunukin. Hindi para sa mga batang wala pang 6 taon. Huwag gamitin ng higit sa 3 beses bawat araw.",
+    "frequency_hint": "Gargle 15mL undiluted for 30 seconds, 2 to 3 times daily.",
+    "rxcui": ""
+  },
+
+  "4800016700008": {
+    "display_name": "Povidone-Iodine (Betadine) 10% Solution 30mL",
+    "dosage_hint": "10% Povidone-Iodine topical solution",
+    "purpose_en": "Antiseptic for minor wounds, cuts, and skin infections.",
+    "purpose_fil": "Antiseptic para sa maliit na sugat, gasgas, at impeksyon ng balat.",
+    "precautions_en": "For external use only. Avoid contact with eyes. Do not use on deep wounds without medical advice.",
+    "precautions_fil": "Para sa panlabas na paggamit lamang. Iwasan ang contact sa mata. Huwag gamitin sa malalim na sugat nang walang payo ng doktor.",
+    "frequency_hint": "Apply to affected area 1 to 3 times daily, or as directed.",
+    "rxcui": ""
+  },
+
+  "4800016710007": {
+    "display_name": "Clotrimazole (Canesten) 1% Cream",
+    "dosage_hint": "1% Clotrimazole topical cream",
+    "purpose_en": "Antifungal cream for athlete's foot, ringworm, jock itch, and other fungal skin infections.",
+    "purpose_fil": "Antifungal cream para sa athlete's foot, buni, at iba pang impeksyon ng balat na dulot ng fungi.",
+    "precautions_en": "For external use only. Apply to clean, dry skin. Avoid eyes and mucous membranes.",
+    "precautions_fil": "Para sa panlabas na paggamit lamang. Lagyan ng malinis at tuyong balat. Iwasan ang mata at mucous membranes.",
+    "frequency_hint": "Apply twice daily for 2 to 4 weeks, or until cleared.",
+    "rxcui": "2592"
+  },
+
+  "4800016720006": {
+    "display_name": "Mupirocin (Bactroban) 2% Ointment",
+    "dosage_hint": "2% Mupirocin per gram ointment",
+    "purpose_en": "Topical antibiotic for impetigo and other bacterial skin infections.",
+    "purpose_fil": "Topical antibiotic para sa impetigo at iba pang impeksyon ng balat na dulot ng bacteria.",
+    "precautions_en": "For external use only. Avoid eyes. Contact your doctor if no improvement after 5 days.",
+    "precautions_fil": "Para sa panlabas na paggamit lamang. Iwasan ang mata. Makipag-ugnayan sa doktor kung walang pagbabago pagkatapos ng 5 araw.",
+    "frequency_hint": "Apply to affected area 3 times daily for 5 to 10 days.",
+    "rxcui": "41493"
+  },
+
+  "4800016730005": {
+    "display_name": "Hydrocortisone 1% Cream",
+    "dosage_hint": "1% Hydrocortisone per gram cream",
+    "purpose_en": "Mild topical corticosteroid for eczema, allergic skin reactions, and insect bites.",
+    "purpose_fil": "Banayad na topical corticosteroid para sa eczema, allergic na reaksyon sa balat, at kagat ng insekto.",
+    "precautions_en": "Do not use on infected skin. Avoid face and groin unless prescribed. Do not use for more than 7 days without medical advice.",
+    "precautions_fil": "Huwag gamitin sa may impeksyong balat. Iwasan ang mukha at singit maliban kung iniutos. Huwag gamitin ng mahigit 7 araw nang walang payo ng doktor.",
+    "frequency_hint": "Apply thinly to affected area 2 to 3 times daily.",
+    "rxcui": ""
+  },
+
+  "4800016740004": {
+    "display_name": "Diphenhydramine (Benadryl) 25mg Capsule",
+    "dosage_hint": "25mg Diphenhydramine HCl per capsule",
+    "purpose_en": "Antihistamine for allergic reactions, hives, itching, and as a sleep aid.",
+    "purpose_fil": "Antihistamine para sa allergic reaction, pantal, pangangati, at bilang pampatulog.",
+    "precautions_en": "Causes significant drowsiness. Do not drive or operate machinery. Do not use with alcohol.",
+    "precautions_fil": "Nagdudulot ng malakas na antok. Huwag magmaneho o gumamit ng makinarya. Huwag gamitin kasabay ng alak.",
+    "frequency_hint": "25mg to 50mg every 4 to 6 hours as needed, or as directed.",
+    "rxcui": "3498"
+  },
+
+  "4800016750003": {
+    "display_name": "Dextromethorphan (Romilar) 15mg Tablet",
+    "dosage_hint": "15mg Dextromethorphan HBr per tablet",
+    "purpose_en": "Cough suppressant (antitussive) for dry, non-productive cough.",
+    "purpose_fil": "Gamot para sa tuyong ubo na walang plema (antitussive).",
+    "precautions_en": "Do not use if you have or recently used MAO inhibitors. Not for children under 6.",
+    "precautions_fil": "Huwag gamitin kung gumagamit o kakatupos ng MAO inhibitors. Hindi para sa mga batang wala pang 6 taon.",
+    "frequency_hint": "15mg to 30mg every 6 to 8 hours, or as directed.",
+    "rxcui": "3337"
+  },
+
+  "4800016760002": {
+    "display_name": "Guaifenesin 200mg Tablet",
+    "dosage_hint": "200mg Guaifenesin per tablet",
+    "purpose_en": "Expectorant for productive cough. Helps thin and loosen mucus in airways.",
+    "purpose_fil": "Expectorant para sa ubo na may plema. Nagpapalabnaw at nagpapaluwag ng plema sa daanan ng hangin.",
+    "precautions_en": "Drink plenty of water. Do not use if cough is accompanied by high fever.",
+    "precautions_fil": "Uminom ng maraming tubig. Huwag gamitin kung may mataas na lagnat ang ubo.",
+    "frequency_hint": "200mg to 400mg every 4 hours, or as directed.",
+    "rxcui": "4764"
+  },
+
+  "4800016770001": {
+    "display_name": "Ambroxol 30mg Tablet",
+    "dosage_hint": "30mg Ambroxol HCl per tablet",
+    "purpose_en": "Mucolytic and expectorant for respiratory conditions with excessive mucus.",
+    "purpose_fil": "Mucolytic at expectorant para sa mga kondisyon ng respiratory na may sobrang plema.",
+    "precautions_en": "Drink adequate fluids. Consult a doctor if symptoms worsen.",
+    "precautions_fil": "Uminom ng sapat na tubig. Kumonsulta sa doktor kung lumala ang sintomas.",
+    "frequency_hint": "30mg 3 times daily, or as directed by your doctor.",
+    "rxcui": "596579"
+  },
+
+  "4800016780000": {
+    "display_name": "Prednisone 5mg Tablet",
+    "dosage_hint": "5mg Prednisone per tablet",
+    "purpose_en": "Oral corticosteroid for inflammatory conditions, allergies, and autoimmune diseases.",
+    "purpose_fil": "Oral corticosteroid para sa mga kondisyong may pamamaga, allergy, at autoimmune na sakit.",
+    "precautions_en": "Do not stop suddenly after long-term use (taper dose). May cause increased blood sugar, bone loss, and immune suppression.",
+    "precautions_fil": "Huwag biglang itigil pagkatapos ng matagalang paggamit (unti-unting bawasan ang dosis). Maaaring dagdagan ang asukal sa dugo at humina ang immune system.",
+    "frequency_hint": "As prescribed by your doctor. Never self-medicate with corticosteroids.",
+    "rxcui": "8640"
+  },
+
+  "4800016790009": {
+    "display_name": "Levocetirizine 5mg Tablet",
+    "dosage_hint": "5mg Levocetirizine Dihydrochloride per tablet",
+    "purpose_en": "Second-generation antihistamine for allergic rhinitis and chronic urticaria with less sedation.",
+    "purpose_fil": "Second-generation antihistamine para sa allergic rhinitis at chronic urticaria na may kakaunting antok.",
+    "precautions_en": "May cause mild drowsiness. Avoid alcohol. Use caution when driving.",
+    "precautions_fil": "Maaaring magdulot ng banayad na antok. Iwasan ang alak. Mag-ingat sa pagmamaneho.",
+    "frequency_hint": "5mg once daily in the evening.",
+    "rxcui": "668313"
+  },
+
+  "4800016800005": {
+    "display_name": "Montelukast 10mg Tablet",
+    "dosage_hint": "10mg Montelukast Sodium per tablet",
+    "purpose_en": "Leukotriene receptor antagonist for asthma prevention and allergic rhinitis.",
+    "purpose_fil": "Para sa pag-iwas ng hika at allergic rhinitis.",
+    "precautions_en": "Take at bedtime for asthma. May cause neuropsychiatric events in rare cases; monitor for behavioral changes.",
+    "precautions_fil": "Inumin bago matulog para sa hika. Maaaring magdulot ng neuropsychiatric events sa ilang kaso; subaybayan ang pagbabago sa ugali.",
+    "frequency_hint": "10mg once daily at bedtime.",
+    "rxcui": "203165"
+  },
+
+  "4800016810004": {
+    "display_name": "Metronidazole 500mg Tablet",
+    "dosage_hint": "500mg Metronidazole per tablet",
+    "purpose_en": "Antibiotic and antiprotozoal for anaerobic bacterial infections, amoebiasis, and giardiasis.",
+    "purpose_fil": "Antibiotic at antiprotozoal para sa anaerobic bacterial infections, amoebiasis, at giardiasis.",
+    "precautions_en": "Do NOT drink alcohol during treatment and 48 hours after. May cause metallic taste in mouth.",
+    "precautions_fil": "HUWAG uminom ng alak habang gumagamot at 48 oras pagkatapos. Maaaring magdulot ng metallic na lasa sa bibig.",
+    "frequency_hint": "500mg 3 times daily for 7 days, or as prescribed.",
+    "rxcui": "6922"
+  },
+
+  "4800016820003": {
+    "display_name": "Cotrimoxazole (Trimethoprim + Sulfamethoxazole) 480mg Tablet",
+    "dosage_hint": "80mg Trimethoprim + 400mg Sulfamethoxazole per tablet",
+    "purpose_en": "Antibiotic combination for urinary tract infections, traveler's diarrhea, and respiratory infections.",
+    "purpose_fil": "Kombinasyon ng antibiotic para sa impeksyon ng ihi, traveler's diarrhea, at respiratory infections.",
+    "precautions_en": "Drink plenty of water. Avoid sun exposure. Not for patients with sulfa allergy.",
+    "precautions_fil": "Uminom ng maraming tubig. Iwasan ang araw. Hindi para sa mga may allergy sa sulfa.",
+    "frequency_hint": "2 tablets (960mg) twice daily, or as prescribed.",
+    "rxcui": "10829"
+  },
+
+  "4800016830002": {
+    "display_name": "Aluminum Hydroxide + Magnesium Carbonate (Antacid) Tablet",
+    "dosage_hint": "Aluminum Hydroxide + Magnesium Carbonate per chewable tablet",
+    "purpose_en": "Antacid for relief of heartburn, sour stomach, and acid indigestion.",
+    "purpose_fil": "Antacid para sa pampawala ng heartburn, maasim na sikmura, at acid indigestion.",
+    "precautions_en": "Chew thoroughly before swallowing. Separate from other medications by at least 2 hours.",
+    "precautions_fil": "Nguyain nang mabuti bago lunukin. Paghiwalayin ng hindi bababa sa 2 oras mula sa ibang gamot.",
+    "frequency_hint": "1 to 2 tablets after meals and at bedtime as needed.",
+    "rxcui": ""
+  },
+
+  "4800016840001": {
+    "display_name": "Isosorbide Mononitrate 30mg Tablet",
+    "dosage_hint": "30mg Isosorbide Mononitrate per extended-release tablet",
+    "purpose_en": "Nitrate for prevention of angina (chest pain) in coronary artery disease.",
+    "purpose_fil": "Para sa pag-iwas ng angina (sakit ng dibdib) sa coronary artery disease.",
+    "precautions_en": "May cause headache (usually temporary). Do not use with phosphodiesterase inhibitors (Viagra, Cialis). Allow nitrate-free interval.",
+    "precautions_fil": "Maaaring magdulot ng sakit ng ulo (karaniwang pansamantala). Huwag gamitin kasabay ng Viagra o Cialis.",
+    "frequency_hint": "30mg once daily in the morning, or as prescribed.",
+    "rxcui": "50625"
+  },
+
+  "4800016850000": {
+    "display_name": "Lagundi (Vitex negundo) 600mg Capsule",
+    "dosage_hint": "600mg Vitex negundo extract per capsule",
+    "purpose_en": "FDA-approved Philippine herbal medicine for cough, asthma, and fever.",
+    "purpose_fil": "Aprubado ng FDA Philippines na halamang gamot para sa ubo, hika, at lagnat.",
+    "precautions_en": "Consult a doctor if symptoms persist after 7 days. Not recommended for children under 7 years.",
+    "precautions_fil": "Kumonsulta sa doktor kung hindi bumuti ang kondisyon pagkatapos ng 7 araw. Hindi inirerekomenda para sa mga batang wala pang 7 taon.",
+    "frequency_hint": "1 capsule 3 times daily, or as directed.",
+    "rxcui": ""
+  },
+
+  "4800016860009": {
+    "display_name": "Amlodipine + Losartan Combination Tablet",
+    "dosage_hint": "5mg Amlodipine + 50mg Losartan per tablet",
+    "purpose_en": "Fixed-dose combination antihypertensive for blood pressure control.",
+    "purpose_fil": "Fixed-dose combination ng antihypertensive para sa kontrol ng presyon ng dugo.",
+    "precautions_en": "Do NOT take if pregnant. Monitor blood pressure and kidney function. Contains both amlodipine and losartan risks.",
+    "precautions_fil": "HUWAG uminom kung buntis. Subaybayan ang presyon ng dugo at kidney function.",
+    "frequency_hint": "Once daily, or as prescribed by your doctor.",
+    "rxcui": ""
+  },
+
+  "4807788562012": {
+    "display_name": "Diatabs Plus (Loperamide + Simethicone)",
+    "dosage_hint": "Loperamide 2mg + Simethicone 125mg per tablet",
+    "purpose_en": "Antidiarrheal with gas relief for diarrhea accompanied by bloating and abdominal cramps.",
+    "purpose_fil": "Antidiarrheal na may gas relief para sa pagtatae na may kasamang pamamaga ng tiyan at kirot.",
+    "precautions_en": "Do not use if you have bloody diarrhea or fever. Not for children under 12.",
+    "precautions_fil": "Huwag gamitin kung may dugo sa pagtatae o lagnat. Hindi para sa mga batang wala pang 12 taon.",
+    "frequency_hint": "Initially 2 tablets, then 1 tablet after each loose stool. Max 4 tablets per day.",
+    "rxcui": ""
+  },
+
+  "4807788562029": {
+    "display_name": "Tempra (Paracetamol) Syrup for Kids",
+    "dosage_hint": "160mg Paracetamol per 5mL syrup",
+    "purpose_en": "Children's fever and pain reliever syrup. Safe for infants and young children when dosed correctly.",
+    "purpose_fil": "Syrup para sa lagnat at sakit ng mga bata. Ligtas para sa mga sanggol at batang bata kung tamang dininosyo.",
+    "precautions_en": "Dose by weight. Do not give more than 5 doses in 24 hours. Do not use with other paracetamol products.",
+    "precautions_fil": "Dosyo ayon sa timbang. Huwag bigyan ng higit sa 5 beses sa loob ng 24 oras. Huwag gamitin kasabay ng ibang produktong may paracetamol.",
+    "frequency_hint": "Every 4 to 6 hours as needed, based on child's weight. Follow label dosing chart.",
+    "rxcui": "202433"
+  },
+
+  "4807788562036": {
+    "display_name": "Rexidol Forte (Paracetamol) 500mg",
+    "dosage_hint": "500mg Paracetamol per tablet",
+    "purpose_en": "Pain reliever and fever reducer. For headache, toothache, body aches, and fever.",
+    "purpose_fil": "Pampawala ng sakit at lagnat. Para sa sakit ng ulo, ngipin, katawan, at lagnat.",
+    "precautions_en": "Do not exceed 4000mg in 24 hours. Do not take with other paracetamol medicines.",
+    "precautions_fil": "Huwag lumampas sa 4000mg sa loob ng 24 oras. Huwag inumin kasabay ng ibang gamot na may paracetamol.",
+    "frequency_hint": "1 to 2 tablets every 4 to 6 hours as needed.",
+    "rxcui": "202433"
+  },
+
+  "4807788562050": {
+    "display_name": "Calpol (Paracetamol) 120mg/5mL Syrup",
+    "dosage_hint": "120mg Paracetamol per 5mL syrup",
+    "purpose_en": "Children's paracetamol syrup for fever and mild to moderate pain.",
+    "purpose_fil": "Syrup na paracetamol para sa mga bata para sa lagnat at banayad hanggang katamtamang sakit.",
+    "precautions_en": "Do not exceed 4 doses in 24 hours. Do not use with other paracetamol products. Shake before use.",
+    "precautions_fil": "Huwag lumampas sa 4 na dosis sa loob ng 24 oras. Huwag gamitin kasabay ng ibang produktong paracetamol. Iyanig bago gamitin.",
+    "frequency_hint": "Dose by age and weight every 4 to 6 hours as needed. See label for dosing chart.",
+    "rxcui": "202433"
+  },
+
+  "4800016120009": {
+    "display_name": "Revicon Forte (Multivitamins)",
+    "dosage_hint": "B-complex vitamins + Vitamin C + Iron + Trace elements per capsule",
+    "purpose_en": "Multivitamin supplement for energy, immunity, and nutritional support.",
+    "purpose_fil": "Supplement ng multivitamin para sa enerhiya, resistensya, at suporta sa nutrisyon.",
+    "precautions_en": "Take once daily. Iron content may cause dark stools.",
+    "precautions_fil": "Inumin isang beses bawat araw. Ang iron ay maaaring magpaitim ng dumi.",
+    "frequency_hint": "1 capsule once daily with a meal.",
+    "rxcui": ""
+  },
+
+  "4800016130008": {
+    "display_name": "Centrum (Complete Multivitamins + Minerals)",
+    "dosage_hint": "Complete multivitamin and mineral formula per tablet",
+    "purpose_en": "Complete daily multivitamin for adults. Fills nutritional gaps in the diet.",
+    "purpose_fil": "Kumpletong araw-araw na multivitamin para sa mga matatanda. Pumapalya ng mga nutritional na kakulangan sa diyeta.",
+    "precautions_en": "Do not exceed recommended dose. Consult a doctor if you have a medical condition.",
+    "precautions_fil": "Huwag lumampas sa inirekomendang dosis. Kumonsulta sa doktor kung may kondisyong medikal.",
+    "frequency_hint": "1 tablet once daily with food.",
+    "rxcui": ""
+  },
+
+  "4800016140007": {
+    "display_name": "Scott's Emulsion (Cod Liver Oil + Vitamin D + Calcium)",
+    "dosage_hint": "Cod Liver Oil with Vitamins A and D per 5mL",
+    "purpose_en": "Nutritional supplement providing Vitamins A and D for bone health, vision, and immune function.",
+    "purpose_fil": "Supplement ng nutrisyon na nagbibigay ng Vitamins A at D para sa kalusugan ng buto, paningin, at immune system.",
+    "precautions_en": "Do not exceed recommended dose. Vitamin A and D can accumulate to toxic levels.",
+    "precautions_fil": "Huwag lumampas sa inirekomendang dosis. Ang Vitamin A at D ay maaaring maakumula sa nakalason na antas.",
+    "frequency_hint": "Adults: 15mL twice daily. Children: as directed on label.",
+    "rxcui": ""
+  },
+
+  "4800016150006": {
+    "display_name": "Dolfenal (Mefenamic Acid) 500mg",
+    "dosage_hint": "500mg Mefenamic Acid per capsule",
+    "purpose_en": "NSAID for mild to moderate pain relief including dysmenorrhea, dental pain, and headache.",
+    "purpose_fil": "NSAID para sa banayad hanggang katamtamang sakit kabilang ang dysmenorrhea, sakit ng ngipin, at sakit ng ulo.",
+    "precautions_en": "Take with food. Do not use for more than 7 days. Avoid if allergic to NSAIDs.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Huwag gamitin ng higit sa 7 araw. Iwasan kung allergic sa NSAIDs.",
+    "frequency_hint": "1 capsule every 8 hours as needed.",
+    "rxcui": "6732"
+  },
+
+  "4800016160005": {
+    "display_name": "Gardan (Mefenamic Acid) 500mg",
+    "dosage_hint": "500mg Mefenamic Acid per tablet",
+    "purpose_en": "NSAID analgesic for short-term relief of pain and inflammation.",
+    "purpose_fil": "NSAID para sa panandaliang pampawala ng sakit at pamamaga.",
+    "precautions_en": "Take with food or milk. Not for long-term use. Avoid in kidney or liver disease.",
+    "precautions_fil": "Inumin kasabay ng pagkain o gatas. Hindi para sa matagalang paggamit. Iwasan sa sakit ng bato o atay.",
+    "frequency_hint": "500mg every 8 hours as needed, with food.",
+    "rxcui": "6732"
+  },
+
+  "4800016170004": {
+    "display_name": "Saridon (Paracetamol + Propyphenazone + Caffeine)",
+    "dosage_hint": "Paracetamol 250mg + Propyphenazone 150mg + Caffeine 50mg per tablet",
+    "purpose_en": "Combination analgesic for fast relief of headache, migraine, and dental pain.",
+    "purpose_fil": "Kombinasyon ng analgesic para sa mabilis na pampawala ng sakit ng ulo, migraine, at sakit ng ngipin.",
+    "precautions_en": "Not recommended for children under 12. Avoid excessive use due to caffeine content.",
+    "precautions_fil": "Hindi inirerekomenda para sa mga batang wala pang 12 taon. Iwasan ang labis na paggamit dahil sa caffeine.",
+    "frequency_hint": "1 to 2 tablets every 4 to 6 hours as needed. Max 6 tablets per day.",
+    "rxcui": ""
+  },
+
+  "4800016180003": {
+    "display_name": "Flanax (Naproxen Sodium) 275mg Tablet",
+    "dosage_hint": "275mg Naproxen Sodium per tablet",
+    "purpose_en": "NSAID for pain, fever, and inflammation including menstrual cramps.",
+    "purpose_fil": "NSAID para sa sakit, lagnat, at pamamaga kabilang ang menstrual cramps.",
+    "precautions_en": "Take with food. Avoid in stomach ulcers. Not recommended during last trimester of pregnancy.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Iwasan sa ulcer sa sikmura. Hindi inirerekomenda sa huling trimester ng pagbubuntis.",
+    "frequency_hint": "1 to 2 tablets every 8 to 12 hours as needed.",
+    "rxcui": "7258"
+  },
+
+  "4800016190002": {
+    "display_name": "Amoxicillin + Clavulanate (Co-Amoxiclav) 375mg Tablet",
+    "dosage_hint": "250mg Amoxicillin + 125mg Clavulanate per tablet",
+    "purpose_en": "Antibiotic combination for infections including middle ear infection, sinusitis, and skin infections.",
+    "purpose_fil": "Kombinasyon ng antibiotic para sa impeksyon kabilang ang gitnang tenga, sinusitis, at balat.",
+    "precautions_en": "Take with meals. Complete the full prescribed course. Inform doctor of penicillin allergy.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Tapusin ang buong kurso. Sabihin sa doktor ang allergy sa penicillin.",
+    "frequency_hint": "1 tablet 3 times daily (every 8 hours), or as prescribed.",
+    "rxcui": "723"
+  },
+
+  "4800016200008": {
+    "display_name": "Nifedipine 10mg Capsule",
+    "dosage_hint": "10mg Nifedipine per capsule",
+    "purpose_en": "Calcium channel blocker for hypertension and angina.",
+    "purpose_fil": "Calcium channel blocker para sa mataas na presyon ng dugo at angina.",
+    "precautions_en": "May cause flushing, headache, and edema. Do not crush extended-release forms. Avoid grapefruit.",
+    "precautions_fil": "Maaaring magdulot ng pamumula, sakit ng ulo, at pamamaga. Huwag durugin ang extended-release na anyo. Iwasan ang grapefruit.",
+    "frequency_hint": "10mg 3 times daily, or as prescribed.",
+    "rxcui": "7417"
+  },
+
+  "4800016210007": {
+    "display_name": "Valsartan 80mg Tablet",
+    "dosage_hint": "80mg Valsartan per tablet",
+    "purpose_en": "ARB antihypertensive for high blood pressure and heart failure.",
+    "purpose_fil": "ARB antihypertensive para sa mataas na presyon ng dugo at heart failure.",
+    "precautions_en": "Do NOT take if pregnant. Monitor blood pressure and kidney function. May cause dizziness.",
+    "precautions_fil": "HUWAG uminom kung buntis. Subaybayan ang presyon ng dugo at kidney function. Maaaring magdulot ng hilo.",
+    "frequency_hint": "80mg once daily, titrated to 160mg as tolerated.",
+    "rxcui": "69749"
+  },
+
+  "4800016220006": {
+    "display_name": "Insulin Glargine (Lantus) 100 units/mL",
+    "dosage_hint": "100 units/mL subcutaneous injection",
+    "purpose_en": "Long-acting basal insulin for Type 1 and Type 2 diabetes.",
+    "purpose_fil": "Long-acting na insulin para sa Type 1 at Type 2 na diyabetes.",
+    "precautions_en": "Do not dilute or mix with other insulins. Rotate injection sites. Monitor blood glucose regularly. Risk of hypoglycemia.",
+    "precautions_fil": "Huwag i-dilute o ihalo sa ibang insulin. Palitan ang lugar ng injection. Regular na subaybayan ang glucose. Panganib ng mababang asukal sa dugo.",
+    "frequency_hint": "Inject subcutaneously once daily at the same time each day, as prescribed.",
+    "rxcui": ""
+  },
+
+  "4800016230005": {
+    "display_name": "Allopurinol 300mg Tablet",
+    "dosage_hint": "300mg Allopurinol per tablet",
+    "purpose_en": "Xanthine oxidase inhibitor for gout and high uric acid levels.",
+    "purpose_fil": "Para sa gout at mataas na antas ng uric acid sa dugo.",
+    "precautions_en": "Drink plenty of water (2L+ daily). Do not use during acute gout attack. Stevens-Johnson syndrome risk — stop if rash occurs.",
+    "precautions_fil": "Uminom ng maraming tubig (2L+ bawat araw). Huwag gamitin sa panahon ng acute gout attack. Tigilan agad kung may rash.",
+    "frequency_hint": "300mg once daily, or as prescribed.",
+    "rxcui": "519"
+  },
+
+  "4800016240004": {
+    "display_name": "Colchicine 0.5mg Tablet",
+    "dosage_hint": "0.5mg Colchicine per tablet",
+    "purpose_en": "For treatment and prevention of acute gout attacks.",
+    "purpose_fil": "Para sa paggamot at pag-iwas ng acute gout attacks.",
+    "precautions_en": "Do not exceed maximum dose. May cause diarrhea, nausea, and vomiting. Use with caution in kidney/liver disease.",
+    "precautions_fil": "Huwag lumampas sa maximum na dosis. Maaaring magdulot ng pagtatae, pagduduwal, at pagsusuka.",
+    "frequency_hint": "0.5mg to 1mg initially, then 0.5mg every 2 to 3 hours until relief, or as prescribed.",
+    "rxcui": "41493"
+  },
+
+  "4800016250003": {
+    "display_name": "Propranolol 40mg Tablet",
+    "dosage_hint": "40mg Propranolol HCl per tablet",
+    "purpose_en": "Beta-blocker for hypertension, angina, irregular heart rhythm, and migraine prevention.",
+    "purpose_fil": "Beta-blocker para sa mataas na presyon, angina, hindi regular na tibok ng puso, at pag-iwas ng migraine.",
+    "precautions_en": "Do not stop suddenly — risk of rebound angina/heart attack. Avoid in asthma patients. Monitor pulse.",
+    "precautions_fil": "Huwag biglang itigil — panganib ng rebound angina/atake sa puso. Iwasan sa mga may hika. Subaybayan ang pulso.",
+    "frequency_hint": "40mg 2 to 3 times daily, or as prescribed.",
+    "rxcui": "8787"
+  },
+
+  "4800016260002": {
+    "display_name": "Dexamethasone 0.5mg Tablet",
+    "dosage_hint": "0.5mg Dexamethasone per tablet",
+    "purpose_en": "Corticosteroid for severe allergic reactions, inflammation, and autoimmune conditions.",
+    "purpose_fil": "Corticosteroid para sa matinding allergic reaction, pamamaga, at autoimmune na kondisyon.",
+    "precautions_en": "Use only as prescribed. Do not stop abruptly after long-term use. May raise blood sugar and blood pressure.",
+    "precautions_fil": "Gamitin lamang ayon sa reseta. Huwag biglang itigil pagkatapos ng matagalang paggamit. Maaaring magtaas ng asukal at presyon.",
+    "frequency_hint": "As prescribed by your doctor. Dosage varies greatly by condition.",
+    "rxcui": "3264"
+  },
+
+  "4800016270001": {
+    "display_name": "Tramadol 50mg Capsule",
+    "dosage_hint": "50mg Tramadol HCl per capsule",
+    "purpose_en": "Centrally-acting opioid analgesic for moderate to severe pain. Requires prescription.",
+    "purpose_fil": "Opioid analgesic para sa katamtaman hanggang matinding sakit. Kailangan ng reseta.",
+    "precautions_en": "Risk of dependence. Do not drive. Avoid alcohol. Do not use with other opioids, MAO inhibitors, or sedatives without medical supervision.",
+    "precautions_fil": "Panganib ng pagkagumon. Huwag magmaneho. Iwasan ang alak. Huwag gamitin kasabay ng ibang opioids o sedatives nang walang medikal na supervision.",
+    "frequency_hint": "50mg to 100mg every 4 to 6 hours as needed. Max 400mg daily.",
+    "rxcui": "10689"
+  },
+
+  "4800016280000": {
+    "display_name": "Diazepam 5mg Tablet",
+    "dosage_hint": "5mg Diazepam per tablet",
+    "purpose_en": "Benzodiazepine for anxiety, muscle spasm, seizure, and alcohol withdrawal. Controlled substance.",
+    "purpose_fil": "Benzodiazepine para sa pagkabalisa, spasm ng kalamnan, seizure, at alcohol withdrawal. Kinokontrol na sustansya.",
+    "precautions_en": "High potential for dependence. Do not drive or operate machinery. Avoid alcohol. Requires prescription.",
+    "precautions_fil": "Mataas na panganib ng pagkagumon. Huwag magmaneho o gumamit ng makinarya. Iwasan ang alak. Kailangan ng reseta.",
+    "frequency_hint": "As prescribed by your doctor only. Never self-medicate with benzodiazepines.",
+    "rxcui": "3322"
+  },
+
+  "4800016290009": {
+    "display_name": "Ascorbic Acid + Ferrous Sulfate (Sangobion) Capsule",
+    "dosage_hint": "Iron + Vitamin C + B Vitamins per capsule",
+    "purpose_en": "Iron and multivitamin supplement for iron-deficiency anemia.",
+    "purpose_fil": "Supplement na iron at multivitamin para sa iron-deficiency anemia.",
+    "precautions_en": "May cause dark stools and mild constipation. Take with food. Separate from antacids by 2 hours.",
+    "precautions_fil": "Maaaring magpaitim ng dumi at magdulot ng banayad na constipation. Inumin kasabay ng pagkain.",
+    "frequency_hint": "1 capsule once daily, or as prescribed.",
+    "rxcui": ""
+  },
+
+  "4800016300002": {
+    "display_name": "Vitamin B Complex Tablet",
+    "dosage_hint": "B1, B2, B3, B5, B6, B9, B12 combination per tablet",
+    "purpose_en": "B vitamin supplement for nerve health, energy metabolism, and nutritional support.",
+    "purpose_fil": "B vitamin supplement para sa kalusugan ng nerves, metabolismo ng enerhiya, at suporta sa nutrisyon.",
+    "precautions_en": "Generally well-tolerated. Urine may turn bright yellow due to riboflavin — this is normal.",
+    "precautions_fil": "Karaniwang hindi nagdudulot ng problema. Maaaring maging maliwanag na dilaw ang ihi dahil sa riboflavin — normal ito.",
+    "frequency_hint": "1 tablet once daily.",
+    "rxcui": ""
+  },
+
+  "4800016310001": {
+    "display_name": "Vitamin B12 (Methylcobalamin) 500mcg Tablet",
+    "dosage_hint": "500mcg Methylcobalamin per tablet",
+    "purpose_en": "Vitamin B12 supplement for nerve health, anemia, and B12 deficiency.",
+    "purpose_fil": "Supplement ng Vitamin B12 para sa kalusugan ng nerves, anemia, at kakulangan ng B12.",
+    "precautions_en": "Safe for most people. High doses are generally excreted in urine. Consult a doctor for injections.",
+    "precautions_fil": "Ligtas para sa karamihan. Ang mataas na dosis ay karaniwang iniiwan sa ihi. Kumonsulta sa doktor para sa mga injection.",
+    "frequency_hint": "500mcg to 1000mcg once daily, or as prescribed.",
+    "rxcui": ""
+  },
+
+  "4800016320000": {
+    "display_name": "Chloramphenicol 1% Eye Drops",
+    "dosage_hint": "1% Chloramphenicol ophthalmic solution",
+    "purpose_en": "Antibiotic eye drops for bacterial conjunctivitis and other eye infections.",
+    "purpose_fil": "Antibiotic eye drops para sa bacterial conjunctivitis at iba pang impeksyon ng mata.",
+    "precautions_en": "For eye use only. Wash hands before use. Do not touch dropper tip to eye. Discard 4 weeks after opening.",
+    "precautions_fil": "Para sa mata lamang. Hugasan ang mga kamay bago gamitin. Huwag itapat ang dropper sa mata. Itapon 4 linggo pagkatapos buksan.",
+    "frequency_hint": "1 to 2 drops every 2 to 6 hours, or as directed by your doctor.",
+    "rxcui": "2159"
+  },
+
+  "4800016330009": {
+    "display_name": "Tobramycin 0.3% Eye Drops",
+    "dosage_hint": "0.3% Tobramycin ophthalmic solution",
+    "purpose_en": "Antibiotic eye drops for bacterial eye infections.",
+    "purpose_fil": "Antibiotic eye drops para sa bacterial na impeksyon ng mata.",
+    "precautions_en": "For eye use only. Remove contact lenses before use. Wash hands before and after.",
+    "precautions_fil": "Para sa mata lamang. Alisin ang contact lens bago gamitin. Hugasan ang mga kamay bago at pagkatapos.",
+    "frequency_hint": "1 to 2 drops every 4 hours, or as prescribed.",
+    "rxcui": "10829"
+  },
+
+  "4800016340008": {
+    "display_name": "Xylometazoline Nasal Spray 0.1%",
+    "dosage_hint": "0.1% Xylometazoline HCl nasal spray",
+    "purpose_en": "Nasal decongestant spray for relief of nasal congestion due to cold or allergies.",
+    "purpose_fil": "Nasal decongestant spray para sa pampawala ng baradong ilong dahil sa sipon o allergy.",
+    "precautions_en": "Do not use for more than 3 to 5 days — risk of rebound congestion. Do not use in children under 6 (use lower strength).",
+    "precautions_fil": "Huwag gamitin ng mahigit 3 hanggang 5 araw — panganib ng rebound congestion. Huwag gamitin sa mga batang wala pang 6 taon.",
+    "frequency_hint": "1 to 2 sprays per nostril every 8 to 10 hours as needed.",
     "rxcui": ""
   }
 }

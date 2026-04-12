@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, ScanLine, X, Loader2, AlertCircle, Globe2, Barcode, Hash, Zap, ZapOff } from "lucide-react";
+import { Camera, ScanLine, X, Loader2, AlertCircle, Globe2, Barcode, Hash, Zap, ZapOff, RefreshCw, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,7 +53,7 @@ function mapApiToScanPayload(
     confidence = 100;
     sourceLabel = "Verified Local Registry (PharSayo)";
   } else if (source === "openfoodfacts_ph") {
-    confidence = 80;
+    confidence = 85;
     sourceLabel = "Barcode → Open Food Facts (PH)";
   } else if (source === "barcode_upcitemdb") {
     confidence = 72;
@@ -62,7 +62,7 @@ function mapApiToScanPayload(
     confidence = 74;
     sourceLabel = "Barcode → Open Food Facts (search)";
   } else if (source === "openproductsfacts" || source === "openproductsfacts_search") {
-    confidence = 82;
+    confidence = 84;
     sourceLabel =
       source === "openproductsfacts_search"
         ? "Barcode → Open Products Facts (search)"
@@ -73,6 +73,9 @@ function mapApiToScanPayload(
   } else if (source === "barcode_placeholder") {
     confidence = 45;
     sourceLabel = "Barcode saved — verify on package";
+  } else if (source === "internal_db" || source === "internal_db_ocr_match") {
+    confidence = 88;
+    sourceLabel = "Local reference list";
   } else if (source === "openfoodfacts" || source === "openbeautyfacts" || source === "openpetfoodfacts") {
     confidence = 78;
     const labels: Record<string, string> = {
@@ -81,9 +84,6 @@ function mapApiToScanPayload(
       openpetfoodfacts: "Barcode → Open Pet Food Facts",
     };
     sourceLabel = labels[source] ?? "Barcode → open product data";
-  } else if (source === "internal_db") {
-    confidence = 88;
-    sourceLabel = "Local reference list";
   } else if (source === "heuristic") {
     confidence = 55;
     sourceLabel = "Best guess — verify with your doctor";
@@ -152,11 +152,13 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
   const [manualBusy, setManualBusy] = useState(false);
   const [manualName, setManualName] = useState("");
   const [nameBusy, setNameBusy] = useState(false);
+  const [barcodeCopied, setBarcodeCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const scanCancelledRef = useRef(false);
   const streamRef = useRef<MediaStream | null>(null);
   const scannerControlsRef = useRef<{ stop: () => void } | null>(null);
+  const lastScannedTextRef = useRef<string>("");
 
   const runLookup = useCallback(
     async (barcode: string) => {
@@ -177,24 +179,21 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
               ? `${out.error} ${t(lang, "scanner.tryNameLookupInstead")}`
               : out.error
           );
+          // Auto-fill manual barcode field so user can retry or save
+          setManualBarcode(barcode.trim());
           return;
-        }
-        
-        // If it's a placeholder (source: "barcode_placeholder"), try to give more info
-        if (out.payload.source === "barcode_placeholder" || out.payload.source === "web_search_fallback") {
-           // We could try to do OCR on the current frame if we had access to it
-           // but for now we just show the result
         }
 
         setLastScannedBarcode(barcode.trim());
         setScanResult(out.payload);
       } catch (e) {
         setError(e instanceof Error ? e.message : t(lang, "scanner.lookupErrorGeneric"));
+        setManualBarcode(barcode.trim());
       } finally {
         setIsProcessing(false);
       }
     },
-    [lang, t],
+    [lang],
   );
 
   useEffect(() => {
@@ -202,13 +201,14 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
     scanCancelledRef.current = false;
     streamRef.current = null;
     scannerControlsRef.current = null;
+    lastScannedTextRef.current = "";
 
     void (async () => {
       try {
-        // First, check/request permission explicitly if the browser supports it
-        if (typeof navigator.permissions !== 'undefined' && (navigator.permissions as any).query) {
+        // Explicitly check camera permission first
+        if (typeof navigator.permissions !== "undefined" && (navigator.permissions as any).query) {
           try {
-            const status = await navigator.permissions.query({ name: 'camera' as any });
+            const status = await navigator.permissions.query({ name: "camera" as any });
             console.log("Camera permission status:", status.state);
           } catch (e) {
             console.warn("Permissions API check failed:", e);
@@ -216,10 +216,10 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
         }
 
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { 
+          video: {
             facingMode: { ideal: "environment" },
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
           },
           audio: false,
         });
@@ -228,7 +228,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
           return;
         }
         streamRef.current = stream;
-        
+
         // Check for torch capability
         const track = stream.getVideoTracks()[0];
         if (track) {
@@ -247,12 +247,33 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
         v.srcObject = stream;
         await v.play().catch(() => {});
 
+        // Import ZXing with Philippine barcode format hints (EAN-13 is the dominant PH format)
         const { BrowserMultiFormatReader } = await import("@zxing/browser");
-        const reader = new BrowserMultiFormatReader();
+        const { DecodeHintType, BarcodeFormat } = await import("@zxing/library");
+
+        const hints = new Map();
+        hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+          BarcodeFormat.EAN_13,    // Primary format for PH medicines (e.g. 4807788...)
+          BarcodeFormat.EAN_8,     // Short barcodes on small packages
+          BarcodeFormat.UPC_A,     // US-standard (some imported PH medicines)
+          BarcodeFormat.UPC_E,     // Compressed UPC for small packages
+          BarcodeFormat.CODE_128,  // Hospital/pharmacy internal codes
+          BarcodeFormat.CODE_39,   // Some older PH hospital systems
+          BarcodeFormat.ITF,       // Used on some cartons/outer packaging
+          BarcodeFormat.DATA_MATRIX, // Some modern PH prescription labels
+          BarcodeFormat.QR_CODE,   // Some digital prescriptions / medicine apps
+        ]);
+        // Try harder — attempt multiple times per frame
+        hints.set(DecodeHintType.TRY_HARDER, true);
+
+        const reader = new BrowserMultiFormatReader(hints);
         const ctl = await reader.decodeFromVideoElement(v, (result, _err, c) => {
           if (scanCancelledRef.current || !result) return;
           const text = result.getText().trim();
           if (!text) return;
+          // Debounce: skip if same barcode was already sent for lookup
+          if (text === lastScannedTextRef.current) return;
+          lastScannedTextRef.current = text;
           c.stop();
           scannerControlsRef.current = null;
           setIsScanning(false);
@@ -344,47 +365,86 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
       const url = URL.createObjectURL(file);
       try {
         const { BrowserMultiFormatReader } = await import("@zxing/browser");
-        const reader = new BrowserMultiFormatReader();
-        
-        // Try decoding with image URL first
+        const { DecodeHintType, BarcodeFormat } = await import("@zxing/library");
+
+        const hints = new Map();
+        hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+          BarcodeFormat.EAN_13,
+          BarcodeFormat.EAN_8,
+          BarcodeFormat.UPC_A,
+          BarcodeFormat.UPC_E,
+          BarcodeFormat.CODE_128,
+          BarcodeFormat.CODE_39,
+          BarcodeFormat.ITF,
+          BarcodeFormat.DATA_MATRIX,
+          BarcodeFormat.QR_CODE,
+        ]);
+        hints.set(DecodeHintType.TRY_HARDER, true);
+
+        const reader = new BrowserMultiFormatReader(hints);
+
         let result;
         try {
           result = await reader.decodeFromImageUrl(url);
         } catch (e) {
-          console.warn("ZXing decodeFromImageUrl failed, trying canvas...", e);
-          
-          // Fallback: Use a canvas to draw and potentially sharpen the image
+          console.warn("ZXing decodeFromImageUrl failed, trying canvas with preprocessing...", e);
+
           result = await new Promise<any>((resolve, reject) => {
             const img = new Image();
             img.onload = async () => {
               try {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
                 if (!ctx) {
                   reject(new Error("Could not get canvas context"));
                   return;
                 }
-                
-                // Set canvas size to match image, but cap it to avoid huge images
-                const maxDim = 1024;
+
+                // Scale up small images for better detection (many phone barcode photos are fine but some thumbnails are too small)
+                const minDim = 800;
+                const maxDim = 2048;
                 let width = img.width;
                 let height = img.height;
-                if (width > maxDim || height > maxDim) {
+                if (width < minDim || height < minDim) {
+                  const ratio = Math.max(minDim / width, minDim / height);
+                  width = Math.round(width * ratio);
+                  height = Math.round(height * ratio);
+                } else if (width > maxDim || height > maxDim) {
                   const ratio = Math.min(maxDim / width, maxDim / height);
-                  width *= ratio;
-                  height *= ratio;
+                  width = Math.round(width * ratio);
+                  height = Math.round(height * ratio);
                 }
-                
+
                 canvas.width = width;
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
-                
-                // Optional: Basic image sharpening
-                ctx.filter = 'contrast(1.2) brightness(1.1)';
-                ctx.drawImage(canvas, 0, 0);
-                
-                const decoded = await reader.decodeFromCanvas(canvas);
-                resolve(decoded);
+
+                // Try 1: normal image
+                try {
+                  const decoded = await reader.decodeFromCanvas(canvas);
+                  resolve(decoded);
+                  return;
+                } catch (_e1) { /* fall through */ }
+
+                // Try 2: higher contrast (helps with faded/glossy packaging)
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                  // Convert to grayscale with high contrast
+                  const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                  const contrast = gray > 128 ? 255 : 0;
+                  data[i] = contrast;
+                  data[i + 1] = contrast;
+                  data[i + 2] = contrast;
+                }
+                ctx.putImageData(imageData, 0, 0);
+                try {
+                  const decoded = await reader.decodeFromCanvas(canvas);
+                  resolve(decoded);
+                  return;
+                } catch (_e2) { /* fall through */ }
+
+                reject(new Error("Could not detect a barcode in this image"));
               } catch (err) {
                 reject(err);
               }
@@ -435,7 +495,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
             genericName: scanResult.genericName,
             dosage: scanResult.dosage,
             frequency: scanResult.frequency,
-            times: [], // Patients should NOT have a default time; doctor sets it
+            times: [],
             purpose: scanResult.purpose,
             purposeFil: scanResult.purposeFil,
             precautions: scanResult.precautions,
@@ -469,6 +529,16 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
     }
   }, [torchOn]);
 
+  const copyBarcodeToClipboard = useCallback(async (barcode: string) => {
+    try {
+      await navigator.clipboard.writeText(barcode);
+      setBarcodeCopied(true);
+      setTimeout(() => setBarcodeCopied(false), 2000);
+    } catch {
+      /* clipboard may not be available */
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
       <AnimatePresence mode="wait">
@@ -489,9 +559,19 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 rounded-xl bg-destructive/10 text-destructive text-sm">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                {error}
+              <div className="rounded-xl bg-destructive/10 text-destructive text-sm p-4 space-y-3">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <p>{error}</p>
+                </div>
+                {/* If barcode was auto-filled, show a quick-retry tip */}
+                {manualBarcode && (
+                  <div className="text-xs text-destructive/80 pl-6">
+                    {lang === "en"
+                      ? "The barcode number has been filled below — you can try looking it up manually or save it anyway."
+                      : "Ang barcode ay naipasok na sa ibaba — maaari mong i-lookup ito nang mano-mano o i-save bilang paalala."}
+                  </div>
+                )}
               </div>
             )}
 
@@ -536,7 +616,8 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                   placeholder={t(lang, "scanner.barcodePlaceholder")}
                   value={manualBarcode}
                   onChange={(e) => setManualBarcode(e.target.value)}
-                  className="h-11 rounded-xl text-sm"
+                  onKeyDown={(e) => { if (e.key === "Enter" && manualBarcode.trim()) void handleManualLookup(); }}
+                  className="h-11 rounded-xl text-sm font-mono tracking-wide"
                   disabled={manualBusy}
                 />
               </div>
@@ -546,7 +627,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                 onClick={() => void handleManualLookup()}
                 disabled={manualBusy || !manualBarcode.trim()}
               >
-                <Globe2 className="w-4 h-4" />
+                {manualBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe2 className="w-4 h-4" />}
                 {t(lang, "scanner.lookupCodeButton")}
               </Button>
             </div>
@@ -567,6 +648,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                   placeholder={t(lang, "scanner.productNamePlaceholder")}
                   value={manualName}
                   onChange={(e) => setManualName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter" && manualName.trim()) void handleNameLookup(); }}
                   className="h-11 rounded-xl text-sm"
                   disabled={nameBusy}
                 />
@@ -578,7 +660,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                 onClick={() => void handleNameLookup()}
                 disabled={nameBusy || !manualName.trim()}
               >
-                <Globe2 className="w-4 h-4" />
+                {nameBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe2 className="w-4 h-4" />}
                 {t(lang, "scanner.nameLookupButton")}
               </Button>
             </div>
@@ -603,11 +685,13 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
           >
             <div className="relative bg-foreground/5 rounded-2xl overflow-hidden aspect-[3/4] flex items-center justify-center">
               <video ref={videoRef} className="absolute inset-0 w-full h-full object-cover" playsInline muted />
+
+              {/* Scanning frame overlay */}
               <div className="absolute inset-8 border-2 border-primary/50 rounded-xl pointer-events-none">
-                <div className="absolute top-0 left-0 w-6 h-6 border-t-3 border-l-3 border-primary rounded-tl-lg" />
-                <div className="absolute top-0 right-0 w-6 h-6 border-t-3 border-r-3 border-primary rounded-tr-lg" />
-                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-3 border-l-3 border-primary rounded-bl-lg" />
-                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-3 border-r-3 border-primary rounded-br-lg" />
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-[3px] border-l-[3px] border-primary rounded-tl-lg" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-[3px] border-r-[3px] border-primary rounded-tr-lg" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-[3px] border-l-[3px] border-primary rounded-bl-lg" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-[3px] border-r-[3px] border-primary rounded-br-lg" />
                 <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent scanner-line" />
               </div>
 
@@ -625,8 +709,10 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                 </Button>
               )}
 
-              <p className="absolute bottom-3 left-3 right-3 text-center text-xs text-white drop-shadow-md bg-black/40 rounded-lg py-2 px-2">
-                {t(lang, "scanner.frameHint")}
+              <p className="absolute bottom-3 left-3 right-3 text-center text-xs text-white drop-shadow-md bg-black/50 rounded-lg py-2 px-2">
+                {lang === "en"
+                  ? "Point camera at the barcode on the medicine box. Hold steady."
+                  : "Itutok ang camera sa barcode ng kahon ng gamot. Huwag gumalaw."}
               </p>
             </div>
 
@@ -634,6 +720,22 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
               <Button variant="outline" onClick={() => setIsScanning(false)} className="flex-1 h-12 rounded-xl">
                 <X className="w-4 h-4 mr-2" /> {t(lang, "scanner.cancel")}
               </Button>
+              <Button
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex-1 h-12 rounded-xl"
+              >
+                <ScanLine className="w-4 h-4 mr-2" />
+                {lang === "en" ? "Upload photo" : "Mag-upload"}
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
             </div>
           </motion.div>
         )}
@@ -653,7 +755,9 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
             <div className="space-y-2 text-sm text-muted-foreground text-center max-w-sm">
               <p className="flex items-center justify-center gap-2 flex-wrap">
                 <Globe2 className="w-4 h-4 shrink-0 text-primary" />
-                {t(lang, "scanner.searchingHint")}
+                {lang === "en"
+                  ? "Searching Philippine medicine registry and global databases..."
+                  : "Hinahanap sa Philippine medicine registry at global databases..."}
               </p>
             </div>
           </motion.div>
@@ -669,17 +773,48 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
           >
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <h3 className="text-lg font-bold text-foreground">{t(lang, "scanner.resultTitle")}</h3>
-              <span className="px-2.5 py-1 bg-success/10 text-success text-xs font-semibold rounded-lg shrink-0 max-w-[220px] text-right leading-tight">
+              <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg shrink-0 max-w-[240px] text-right leading-tight ${
+                scanResult.confidence >= 90
+                  ? "bg-success/10 text-success"
+                  : scanResult.confidence >= 70
+                  ? "bg-warning/10 text-warning"
+                  : "bg-muted text-muted-foreground"
+              }`}>
                 ~{Math.round(scanResult.confidence)}% · {scanResult.sourceLabel}
               </span>
             </div>
 
             {lastScannedBarcode && (
               <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-3">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-                  {t(lang, "scanner.barcodeCodeLabel")}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                      {t(lang, "scanner.barcodeCodeLabel")}
+                    </p>
+                    <p className="text-xs text-foreground font-mono tracking-wide break-all">{lastScannedBarcode}</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 shrink-0"
+                    onClick={() => void copyBarcodeToClipboard(lastScannedBarcode)}
+                    title={lang === "en" ? "Copy barcode" : "Kopyahin ang barcode"}
+                  >
+                    {barcodeCopied ? <CheckCircle2 className="w-4 h-4 text-success" /> : <Copy className="w-4 h-4" />}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Low-confidence warning */}
+            {scanResult.confidence < 70 && (
+              <div className="flex items-start gap-2 p-3 rounded-xl bg-warning/10 text-warning text-xs">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <p>
+                  {lang === "en"
+                    ? "Low confidence result — this medicine was not found in our verified Philippine database. Please verify the details on the physical package before use."
+                    : "Mababang tiwala — hindi nahanap ang gamot na ito sa aming na-verify na Philippine database. Pakikumpirma ang detalye sa aktwal na pakete bago gamitin."}
                 </p>
-                <p className="text-xs text-foreground font-mono tracking-wide break-all">{lastScannedBarcode}</p>
               </div>
             )}
 
@@ -721,7 +856,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
 
                 <div className="p-4 rounded-2xl bg-orange-50/50 border border-orange-100/50 dark:bg-orange-950/20 dark:border-orange-900/30">
                   <p className="text-[11px] font-bold text-orange-600/80 dark:text-orange-400/80 uppercase tracking-widest mb-2">
-                    {lang === "en" ? "Warnings" : "Mga babala / Warnings"}
+                    {lang === "en" ? "Warnings & Precautions" : "Mga Babala / Warnings"}
                   </p>
                   <p className="text-base text-foreground leading-relaxed">
                     {lang === "en"
@@ -738,9 +873,11 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                 onClick={() => {
                   setScanResult(null);
                   setLastScannedBarcode(null);
+                  setBarcodeCopied(false);
                 }}
-                className="flex-1 min-w-[140px] h-12 rounded-xl"
+                className="flex-1 min-w-[140px] h-12 rounded-xl gap-2"
               >
+                <RefreshCw className="w-4 h-4" />
                 {t(lang, "scanner.scanAgain")}
               </Button>
               {allowSaveToList && (

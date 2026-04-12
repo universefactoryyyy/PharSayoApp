@@ -1321,26 +1321,76 @@ function pharsayo_barcode_placeholder_card($raw, $lang) {
 }
 
 /**
+ * Try Open Products Facts specifically (medicines, supplements, personal care) — good for PH OTC products.
+ *
+ * @return array|null
+ */
+function pharsayo_lookup_openproductsfacts_direct($digits) {
+    $codes = pharsayo_barcode_gtin_variants($digits);
+    foreach ($codes as $code) {
+        $url = 'https://world.openproductsfacts.org/api/v0/product/' . rawurlencode($code) . '.json';
+        $json = pharsayo_http_get_json($url, 12);
+        if ($json === null || empty($json['status']) || (int)$json['status'] !== 1) {
+            continue;
+        }
+        if (empty($json['product']) || !is_array($json['product'])) {
+            continue;
+        }
+        $row = pharsayo_openfacts_product_to_lookup_row($json['product'], 'openproductsfacts');
+        if ($row !== null) {
+            return pharsayo_barcode_row_try_rxnav_enrich($row, true);
+        }
+    }
+    return null;
+}
+
+/**
+ * Try the Open Food Facts Philippines mirror directly — best for local PH consumer products.
+ *
+ * @return array|null
+ */
+function pharsayo_lookup_openfoodfacts_ph_direct($digits) {
+    $codes = pharsayo_barcode_gtin_variants($digits);
+    foreach ($codes as $code) {
+        $url = 'https://ph.openfoodfacts.org/api/v0/product/' . rawurlencode($code) . '.json';
+        $json = pharsayo_http_get_json($url, 12);
+        if ($json === null || empty($json['status']) || (int)$json['status'] !== 1) {
+            continue;
+        }
+        if (empty($json['product']) || !is_array($json['product'])) {
+            continue;
+        }
+        $row = pharsayo_openfacts_product_to_lookup_row($json['product'], 'openfoodfacts_ph');
+        if ($row !== null) {
+            return pharsayo_barcode_row_try_rxnav_enrich($row, true);
+        }
+    }
+    return null;
+}
+
+/**
  * Resolve a scanned barcode / NDC / UPC digit string to the same structure as pharsayo_lookup_medication_online().
  * Always returns a row when $raw is non-empty (public web + placeholder as last resort).
+ * Philippines-optimized lookup chain: local registry -> PH Open Food Facts -> Open Products Facts ->
+ * RxNav/OpenFDA (NDC/UPC) -> global product catalogs -> Wikidata -> placeholder.
  *
- * @param string $lang en|fil — for placeholder copy
+ * @param string $lang en|fil
  * @param string $extractedText Optional OCR text from the same scan to refine the result
  * @return array{rxcui:string,display_name:string,dosage_hint:string,purpose_en:string,purpose_fil:string,precautions_en:string,precautions_fil:string,frequency_hint:string,barcode_source?:string}|null
  */
 function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedText = '') {
-    $digits = preg_replace('/\D+/', '', (string)$raw);
+    $digits = preg_replace('/\\D+/', '', (string)$raw);
     if (trim((string)$raw) === '' && $digits === '') {
         return null;
     }
 
-    // 1) Philippines-first: curated local GTINs
+    // 1) Philippines-first: curated local GTINs (highest confidence, instant result)
     $phLocal = pharsayo_lookup_ph_gtin_registry($digits);
     if ($phLocal !== null) {
         return $phLocal;
     }
 
-    // Helper to auto-cache results before returning
+    // Helper to auto-cache results so future scans of same barcode are instant
     $returnAndCache = function($row) use ($digits) {
         if ($row !== null && !empty($digits)) {
             pharsayo_save_to_ph_gtin_registry($digits, $row);
@@ -1348,22 +1398,34 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         return $row;
     };
 
-    // 2) If we have OCR text, try matching that first before generic barcode lookups
+    // 2) OCR text KB match (catches labelled PH products scanned with camera)
     if ($extractedText !== '') {
         $localKb = pharsayo_try_local_kb($extractedText);
         if ($localKb !== null) {
             $localKb['barcode_source'] = 'internal_db_ocr_match';
-            // If it's a very good match, return it
             return $returnAndCache($localKb);
         }
     }
 
-    // 3) Global Open *Facts
+    // 3) Philippines Open Food Facts mirror — best for locally-sold medicines & supplements
+    $phFacts = pharsayo_lookup_openfoodfacts_ph_direct($digits);
+    if ($phFacts !== null) {
+        return $returnAndCache($phFacts);
+    }
+
+    // 4) Open Products Facts — global DB with medicines/OTC/supplements (often has PH GTINs)
+    $opf = pharsayo_lookup_openproductsfacts_direct($digits);
+    if ($opf !== null) {
+        return $returnAndCache($opf);
+    }
+
+    // 5) Global Open *Facts (food/beauty/pet) — may still contain PH health products
     $open = pharsayo_lookup_medication_by_barcode_open_facts($digits);
     if ($open !== null) {
         return $returnAndCache($open);
     }
 
+    // 6) RxNav NDC status lookup (US NDC codes; some PH imports have these)
     foreach (pharsayo_barcode_collect_ndc_candidates($raw) as $cand) {
         $st = pharsayo_rxnav_ndcstatus_lookup($cand);
         if ($st === null) {
@@ -1376,6 +1438,7 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         }
     }
 
+    // 7) OpenFDA NDC directory by UPC (catches US-registered products with EAN/UPC barcodes)
     $allUpcVariants = pharsayo_barcode_collect_upc_candidates($digits);
     foreach ($allUpcVariants as $upc) {
         $ndcJson = pharsayo_openfda_ndc_directory_search('openfda.upc:"' . $upc . '"');
@@ -1388,8 +1451,9 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         }
     }
 
+    // 8) OpenFDA NDC directory by NDC-formatted code
     foreach (pharsayo_barcode_collect_ndc_candidates($raw) as $cand) {
-        if (strlen(preg_replace('/\D+/', '', $cand)) < 8) {
+        if (strlen(preg_replace('/\\D+/', '', $cand)) < 8) {
             continue;
         }
         $searches = [
@@ -1421,16 +1485,19 @@ function pharsayo_lookup_medication_by_barcode($raw, $lang = 'fil', $extractedTe
         }
     }
 
+    // 9) Public product catalogs: Open Food Facts search, barcode-list.com, UPCitemdb
     $web = pharsayo_lookup_barcode_public_catalogs($raw, $digits);
     if ($web !== null) {
         return $returnAndCache($web);
     }
 
+    // 10) Wikidata GTIN lookup (community graph; sometimes has PH brand entries)
     $wd = pharsayo_lookup_barcode_wikidata($digits);
     if ($wd !== null) {
         return $returnAndCache(pharsayo_barcode_row_try_rxnav_enrich($wd, false));
     }
 
+    // 11) Nothing found — informative placeholder so patient can still save the entry
     return pharsayo_lookup_barcode_web_fallback($raw, $lang);
 }
 
