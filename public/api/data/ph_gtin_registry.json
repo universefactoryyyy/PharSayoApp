@@ -1,0 +1,103 @@
+{
+  "_info": "PharSayo Philippines GTIN list (curated). Add keys as digits-only barcodes. Not an official FDA register—expand for your deployment.",
+  "4807788561688": {
+    "display_name": "Biogesic (Paracetamol) 500mg",
+    "dosage_hint": "500mg Paracetamol per tablet",
+    "purpose_en": "Pain reliever and fever reducer (Analgesic/Antipyretic). Used for headache, fever, and minor body aches.",
+    "purpose_fil": "Gamot para sa lagnat at sakit ng katawan (Analgesic/Antipyretic). Ginagamit para sa sakit ng ulo, lagnat, at kirot.",
+    "precautions_en": "Do not take more than 4,000mg in 24 hours. Avoid alcohol. Consult a doctor if you have liver disease.",
+    "precautions_fil": "Huwag uminom ng higit sa 4,000mg sa loob ng 24 oras. Iwasan ang alak. Kumonsulta sa doktor kung may sakit sa atay.",
+    "frequency_hint": "Every 4 to 6 hours as needed, or as directed by your doctor.",
+    "rxcui": "202433"
+  },
+  "4807788560650": {
+    "display_name": "Neozep Non-Drowsy",
+    "dosage_hint": "Phenylephrine + Paracetamol",
+    "purpose_en": "Relieves clogged nose, headache, and fever without causing drowsiness.",
+    "purpose_fil": "Pampawala ng baradong ilong at lagnat nang hindi nakakaantok.",
+    "precautions_en": "Do not exceed recommended dose. Ask a doctor if you have heart problems.",
+    "precautions_fil": "Huwag lumampas sa tamang dosis. Magtanong sa doktor kung may sakit sa puso.",
+    "frequency_hint": "1 tablet every 6 hours, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4807788561145": {
+    "display_name": "Solmux (Carbocisteine) 500mg",
+    "dosage_hint": "500mg Carbocisteine per capsule",
+    "purpose_en": "Mucolytic. Thins and loosens phlegm to make it easier to cough out.",
+    "purpose_fil": "Mucolytic. Nagpapalabnaw at nagpapaluwag ng plema para mas madaling mailabas sa pag-ubo.",
+    "precautions_en": "Do not use if you have an active stomach ulcer. Consult a doctor if pregnant or breastfeeding.",
+    "precautions_fil": "Huwag gamitin kung may aktibong ulcer sa sikmura. Kumonsulta sa doktor kung buntis o nagpapasuso.",
+    "frequency_hint": "1 capsule every 8 hours, or as directed by your doctor.",
+    "rxcui": "19941"
+  },
+  "4807788561619": {
+    "display_name": "Bioflu",
+    "dosage_hint": "Phenylephrine + Chlorphenamine + Paracetamol",
+    "purpose_en": "Relieves flu-like symptoms including fever, body aches, headache, and clogged nose.",
+    "purpose_fil": "Pampawala ng sintomas ng trangkaso gaya ng lagnat, sakit ng katawan, sakit ng ulo, at baradong ilong.",
+    "precautions_en": "May cause drowsiness. Avoid alcohol. Consult a doctor if you have heart or liver problems.",
+    "precautions_fil": "Maaaring magdulot ng pagkaantok. Iwasan ang alak. Kumonsulta sa doktor kung may problema sa puso o atay.",
+    "frequency_hint": "1 tablet every 6 hours, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "5290665007802": {
+    "display_name": "Ibuprofen 200mg Tablets",
+    "dosage_hint": "200mg Ibuprofen per tablet",
+    "purpose_en": "Pain reliever and fever reducer (NSAID). Used for headache, muscle pain, and minor aches.",
+    "purpose_fil": "Gamot sa kirot at lagnat (NSAID). Ginagamit sa sakit ng ulo, kalamnan, at pananakit ng katawan.",
+    "precautions_en": "Take after meals. Avoid if you have stomach ulcers. Consult a doctor if you have heart or kidney issues.",
+    "precautions_fil": "Inumin pagkatapos kumain. Huwag gamitin kung may ulcer. Magtanong sa doktor kung may sakit sa puso o bato.",
+    "frequency_hint": "1 to 2 tablets every 4 to 6 hours as needed. Do not exceed 6 tablets in 24 hours.",
+    "rxcui": "213233"
+  },
+  "4800016052061": {
+    "display_name": "Ponstan (Mefenamic Acid) 500mg",
+    "dosage_hint": "500mg Mefenamic Acid per tablet",
+    "purpose_en": "NSAID. Relief of mild to moderate pain, including dental pain, post-operative pain, and menstrual pain.",
+    "purpose_fil": "NSAID. Pampawala ng katamtamang sakit, gaya ng sakit sa ngipin, sakit pagkatapos ng operasyon, at dysmenorrhea.",
+    "precautions_en": "Take with food. Do not use for more than 7 days. Avoid if you have asthma or stomach ulcers.",
+    "precautions_fil": "Inumin kasabay ng pagkain. Huwag gamitin ng mahigit sa 7 araw. Iwasan kung may hika o ulcer sa sikmura.",
+    "frequency_hint": "1 tablet every 8 hours, or as directed by your doctor.",
+    "rxcui": "6732"
+  },
+  "4800016651172": {
+    "display_name": "Myra E (d-Alpha Tocopherol) 400 IU",
+    "dosage_hint": "400 IU Vitamin E per capsule",
+    "purpose_en": "Vitamin E supplement for healthy skin and antioxidant protection.",
+    "purpose_fil": "Supplement na Vitamin E para sa malusog na balat at proteksyon laban sa free radicals.",
+    "precautions_en": "Consult a doctor if you have blood clotting issues or are taking blood thinners.",
+    "precautions_fil": "Kumonsulta sa doktor kung may problema sa pamumuo ng dugo o umiinom ng pampalabnaw ng dugo.",
+    "frequency_hint": "1 capsule daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4800016604819": {
+    "display_name": "Ceelin Plus (Vitamin C + Zinc) Syrup",
+    "dosage_hint": "Ascorbic Acid + Zinc per 5mL",
+    "purpose_en": "Vitamin and mineral supplement for children to boost immunity and prevent deficiencies.",
+    "purpose_fil": "Supplement na bitamina at mineral para sa bata pampalakas ng resistensya.",
+    "precautions_en": "Follow age-appropriate dosage on label. Consult a pediatrician.",
+    "precautions_fil": "Sundin ang tamang dosis para sa edad na nasa label. Kumonsulta sa pediatrician.",
+    "frequency_hint": "Once daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4806016351820": {
+    "display_name": "Poten-Cee (Ascorbic Acid) 500mg",
+    "dosage_hint": "500mg Vitamin C per tablet",
+    "purpose_en": "Vitamin C supplement to boost immunity and skin health.",
+    "purpose_fil": "Supplement na Vitamin C para sa resistensya at kalusugan ng balat.",
+    "precautions_en": "Consult a doctor if you have kidney problems.",
+    "precautions_fil": "Kumonsulta sa doktor kung may problema sa bato.",
+    "frequency_hint": "1 to 2 tablets daily, or as directed by your doctor.",
+    "rxcui": ""
+  },
+  "4800016104210": {
+    "display_name": "Diatabs (Loperamide)",
+    "dosage_hint": "2mg Loperamide HCl per capsule",
+    "purpose_en": "Relief of acute diarrhea (antidiarrheal).",
+    "purpose_fil": "Pampahinto ng matinding pagtatae (antidiarrheal).",
+    "precautions_en": "Do not use if you have bloody stool or high fever. Avoid overdose.",
+    "precautions_fil": "Huwag gamitin kung may dugo sa dumi o lagnat. Iwasan ang sobrang dosis.",
+    "frequency_hint": "2 capsules initially, then 1 capsule after each loose stool. Max 8 caps per day.",
+    "rxcui": ""
+  }
+}

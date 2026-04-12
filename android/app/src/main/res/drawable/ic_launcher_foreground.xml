@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Medicine capsule (pill) centered for adaptive launcher icon -->
+    <path
+        android:fillColor="#0F7669"
+        android:pathData="M42,40 L66,40 A14,14 0 0 1 80,54 A14,14 0 0 1 66,68 L42,68 A14,14 0 0 1 28,54 A14,14 0 0 1 42,40 Z" />
+    <!-- Score line (typical tablet graphic) -->
+    <path
+        android:pathData="M54,42 L54,66"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+</vector>

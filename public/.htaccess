@@ -1,0 +1,17 @@
+# PharSayo Routing Configuration for InfinityFree
+# Place this file in your 'htdocs' folder
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+# Handle pre-flight (OPTIONS) requests - Handled by PHP in cors.php
+# RewriteCond %{REQUEST_METHOD} OPTIONS
+# RewriteRule ^(.*)$ $1 [R=204,L]
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Ensure PHP errors are shown for debugging (remove in final production)
+php_flag display_errors on
+php_value error_reporting 32767

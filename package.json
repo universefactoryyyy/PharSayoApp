@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build:web": "npm run build --prefix ui",
+    "cap:publish-web": "node scripts/cap-publish-web.mjs",
+    "cap:sync": "npx cap sync android",
+    "android:prepare": "npm run build:web && npm run cap:sync"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0"
+  }
+}

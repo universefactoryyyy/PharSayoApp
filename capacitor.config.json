@@ -1,0 +1,13 @@
+{
+  "appId": "com.pharsayo.app",
+  "appName": "PharSayo",
+  "webDir": "ui/dist",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
