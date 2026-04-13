@@ -1,30 +1,79 @@
 /** PharSayo PHP API — same origin, base `./api` */
-
-// For Capacitor (Android/iOS), you MUST provide a full URL to your PHP server.
-// Example: "http://192.168.1.10/PharSayoApp/public/api"
-const PROD_API_URL = import.meta.env.VITE_API_URL || "http://192.168.100.11/PharSayoApp/public/"; 
-
 const _b = import.meta.env.BASE_URL || "/";
+
+function normalizeApiBase(rawBase: string): string {
+  let base = (rawBase || "").trim();
+  if (!base) return "";
+
+  while (base.endsWith("/") || base.endsWith(".") || base.endsWith(" ")) {
+    base = base.slice(0, -1);
+  }
+
+  // AwardSpace free-hosting cert chain is unreliable on some mobile networks/devices.
+  // Force HTTP for atwebpages.com to avoid Android TrustAnchor failures.
+  if (/^https:\/\/[^/]*atwebpages\.com/i.test(base)) {
+    base = base.replace(/^https:\/\//i, "http://");
+  }
+
+  return base;
+}
 
 // DIAGNOSTIC: Export the base URL so we can see it on the login screen
 export const GET_API_BASE = () => {
   let base = import.meta.env.VITE_API_URL || "";
   
   if (!base) {
-    // Fallback logic if .env is missing
-    base = (window.location.protocol === 'file:' || window.location.hostname === 'localhost') && !import.meta.env.DEV
-      ? "http://pharsayo.atwebpages.com/api" // Fallback to HTTP to avoid SSL errors
-      : (_b.endsWith("/") ? `${_b}api` : `${_b}/api`);
+    const host = (window.location.hostname || "").toLowerCase();
+    const proto = window.location.protocol || "http:";
+    const isFileOrLocal =
+      (window.location.protocol === "file:" || host === "localhost" || host === "127.0.0.1") &&
+      !import.meta.env.DEV;
+
+    if (isFileOrLocal) {
+      // Default remote API when app runs as file:// on mobile.
+      base = "http://pharsay0.atwebpages.com/api";
+    } else if (host.endsWith("atwebpages.com")) {
+      // Use the same host to avoid cross-host redirects/challenges on mobile data.
+      // But force the known working host if user opened the typo domain.
+      const apiHost = host === "pharsayo.atwebpages.com" ? "pharsay0.atwebpages.com" : host;
+      base = `${proto}//${apiHost}/api`;
+    } else {
+      base = _b.endsWith("/") ? `${_b}api` : `${_b}/api`;
+    }
   }
 
-  // Remove trailing slashes, dots, and whitespace recursively
-  while (base.endsWith('/') || base.endsWith('.') || base.endsWith(' ')) {
-    base = base.slice(0, -1);
-  }
-  return base.trim();
+  return normalizeApiBase(base);
 };
 
-const API_BASE = GET_API_BASE();
+const API_BASE = normalizeApiBase(GET_API_BASE()).replace(
+  "pharsayo.atwebpages.com",
+  "pharsay0.atwebpages.com",
+);
+
+function getApiBaseCandidates(): string[] {
+  const out: string[] = [];
+  const push = (u: string) => {
+    let v = normalizeApiBase(u);
+    // Canonicalize AwardSpace host to the working DNS name.
+    if (v.includes("pharsayo.atwebpages.com")) {
+      v = v.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com");
+    }
+    if (v && !out.includes(v)) out.push(v);
+  };
+
+  push(API_BASE);
+
+  const protoSwap = (u: string) => {
+    if (u.includes("atwebpages.com")) return u; // do not force HTTPS here
+    if (u.startsWith("https://")) return `http://${u.slice("https://".length)}`;
+    if (u.startsWith("http://")) return `https://${u.slice("http://".length)}`;
+    return u;
+  };
+
+  push(protoSwap(API_BASE));
+
+  return out;
+}
 
 export type Lang = "fil" | "en";
 
@@ -80,6 +129,7 @@ async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
         ...init?.headers,
       },
     });
@@ -121,11 +171,131 @@ async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
   }
 }
 
-export async function apiLogin(username: string, password: string): Promise<{ user: ApiUser }> {
-  return jsonFetch(`${API_BASE}/auth/login.php`, {
+function isNativeMobileRuntime(): boolean {
+  try {
+    const cap = (window as any)?.Capacitor;
+    const p = cap?.getPlatform?.();
+    return p === "android" || p === "ios";
+  } catch {
+    return false;
+  }
+}
+
+async function nativeHttpPostJson<T>(url: string, data: Record<string, unknown>): Promise<T> {
+  const cap = (window as any)?.Capacitor;
+  const http = cap?.Plugins?.CapacitorHttp;
+  if (!http?.request) {
+    throw new Error("CapacitorHttp plugin is not available.");
+  }
+
+  const res = await http.request({
+    url,
     method: "POST",
-    body: JSON.stringify({ username: username.trim(), password }),
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    data,
+    connectTimeout: 15000,
+    readTimeout: 20000,
   });
+
+  const raw = typeof res?.data === "string" ? res.data : JSON.stringify(res?.data ?? {});
+  let parsed: any;
+  try {
+    parsed = typeof res?.data === "object" && res?.data !== null ? res.data : JSON.parse(raw);
+  } catch {
+    throw new Error(`Server returned non-JSON response (starts with: ${raw.substring(0, 50)}...)`);
+  }
+
+  const status = Number(res?.status ?? 0);
+  if (status < 200 || status >= 300) {
+    throw new Error(parsed?.message || `HTTP ${status}`);
+  }
+  return parsed as T;
+}
+
+export async function apiLogin(username: string, password: string): Promise<{ user: ApiUser }> {
+  const loginPayload = { username: username.trim(), password };
+  const body = JSON.stringify(loginPayload);
+  const nonce = Date.now();
+  const candidates = Array.from(
+    new Set([
+      "http://pharsay0.atwebpages.com/api",
+      ...getApiBaseCandidates(),
+    ]),
+  );
+  let lastErr: unknown = null;
+
+  for (const base of candidates) {
+    const mobileGetUrl = `${base}/login_mobile.php?u=${encodeURIComponent(loginPayload.username)}&p=${encodeURIComponent(password)}&ts=${nonce}`;
+    const loginUrls = [
+      // Prefer top-level alias first to avoid /auth path redirects on some networks.
+      `${base}/login.php`,
+      `${base}/auth/login.php`,
+      // Cache-busting variants: some free-hosting edges intermittently cache redirect responses.
+      `${base}/login.php?ts=${nonce}`,
+      `${base}/auth/login.php?ts=${nonce}`,
+      `${base}/login.php?mobile=1&ts=${nonce}`,
+      `${base}/auth/login.php?mobile=1&ts=${nonce}`,
+    ];
+    try {
+      try {
+        // First attempt: GET-based mobile endpoint (avoids POST preflight/redirect edge cases).
+        const m = await jsonFetch<{ user: ApiUser }>(mobileGetUrl, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        });
+        if (m?.user) return m;
+      } catch (mobileErr) {
+        lastErr = mobileErr;
+      }
+
+      for (const loginUrl of loginUrls) {
+        try {
+          if (isNativeMobileRuntime()) {
+            return await nativeHttpPostJson<{ user: ApiUser }>(loginUrl, loginPayload);
+          }
+          return await jsonFetch(loginUrl, {
+            method: "POST",
+            redirect: "follow",
+            body,
+          });
+        } catch (inner) {
+          lastErr = inner;
+          const imsg = (inner instanceof Error ? inner.message : String(inner)).toLowerCase();
+          const innerRetryable =
+            imsg.includes("http 302") ||
+            imsg.includes("http 301") ||
+            imsg.includes("http 307") ||
+            imsg.includes("http 308") ||
+            imsg.includes("failed to fetch") ||
+            imsg.includes("security check") ||
+            imsg.includes("non-json");
+          if (!innerRetryable) throw inner;
+        }
+      }
+    } catch (e) {
+      lastErr = e;
+      const msg = (e instanceof Error ? e.message : String(e)).toLowerCase();
+      const retryable =
+        msg.includes("http 302") ||
+        msg.includes("http 301") ||
+        msg.includes("http 307") ||
+        msg.includes("http 308") ||
+        msg.includes("failed to fetch") ||
+        msg.includes("security check") ||
+        msg.includes("non-json");
+      if (!retryable) break;
+    }
+  }
+
+  const errMsg = lastErr instanceof Error ? lastErr.message : String(lastErr ?? "Login request failed.");
+  throw new Error(`Login failed after trying API routes. Last error: ${errMsg}`);
 }
 
 export async function apiRegister(body: {
@@ -332,6 +502,94 @@ export async function apiOcrScan(body: { extracted_text: string; candidate_names
   } catch (e) {
     console.error("Scanner error:", e);
     return { success: false, message: `Failed to connect to scanner service: ${e instanceof Error ? e.message : String(e)}` };
+  }
+}
+
+export async function apiMedicineAiChat(message: string, lang?: "en" | "fil"): Promise<{
+  success: boolean;
+  source?: string;
+  reply?: string;
+  sources?: { title: string; url: string }[];
+  message?: string;
+}> {
+  return apiMedicineAiChatWithHistory(
+    { message, messages: [] },
+    lang,
+  );
+}
+
+export async function apiMedicineAiChatWithHistory(
+  payload: {
+    message: string;
+    messages: { role: "user" | "bot"; content: string }[];
+  },
+  lang?: "en" | "fil"
+): Promise<{
+  success: boolean;
+  source?: string;
+  reply?: string;
+  sources?: { title: string; url: string }[];
+  message?: string;
+}> {
+  const body = {
+    message: payload.message.trim(),
+    messages: payload.messages,
+    lang: lang === "en" ? "en" : "fil",
+  };
+  const endpoints: string[] = [
+    `${API_BASE}/medications/ai_chat.php`,
+    // Compatibility fallback in case the file was uploaded one level higher.
+    `${API_BASE}/ai_chat.php`,
+  ];
+  if (API_BASE.includes("pharsayo.atwebpages.com")) {
+    endpoints.push(
+      `${API_BASE.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com")}/medications/ai_chat.php`,
+      `${API_BASE.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com")}/ai_chat.php`,
+    );
+  }
+
+  let lastError = "";
+  for (const endpoint of Array.from(new Set(endpoints))) {
+    try {
+      const data = await jsonFetch<{
+        success: boolean;
+        source?: string;
+        reply?: string;
+        sources?: { title: string; url: string }[];
+        message?: string;
+      }>(endpoint, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      return {
+        success: Boolean(data.success),
+        source: data.source,
+        reply: data.reply,
+        sources: Array.isArray(data.sources) ? data.sources : undefined,
+        message: data.message,
+      };
+    } catch (e) {
+      lastError = e instanceof Error ? e.message : String(e);
+      const lower = lastError.toLowerCase();
+      const canTryNext =
+        lower.includes("404") ||
+        lower.includes("not found") ||
+        lower.includes("failed to fetch");
+      if (!canTryNext) break;
+    }
+  }
+
+  try {
+    throw new Error(lastError || "Chat endpoint is unreachable.");
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return {
+      success: false,
+      message:
+        msg.toLowerCase().includes("failed to fetch") || msg.toLowerCase().includes("404")
+          ? `Network Error: Failed to fetch chatbot endpoint. Tried "${API_BASE}/medications/ai_chat.php" and "${API_BASE}/ai_chat.php". Current Server URL: "${GET_API_BASE()}"`
+          : msg,
+    };
   }
 }
 

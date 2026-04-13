@@ -2,9 +2,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, ScanLine, X, Loader2, AlertCircle, Globe2, Barcode, Hash, Zap, ZapOff, RefreshCw, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { apiBarcodeScan, apiOcrScan } from "@/lib/api";
+import { Textarea } from "@/components/ui/textarea";
+import { apiBarcodeScan, apiMedicineAiChatWithHistory } from "@/lib/api";
 import type { Medicine } from "@/lib/medicine-store";
 import { useAuth } from "@/contexts/auth-context";
 import { t } from "@/lib/i18n";
@@ -153,15 +155,135 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
   const [error, setError] = useState<string | null>(null);
   const [manualBarcode, setManualBarcode] = useState("");
   const [manualBusy, setManualBusy] = useState(false);
-  const [manualName, setManualName] = useState("");
-  const [nameBusy, setNameBusy] = useState(false);
+  const [scanChatPrompt, setScanChatPrompt] = useState("");
   const [barcodeCopied, setBarcodeCopied] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [chatBusy, setChatBusy] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{
+    id: string;
+    role: "user" | "bot";
+    content: string;
+    sources?: { title: string; url: string }[];
+  }>>([]);
+  const chatStorageKey = `pharsayo_ai_chat_history_v1_${user?.id ?? "guest"}_${lang}`;
+  const chatEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const scanCancelledRef = useRef(false);
   const streamRef = useRef<MediaStream | null>(null);
   const scannerControlsRef = useRef<{ stop: () => void } | null>(null);
   const lastScannedTextRef = useRef<string>("");
+
+  const ensureChatWelcome = useCallback(() => {
+    setChatMessages((prev) => {
+      if (prev.length) return prev;
+      return [
+        {
+          id: "welcome",
+          role: "bot",
+          content:
+            lang === "en"
+              ? "Ask about a medicine by name (brand or generic). I will search public sources and show links."
+              : "Magtanong tungkol sa gamot (brand o generic). Maghahanap ako sa pampublikong sources at magpapakita ng links.",
+        },
+      ];
+    });
+  }, [lang]);
+
+  const openAiChat = useCallback(
+    (prefill?: string) => {
+      ensureChatWelcome();
+      setChatInput(prefill ? prefill.trim() : "");
+      setChatOpen(true);
+    },
+    [ensureChatWelcome]
+  );
+
+  const startNewChat = useCallback(() => {
+    setChatMessages([
+      {
+        id: "welcome",
+        role: "bot",
+        content:
+          lang === "en"
+            ? "Ask about a medicine by name (brand or generic). I will search public sources and show links."
+            : "Magtanong tungkol sa gamot (brand o generic). Maghahanap ako sa pampublikong sources at magpapakita ng links.",
+      },
+    ]);
+    setChatInput("");
+  }, [lang]);
+
+  const sendAiChat = useCallback(async (overrideMessage?: string) => {
+    const msg = (overrideMessage ?? chatInput).trim();
+    if (!msg || chatBusy) return;
+
+    const history = chatMessages
+      .filter((m) => m.id !== "welcome")
+      .slice(-12)
+      .map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
+    const userId = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    setChatMessages((prev) => [...prev, { id: userId, role: "user", content: msg }]);
+    setChatInput("");
+    setChatBusy(true);
+    try {
+      const res = await apiMedicineAiChatWithHistory({ message: msg, messages: history }, lang);
+      const botId = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+      if (!res.success) {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            id: botId,
+            role: "bot",
+            content: res.message || (lang === "en" ? "Sorry, I couldn't find that." : "Paumanhin, wala akong nahanap."),
+          },
+        ]);
+        return;
+      }
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: botId,
+          role: "bot",
+          content: res.reply || (lang === "en" ? "Here’s what I found." : "Ito ang nahanap ko."),
+          sources: res.sources,
+        },
+      ]);
+    } finally {
+      setChatBusy(false);
+    }
+  }, [chatInput, chatBusy, lang, chatMessages]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(chatStorageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return;
+      if (!parsed.length) return;
+      setChatMessages(parsed);
+    } catch {
+      /* ignore */
+    }
+  }, [chatStorageKey]);
+
+  useEffect(() => {
+    try {
+      if (!chatMessages.length) return;
+      localStorage.setItem(chatStorageKey, JSON.stringify(chatMessages));
+    } catch {
+      /* ignore */
+    }
+  }, [chatMessages, chatStorageKey]);
+
+  useEffect(() => {
+    if (!chatOpen) return;
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [chatOpen, chatMessages]);
 
   const runLookup = useCallback(
     async (barcode: string) => {
@@ -179,7 +301,7 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
         if ("error" in out) {
           setError(
             out.error.includes("not found") || out.error.includes("hindi nahanap")
-              ? `${out.error} ${t(lang, "scanner.tryNameLookupInstead")}`
+              ? `${out.error} ${lang === "en" ? "Try Ask AI below." : "Subukan ang Ask AI sa ibaba."}`
               : out.error
           );
           // Auto-fill manual barcode field so user can retry or save
@@ -334,31 +456,6 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
       setManualBusy(false);
     }
   }, [manualBarcode, lang]);
-
-  const handleNameLookup = useCallback(async () => {
-    const q = manualName.trim();
-    if (!q) {
-      setError(t(lang, "scanner.nameLookupEmpty"));
-      return;
-    }
-    setError(null);
-    setNameBusy(true);
-    try {
-      const res = await apiOcrScan({ extracted_text: q, candidate_names: [q] });
-      if (!res.success || !res.data) {
-        setError(res.message || t(lang, "scanner.errorNotFound"));
-        return;
-      }
-      const payload = mapApiToScanPayload(res.data as Record<string, string | boolean | undefined>, res.source || "open_data");
-      setLastScannedBarcode(null);
-      setScanResult(payload);
-      setManualName("");
-    } catch (e) {
-      setError(e instanceof Error ? e.message : t(lang, "scanner.lookupErrorGeneric"));
-    } finally {
-      setNameBusy(false);
-    }
-  }, [manualName, lang]);
 
   const decodeBarcodeFromFile = useCallback(
     async (file: File) => {
@@ -637,34 +734,62 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
 
             <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
               <div className="flex items-center gap-2 text-foreground font-semibold text-sm">
-                <Globe2 className="w-4 h-4 text-primary shrink-0" />
-                {t(lang, "scanner.nameLookupTitle")}
+                <Zap className="w-4 h-4 text-primary shrink-0" />
+                {lang === "en" ? "AI chatbot (Internet search)" : "AI chatbot (Paghahanap sa Internet)"}
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">{t(lang, "scanner.nameLookupHelp")}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {lang === "en"
+                  ? "If scanning can’t identify the medicine, ask here. The app searches public sources and shows links."
+                  : "Kapag hindi makilala sa scan, magtanong dito. Maghahanap ang app sa public sources at magpapakita ng links."}
+              </p>
               <div className="space-y-2">
-                <Label htmlFor="manual-name" className="text-xs text-muted-foreground">
-                  {t(lang, "scanner.productNameLabel")}
+                <Label htmlFor="scan-chat" className="text-xs text-muted-foreground">
+                  {lang === "en" ? "Medicine name or question" : "Pangalan ng gamot o tanong"}
                 </Label>
                 <Input
-                  id="manual-name"
+                  id="scan-chat"
                   autoComplete="off"
-                  placeholder={t(lang, "scanner.productNamePlaceholder")}
-                  value={manualName}
-                  onChange={(e) => setManualName(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter" && manualName.trim()) void handleNameLookup(); }}
+                  placeholder={
+                    lang === "en"
+                      ? 'e.g. "Amoxicillin 500mg" or "What is Metformin for?"'
+                      : 'hal. "Amoxicillin 500mg" o "Para saan ang Metformin?"'
+                  }
+                  value={scanChatPrompt}
+                  onChange={(e) => setScanChatPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && scanChatPrompt.trim() && !chatBusy) {
+                      ensureChatWelcome();
+                      setChatOpen(true);
+                      void sendAiChat(scanChatPrompt);
+                      setScanChatPrompt("");
+                    }
+                  }}
                   className="h-11 rounded-xl text-sm"
-                  disabled={nameBusy}
+                  disabled={chatBusy}
                 />
               </div>
               <Button
                 type="button"
                 variant="outline"
                 className="w-full h-11 rounded-xl gap-2"
-                onClick={() => void handleNameLookup()}
-                disabled={nameBusy || !manualName.trim()}
+                onClick={() => {
+                  ensureChatWelcome();
+                  setChatOpen(true);
+                  void sendAiChat(scanChatPrompt);
+                  setScanChatPrompt("");
+                }}
+                disabled={chatBusy || !scanChatPrompt.trim()}
               >
-                {nameBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe2 className="w-4 h-4" />}
-                {t(lang, "scanner.nameLookupButton")}
+                {chatBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                {lang === "en" ? "Ask AI" : "Magtanong sa AI"}
+              </Button>
+              <Button
+                type="button"
+                className="w-full h-11 rounded-xl gap-2"
+                onClick={() => openAiChat()}
+              >
+                <Globe2 className="w-4 h-4" />
+                {lang === "en" ? "Open chatbot" : "Buksan ang chatbot"}
               </Button>
             </div>
 
@@ -883,6 +1008,16 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                 <RefreshCw className="w-4 h-4" />
                 {t(lang, "scanner.scanAgain")}
               </Button>
+              {scanResult.confidence < 70 && (
+                <Button
+                  variant="outline"
+                  onClick={() => openAiChat(scanResult.name)}
+                  className="flex-1 min-w-[140px] h-12 rounded-xl gap-2"
+                >
+                  <Zap className="w-4 h-4" />
+                  {lang === "en" ? "Ask AI" : "Magtanong sa AI"}
+                </Button>
+              )}
               {allowSaveToList && (
                 <Button onClick={handleAddFromScan} className="flex-1 min-w-[140px] h-12 rounded-xl">
                   {t(lang, "scanner.addToList")}
@@ -895,6 +1030,119 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
           </motion.div>
         )}
       </AnimatePresence>
+
+      <Dialog open={chatOpen} onOpenChange={setChatOpen}>
+        <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-hidden p-0">
+          <div className="p-5 border-b border-border">
+            <DialogHeader>
+              <DialogTitle>
+                <div className="flex items-center justify-between gap-3">
+                  <span>{lang === "en" ? "AI Medicine Chat" : "AI Chat sa Gamot"}</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="rounded-xl"
+                    onClick={startNewChat}
+                    disabled={chatBusy}
+                  >
+                    {lang === "en" ? "New chat" : "Bagong chat"}
+                  </Button>
+                </div>
+              </DialogTitle>
+            </DialogHeader>
+            <p className="text-xs text-muted-foreground mt-1">
+              {lang === "en"
+                ? "Educational only. Always confirm dosing and safety with your package insert and a licensed clinician."
+                : "Pang-edukasyon lamang. Kumpirmahin ang dosis at kaligtasan sa package insert at sa doktor o pharmacist."}
+            </p>
+          </div>
+
+          <div className="p-5 space-y-3 overflow-y-auto max-h-[52vh]">
+            {chatMessages.map((m) => (
+              <div
+                key={m.id}
+                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`rounded-2xl px-4 py-3 text-sm whitespace-pre-wrap max-w-[92%] ${
+                    m.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-foreground"
+                  }`}
+                >
+                  <div>{m.content}</div>
+                  {m.role === "bot" && m.sources?.length ? (
+                    <div className="mt-3 pt-3 border-t border-border/40 space-y-1.5">
+                      <div className="text-[11px] font-semibold uppercase tracking-wider opacity-80">
+                        {lang === "en" ? "Sources" : "Pinagmulan"}
+                      </div>
+                      <div className="space-y-1">
+                        {m.sources
+                          .filter((s) => (s?.url || "").trim() !== "")
+                          .map((s) => (
+                            <a
+                              key={`${m.id}_${s.title}_${s.url}`}
+                              href={s.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="block text-xs underline underline-offset-2 opacity-90"
+                            >
+                              {s.title}
+                            </a>
+                          ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+            <div ref={chatEndRef} />
+          </div>
+
+          <div className="p-5 border-t border-border space-y-3">
+            <Textarea
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              placeholder={
+                lang === "en"
+                  ? 'Example: "Amoxicillin 500mg" or "What is Metformin for?"'
+                  : 'Halimbawa: "Amoxicillin 500mg" o "Para saan ang Metformin?"'
+              }
+              className="min-h-[84px] resize-none rounded-xl"
+              disabled={chatBusy}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  void sendAiChat();
+                }
+              }}
+            />
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1 h-11 rounded-xl"
+                onClick={() => {
+                  startNewChat();
+                }}
+                disabled={chatBusy}
+              >
+                {lang === "en" ? "Clear" : "Linisin"}
+              </Button>
+              <Button
+                type="button"
+                className="flex-1 h-11 rounded-xl gap-2"
+                onClick={() => void sendAiChat()}
+                disabled={chatBusy || !chatInput.trim()}
+              >
+                {chatBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe2 className="w-4 h-4" />}
+                {lang === "en" ? "Send" : "Ipadala"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
