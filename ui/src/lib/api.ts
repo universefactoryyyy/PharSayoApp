@@ -9,12 +9,6 @@ function normalizeApiBase(rawBase: string): string {
     base = base.slice(0, -1);
   }
 
-  // AwardSpace free-hosting cert chain is unreliable on some mobile networks/devices.
-  // Force HTTP for atwebpages.com to avoid Android TrustAnchor failures.
-  if (/^https:\/\/[^/]*atwebpages\.com/i.test(base)) {
-    base = base.replace(/^https:\/\//i, "http://");
-  }
-
   return base;
 }
 
@@ -31,12 +25,10 @@ export const GET_API_BASE = () => {
 
     if (isFileOrLocal) {
       // Default remote API when app runs as file:// on mobile.
-      base = "http://pharsay0.atwebpages.com/api";
+      base = "http://pharsayo.atwebpages.com/api";
     } else if (host.endsWith("atwebpages.com")) {
-      // Use the same host to avoid cross-host redirects/challenges on mobile data.
-      // But force the known working host if user opened the typo domain.
-      const apiHost = host === "pharsayo.atwebpages.com" ? "pharsay0.atwebpages.com" : host;
-      base = `${proto}//${apiHost}/api`;
+      // Use the same host on AwardSpace deployments.
+      base = `${proto}//${host}/api`;
     } else {
       base = _b.endsWith("/") ? `${_b}api` : `${_b}/api`;
     }
@@ -45,19 +37,12 @@ export const GET_API_BASE = () => {
   return normalizeApiBase(base);
 };
 
-const API_BASE = normalizeApiBase(GET_API_BASE()).replace(
-  "pharsayo.atwebpages.com",
-  "pharsay0.atwebpages.com",
-);
+const API_BASE = normalizeApiBase(GET_API_BASE());
 
 function getApiBaseCandidates(): string[] {
   const out: string[] = [];
   const push = (u: string) => {
     let v = normalizeApiBase(u);
-    // Canonicalize AwardSpace host to the working DNS name.
-    if (v.includes("pharsayo.atwebpages.com")) {
-      v = v.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com");
-    }
     if (v && !out.includes(v)) out.push(v);
   };
 
@@ -222,7 +207,7 @@ export async function apiLogin(username: string, password: string): Promise<{ us
   const nonce = Date.now();
   const candidates = Array.from(
     new Set([
-      "http://pharsay0.atwebpages.com/api",
+      "http://pharsayo.atwebpages.com/api",
       ...getApiBaseCandidates(),
     ]),
   );
@@ -542,10 +527,7 @@ export async function apiMedicineAiChatWithHistory(
     `${API_BASE}/ai_chat.php`,
   ];
   if (API_BASE.includes("pharsayo.atwebpages.com")) {
-    endpoints.push(
-      `${API_BASE.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com")}/medications/ai_chat.php`,
-      `${API_BASE.replace("pharsayo.atwebpages.com", "pharsay0.atwebpages.com")}/ai_chat.php`,
-    );
+    endpoints.push(`${API_BASE}/medications/ai_chat.php`, `${API_BASE}/ai_chat.php`);
   }
 
   let lastError = "";
@@ -752,9 +734,19 @@ export interface ApiAdminScheduleRow {
 }
 
 export async function apiAdminListSchedules(adminId: number): Promise<ApiAdminScheduleRow[]> {
-  const res = await fetch(`${API_BASE}/schedules/list_all.php?admin_id=${adminId}`);
-  if (!res.ok) throw new Error("Failed to load schedules");
-  const data = await res.json();
+  const url = `${API_BASE}/schedules/list_all.php?admin_id=${adminId}`;
+  const res = await fetch(url, { method: "GET", cache: "no-cache" });
+  const text = await res.text();
+  let data: unknown = [];
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error(`Schedules endpoint returned non-JSON response.`);
+  }
+  if (!res.ok) {
+    const msg = typeof data === "object" && data && "message" in data ? String((data as { message?: string }).message || "") : "";
+    throw new Error(msg || "Failed to load schedules");
+  }
   return Array.isArray(data) ? (data as ApiAdminScheduleRow[]) : [];
 }
 

@@ -1081,15 +1081,24 @@ export default function MedicineScanner({ onAddMedicine, canSave = true }: Props
                         {m.sources
                           .filter((s) => (s?.url || "").trim() !== "")
                           .map((s) => (
-                            <a
-                              key={`${m.id}_${s.title}_${s.url}`}
-                              href={s.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="block text-xs underline underline-offset-2 opacity-90"
-                            >
-                              {s.title}
-                            </a>
+                            /google search/i.test((s.title || "").trim()) ? (
+                              <a
+                                key={`${m.id}_${s.title}_${s.url}`}
+                                href={s.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="block text-xs underline underline-offset-2 opacity-90"
+                              >
+                                {s.title}
+                              </a>
+                            ) : (
+                              <div
+                                key={`${m.id}_${s.title}_${s.url}`}
+                                className="block text-xs opacity-90"
+                              >
+                                {s.title}
+                              </div>
+                            )
                           ))}
                       </div>
                     </div>
