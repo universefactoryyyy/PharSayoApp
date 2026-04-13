@@ -49,13 +49,16 @@ function getApiBaseCandidates(): string[] {
   push(API_BASE);
 
   const protoSwap = (u: string) => {
-    if (u.includes("atwebpages.com")) return u; // do not force HTTPS here
     if (u.startsWith("https://")) return `http://${u.slice("https://".length)}`;
     if (u.startsWith("http://")) return `https://${u.slice("http://".length)}`;
     return u;
   };
 
   push(protoSwap(API_BASE));
+  if (API_BASE.includes("atwebpages.com")) {
+    push(API_BASE.replace(/^https:\/\//i, "http://"));
+    push(API_BASE.replace(/^http:\/\//i, "https://"));
+  }
 
   return out;
 }
@@ -105,55 +108,83 @@ export interface ApiSchedule {
 }
 
 async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
-  console.log(`Fetching: ${url}`);
-  try {
-    const res = await fetch(url, {
-      ...init,
-      mode: 'cors',
-      cache: 'no-cache', // Ensure we don't get cached errors
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        ...init?.headers,
-      },
-    });
-    
-    const text = await res.text();
-    console.log(`Raw response from ${url}:`, text.substring(0, 500));
-
-    // Security Check (common on free hosts like InfinityFree/AwardSpace)
-    if (text.includes("aes.js") || text.includes("Checking your browser") || text.includes("Javascript is required")) {
-      throw new Error("Free hosting security check detected. Please open the URL in your phone's browser once to 'unlock' access, then return to the app.");
+  const urlsToTry: string[] = [url];
+  if (url.startsWith(API_BASE)) {
+    for (const base of getApiBaseCandidates()) {
+      const alt = `${base}${url.slice(API_BASE.length)}`;
+      if (!urlsToTry.includes(alt)) urlsToTry.push(alt);
     }
-
-    let data: any;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      if (text.toLowerCase().includes("not found") || text.includes("404")) {
-        throw new Error(`Server returned 404 (Not Found) for "${url}". Please check if the backend files are uploaded correctly.`);
-      }
-      if (text.toLowerCase().includes("forbidden") || text.includes("403")) {
-        throw new Error(`Server returned 403 (Forbidden). This often means the server is blocking the app or CORS is misconfigured.`);
-      }
-      throw new Error(`Server returned non-JSON response (starts with: ${text.substring(0, 50)}...). This usually means a server error or a redirect happened.`);
-    }
-
-    if (!res.ok) {
-      throw new Error(data.message || `HTTP ${res.status}`);
-    }
-    return data as T;
-  } catch (e) {
-    console.error("Fetch error detail:", e);
-    const msg = e instanceof Error ? e.message : String(e);
-    
-    if (msg.toLowerCase().includes("failed to fetch")) {
-      // Provide much more detailed help for "Failed to fetch"
-      throw new Error(`Network Error: Failed to fetch from "${url}". Possible causes: 1. Server URL is wrong. 2. Phone has no internet. 3. Server is down. 4. CORS/SSL blocking. (HINT: Check if you need HTTPS or if AwardSpace security check is active). Current Server URL: "${GET_API_BASE()}"`);
-    }
-    throw e;
   }
+
+  let lastErr: unknown = null;
+
+  for (const tryUrl of urlsToTry) {
+    console.log(`Fetching: ${tryUrl}`);
+    try {
+      const res = await fetch(tryUrl, {
+        ...init,
+        mode: 'cors',
+        cache: 'no-cache', // Ensure we don't get cached errors
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          ...init?.headers,
+        },
+      });
+      
+      const text = await res.text();
+      console.log(`Raw response from ${tryUrl}:`, text.substring(0, 500));
+
+      // Security Check (common on free hosts like InfinityFree/AwardSpace)
+      if (text.includes("aes.js") || text.includes("Checking your browser") || text.includes("Javascript is required")) {
+        throw new Error("Free hosting security check detected. Please open the URL in your phone's browser once to 'unlock' access, then return to the app.");
+      }
+
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        if (text.toLowerCase().includes("not found") || text.includes("404")) {
+          throw new Error(`Server returned 404 (Not Found) for "${tryUrl}". Please check if the backend files are uploaded correctly.`);
+        }
+        if (text.toLowerCase().includes("forbidden") || text.includes("403")) {
+          throw new Error(`Server returned 403 (Forbidden). This often means the server is blocking the app or CORS is misconfigured.`);
+        }
+        throw new Error(`Server returned non-JSON response (starts with: ${text.substring(0, 50)}...). This usually means a server error or a redirect happened.`);
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || `HTTP ${res.status}`);
+      }
+      return data as T;
+    } catch (e) {
+      lastErr = e;
+      const msg = e instanceof Error ? e.message : String(e);
+      const lower = msg.toLowerCase();
+      const retryable =
+        lower.includes("failed to fetch") ||
+        lower.includes("certpathvalidatorexception") ||
+        lower.includes("trust anchor for certification path not found") ||
+        lower.includes("network error");
+      if (!retryable) {
+        break;
+      }
+    }
+  }
+
+  console.error("Fetch error detail:", lastErr);
+  const msg = lastErr instanceof Error ? lastErr.message : String(lastErr);
+  const lower = msg.toLowerCase();
+
+  if (lower.includes("trust anchor for certification path not found") || lower.includes("certpathvalidatorexception")) {
+    throw new Error("Secure connection failed (SSL certificate is not trusted on this device/server). Please use a valid HTTPS certificate or switch your API URL to HTTP for now.");
+  }
+  
+  if (lower.includes("failed to fetch")) {
+    throw new Error(`Network Error: Failed to fetch from "${url}". Possible causes: 1. Server URL is wrong. 2. Phone has no internet. 3. Server is down. 4. CORS/SSL blocking. (HINT: Check if you need HTTPS or if AwardSpace security check is active). Current Server URL: "${GET_API_BASE()}"`);
+  }
+  throw (lastErr instanceof Error ? lastErr : new Error(msg));
 }
 
 function isNativeMobileRuntime(): boolean {
@@ -521,13 +552,10 @@ export async function apiMedicineAiChatWithHistory(
     messages: payload.messages,
     lang: lang === "en" ? "en" : "fil",
   };
-  const endpoints: string[] = [
-    `${API_BASE}/medications/ai_chat.php`,
-    // Compatibility fallback in case the file was uploaded one level higher.
-    `${API_BASE}/ai_chat.php`,
-  ];
-  if (API_BASE.includes("pharsayo.atwebpages.com")) {
-    endpoints.push(`${API_BASE}/medications/ai_chat.php`, `${API_BASE}/ai_chat.php`);
+  const endpoints: string[] = [];
+  for (const base of getApiBaseCandidates()) {
+    endpoints.push(`${base}/medications/ai_chat.php`);
+    endpoints.push(`${base}/ai_chat.php`);
   }
 
   let lastError = "";
@@ -565,10 +593,13 @@ export async function apiMedicineAiChatWithHistory(
     throw new Error(lastError || "Chat endpoint is unreachable.");
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    const lower = msg.toLowerCase();
     return {
       success: false,
       message:
-        msg.toLowerCase().includes("failed to fetch") || msg.toLowerCase().includes("404")
+        lower.includes("trust anchor for certification path not found") || lower.includes("certpathvalidatorexception")
+          ? `Network Error: SSL certificate trust failed for "${GET_API_BASE()}". Try using an HTTP API URL (temporary) or install a valid HTTPS certificate on your server.`
+          : lower.includes("failed to fetch") || lower.includes("404")
           ? `Network Error: Failed to fetch chatbot endpoint. Tried "${API_BASE}/medications/ai_chat.php" and "${API_BASE}/ai_chat.php". Current Server URL: "${GET_API_BASE()}"`
           : msg,
     };
@@ -735,19 +766,11 @@ export interface ApiAdminScheduleRow {
 
 export async function apiAdminListSchedules(adminId: number): Promise<ApiAdminScheduleRow[]> {
   const url = `${API_BASE}/schedules/list_all.php?admin_id=${adminId}`;
-  const res = await fetch(url, { method: "GET", cache: "no-cache" });
-  const text = await res.text();
-  let data: unknown = [];
-  try {
-    data = JSON.parse(text);
-  } catch {
-    throw new Error(`Schedules endpoint returned non-JSON response.`);
-  }
-  if (!res.ok) {
-    const msg = typeof data === "object" && data && "message" in data ? String((data as { message?: string }).message || "") : "";
-    throw new Error(msg || "Failed to load schedules");
-  }
-  return Array.isArray(data) ? (data as ApiAdminScheduleRow[]) : [];
+  const data = await jsonFetch<ApiAdminScheduleRow[]>(url, {
+    method: "GET",
+    cache: "no-cache",
+  });
+  return Array.isArray(data) ? data : [];
 }
 
 export async function apiScheduleUpdate(payload: {
